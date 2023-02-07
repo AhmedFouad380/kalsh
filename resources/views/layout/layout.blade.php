@@ -25,7 +25,7 @@ License: For each use you must have a valid license purchased only from above li
     <meta property="og:url" content="https://keenthemes.com/metronic" />
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-    <link rel="shortcut icon" href="{{asset('assets/media/logos/favicon.png')}}" />
+    <link rel="shortcut icon" href="{{asset('logo.png')}}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -53,7 +53,7 @@ License: For each use you must have a valid license purchased only from above li
                 <!--begin::Logo-->
                 <div class="aside-logo d-none d-lg-flex flex-column align-items-center flex-column-auto py-10" id="kt_aside_logo">
                     <a href="{{url('/')}}">
-                        <img alt="Logo" src="{{asset('assets/media/logos/logo.png')}}" class="h-35px" />
+                        <img alt="Logo" src="{{asset('logo.png')}}" class="h-35px" />
                     </a>
                 </div>
                 <!--end::Logo-->

@@ -19,6 +19,10 @@ Route::get('/login', function () {
     return view('auth.login');
 });
 Route::post('Login', [\App\Http\Controllers\frontController::class, 'login']);
+Route::get('forget-password', [\App\Http\Controllers\frontController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [\App\Http\Controllers\frontController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::get('reset-password/{token}', [\App\Http\Controllers\frontController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [\App\Http\Controllers\frontController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 Route::get('/', function () {
     return view('Admin.index');
