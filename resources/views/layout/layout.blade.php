@@ -143,11 +143,12 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--begin::Username-->
                                     <div class="d-flex flex-column">
                                         <div class="fw-bolder d-flex align-items-center fs-5">
-                                            @if(Auth::guard('admin')->check())
-                                                {{Auth::guard('admin')->user()->name}}
-                                            @else
-                                                {{Auth::guard('web')->user()->name}}
-                                            @endif
+{{--                                            @if(Auth::guard('admin')->check())--}}
+{{--                                                {{Auth::guard('admin')->user()->name}}--}}
+{{--                                            @else--}}
+{{--                                                {{Auth::guard('web')->user()->name}}--}}
+{{--                                            @endif--}}
+                                            Ahmed Ali
 
                                         </div>
                                         <!--end::Username-->
