@@ -33,16 +33,15 @@ class UserController extends Controller
                 return $name;
             })
 
-            ->editColumn('is_active', function ($row) {
+            ->AddColumn('is_active', function ($row) {
                 $is_active = '<div class="badge badge-light-success fw-bolder">Active</div>';
                 $not_active = '<div class="badge badge-light-danger fw-bolder">inactive</div>';
-                if ($row->is_active == 'active') {
+                if ($row->status == 'active') {
                     return $is_active;
                 } else {
                     return $not_active;
                 }
             })
-
 
             ->addColumn('actions', function ($row) {
                 $actions = ' <a href="' . url("User-edit/" . $row->id) . '" class="btn btn-active-light-info">Edit <i class="bi bi-pencil-fill"></i>  </a>';

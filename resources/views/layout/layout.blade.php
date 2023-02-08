@@ -25,7 +25,7 @@ License: For each use you must have a valid license purchased only from above li
     <meta property="og:url" content="https://keenthemes.com/metronic" />
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-    <link rel="shortcut icon" href="{{asset('assets/media/logos/favicon.png')}}" />
+    <link rel="shortcut icon" href="{{asset('logo.png')}}" />
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -53,7 +53,7 @@ License: For each use you must have a valid license purchased only from above li
                 <!--begin::Logo-->
                 <div class="aside-logo d-none d-lg-flex flex-column align-items-center flex-column-auto py-10" id="kt_aside_logo">
                     <a href="{{url('/')}}">
-                        <img alt="Logo" src="{{asset('assets/media/logos/logo.png')}}" class="h-35px" />
+                        <img alt="Logo" src="{{asset('logo.png')}}" class="h-35px" />
                     </a>
                 </div>
                 <!--end::Logo-->
@@ -1292,104 +1292,6 @@ License: For each use you must have a valid license purchased only from above li
                                                     </a>
                                                 </div>
                                             @endif
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="{{url('/Card_setting')}}">
-															<span class="menu-icon">
-																<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-																<span class="svg-icon svg-icon-2">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-																		<rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
-																	</svg>
-																</span>
-                                                                <!--end::Svg Icon-->
-															</span>
-                                                    <span class="menu-title">
-                                                        @if(Auth::guard('web')->check()  && Auth::guard('web')->user()->type == 'solo')
-                                                            {{__('lang.devices')}}
-                                                        @else
-
-                                                        {{__('lang.Cards')}}
-                                                            @endif
-                                                    </span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="{{url('/Profile_setting')}}">
-															<span class="menu-icon">
-																<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-																<span class="svg-icon svg-icon-2">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-																		<rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
-																	</svg>
-																</span>
-                                                                <!--end::Svg Icon-->
-															</span>
-                                                    <span class="menu-title">{{__('lang.Profiles')}}</span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="{{url('/ExchangeContact_setting')}}">
-															<span class="menu-icon">
-																<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-																<span class="svg-icon svg-icon-2">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-																		<rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
-																	</svg>
-																</span>
-                                                                <!--end::Svg Icon-->
-															</span>
-                                                    <span class="menu-title">{{__('lang.ExchangeContact')}}</span>
-                                                </a>
-                                            </div>
-
-                                            <div class="menu-item">
-                                                <a class="menu-link" href="{{url('/AppointmentsRelation_setting')}}">
-															<span class="menu-icon">
-																<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-																<span class="svg-icon svg-icon-2">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-																		<rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
-																	</svg>
-																</span>
-                                                                <!--end::Svg Icon-->
-															</span>
-                                                    <span class="menu-title">{{__('lang.AppointmentsRelation')}}</span>
-                                                </a>
-                                            </div>
-                                            @if(Auth::guard('web')->check())
-                                                <div class="menu-item">
-                                                    <a class="menu-link" href="{{url('/Calendar')}}">
-															<span class="menu-icon">
-																<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
-																<span class="svg-icon svg-icon-2">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-																		<rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
-																		<rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
-																	</svg>
-																</span>
-                                                                <!--end::Svg Icon-->
-															</span>
-                                                        <span class="menu-title">{{__('lang.Calendar')}}</span>
-                                                    </a>
-                                                </div>
-
-
-                                            @endif
-
                                         </div>
                                     </div>
 

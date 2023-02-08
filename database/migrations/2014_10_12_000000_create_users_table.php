@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('image')->nullable();
             $table->double('rate')->default(0);
             $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('location',['in_ksa','out_ksa'])->default('in_ksa');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('device_token')->nullable();
