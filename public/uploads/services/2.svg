@@ -1,0 +1,14 @@
+<svg width="64" height="52" viewBox="0 0 64 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M12.1263 23.7789C9.14977 23.7789 6.73682 26.1918 6.73682 29.1684V33.2105C6.73682 36.187 9.14976 38.5999 12.1263 38.5999H55.2421C58.2186 38.5999 60.6315 36.187 60.6315 33.2105V29.1684C60.6315 26.1918 58.2186 23.7789 55.2421 23.7789H12.1263ZM14.1474 33.8841C15.6356 33.8841 16.8421 32.6776 16.8421 31.1893C16.8421 29.7011 15.6356 28.4946 14.1474 28.4946C12.6591 28.4946 11.4526 29.7011 11.4526 31.1893C11.4526 32.6776 12.6591 33.8841 14.1474 33.8841ZM53.221 33.8841C54.7093 33.8841 55.9158 32.6776 55.9158 31.1893C55.9158 29.7011 54.7093 28.4946 53.221 28.4946C51.7328 28.4946 50.5263 29.7011 50.5263 31.1893C50.5263 32.6776 51.7328 33.8841 53.221 33.8841Z" fill="#C8D4FF"/>
+<path d="M12.8 20.4105L17.227 7.84114C17.9865 5.68463 20.024 4.24204 22.3104 4.24204L41.016 4.24204C43.3024 4.24204 45.3399 5.68463 46.0994 7.84114L50.5264 20.4105" stroke="black" stroke-width="1.34737" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26.2737 32.5368H37.0526" stroke="black" stroke-width="1.34737" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M23.5789 29.1684H39.7473" stroke="black" stroke-width="1.34737" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M47.8315 37.2526V42.642C47.8315 44.1303 49.038 45.3368 50.5263 45.3368V45.3368C52.0145 45.3368 53.221 44.1303 53.221 42.642V37.2526" stroke="black" stroke-width="1.34737" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.1052 37.2526V42.642C10.1052 44.1303 11.3117 45.3368 12.8 45.3368V45.3368C14.2882 45.3368 15.4947 44.1303 15.4947 42.642V37.2526" stroke="black" stroke-width="1.34737" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.71582 46.0105H58.6106" stroke="black" stroke-width="1.34737" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="4.04214" y="21.0842" width="55.2421" height="16.1684" rx="6.06316" stroke="black" stroke-width="1.34737"/>
+<circle cx="51.2" cy="29.1684" r="3.36842" stroke="black" stroke-width="1.34737"/>
+<circle cx="12.1262" cy="29.1684" r="3.36842" stroke="black" stroke-width="1.34737"/>
+<path d="M27.621 20.4105V19.0631C27.621 16.8307 25.8113 15.021 23.5789 15.021H22.2316C19.9992 15.021 18.1895 16.8307 18.1895 19.0631V20.4105" stroke="black" stroke-width="1.34737" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M45.1369 20.4105V19.0631C45.1369 16.8307 43.3272 15.021 41.0948 15.021H39.7474C37.515 15.021 35.7053 16.8307 35.7053 19.0631V20.4105" stroke="black" stroke-width="1.34737" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
