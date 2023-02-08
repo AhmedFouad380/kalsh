@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\Store;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-
 use Illuminate\Support\Facades\Notification;
 use Kreait\Firebase\Factory;
 
@@ -15,6 +15,11 @@ use Kreait\Firebase\Factory;
 function success()
 {
     return 200;
+}
+
+function register()
+{
+    return 201;
 }
 
 function error()
@@ -60,58 +65,69 @@ function verification_code()
     return $code;
 }
 
-function send_to_user($tokens, $msg, $ad_id = "")
+function send_to_user($tokens, $title, $msg, $notification_type, $store_id, $order_id)
 {
-    send($tokens, $msg, $ad_id);
+    send($tokens, $title, $msg, $notification_type, $store_id, $order_id);
 }
 
-function send_to_company($company, $msg)
+function send_to_driver($tokens, $title, $msg, $notification_type, $store_id, $order_id)
 {
-    Notification::send($company, new CompanyNotification($msg));
+    send($tokens, $title, $msg, $notification_type, $store_id, $order_id);
 }
 
-function send_to_driver($tokens, $msg, $ad_id = "")
+function send_to_store($tokens, $title, $msg, $notification_type, $store_id, $order_id)
 {
-    send($tokens, $msg, $ad_id);
+    send($tokens, $title, $msg, $notification_type, $store_id, $order_id);
 }
 
-function send($tokens, $title = "رسالة جديدة", $msg = "رسالة جديدة فى البريد", $type = 'mail', $chat = null)
+function getModel($model,$store)
 {
+    $model = 'App\\Models\\' . $model;
+    if (is_null($store->parent_id)){ // get all store branches models
+        $branches_ids = Store::where('parent_id',$store->id)->pluck('id')->toArray();
+        $model = $model::where(function ($query) use ($store,$branches_ids){
+            $query->where('store_id',$store->id)->orWhereIn('store_id',$branches_ids);
+        });
+    }else{ // get only this branch models
+        $model = $model::where('store_id',$store->id);
+    }
+    return $model;
+}
 
-    $key = getServerKey();
-
-
+function send($tokens, $title, $msg, $notification_type, $store_id, $order_id)
+{
+    $api_key = getServerKey();
     $fields = array
     (
-        "registration_ids" => (array)$tokens,  //array of user token whom notification sent two
+        "registration_ids" => $tokens,
         "priority" => 10,
         'data' => [
             'title' => $title,
+            'sound' => 'default',
+            'message' => $msg,
             'body' => $msg,
-            'inbox' => $chat,
-            'type' => $type,
-            'icon' => 'myIcon',
-            'sound' => 'mySound',
+            'notification_type' => $notification_type,
+            'store_id' => $store_id,
+            'order_id' => $order_id,
         ],
         'notification' => [
             'title' => $title,
+            'sound' => 'default',
+            'message' => $msg,
             'body' => $msg,
-            'inbox' => $chat,
-            'type' => $type,
-            'icon' => 'myIcon',
-            'sound' => 'mySound',
+            'notification_type' => $notification_type,
+            'store_id' => $store_id,
+            'order_id' => $order_id,
         ],
         'vibrate' => 1,
         'sound' => 1
     );
-
     $headers = array
     (
         'accept: application/json',
         'Content-Type: application/json',
-        'Authorization: key=' . $key
+        'Authorization: key=' . $api_key
     );
-
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
     curl_setopt($ch, CURLOPT_POST, true);
@@ -120,20 +136,18 @@ function send($tokens, $title = "رسالة جديدة", $msg = "رسالة جد
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
     $result = curl_exec($ch);
-
+    //  var_dump($result);
     if ($result === FALSE) {
-
         die('Curl failed: ' . curl_error($ch));
     }
-
     curl_close($ch);
+
     return $result;
 }
 
-
 function getServerKey()
 {
-    return 'AAAAdbmfZjU:APA91bG_-TjuYGuGoaImm08h7MbRIWtO_WE3G_ipzeahHtSakIx3kgtM1Tps3QCldL33WDWnecAeMiPDVBTVy0PWQz3W5ZdqQCxZHDzurffxnyZEh1Bn2ipoPDcWpXrIWzZnJ7U0SoUn';
+    return 'AAAAOihFkSw:APA91bGLJ3jVKT2cBQHEcjWnX-wMlI6IeQzouYORuvpFvofqhbrYxJCdQpzC6ttP71Qv7TXYSrTEcm-7ESJIbtxhwc7dFIrj6-uQL2rUBq0ORj-Z0-XzdtGP7vGXI-2R1fdJkFzzEUH1';
 }
 
 function callback_data($status, $key, $data = null, $token = "")
@@ -148,91 +162,43 @@ function callback_data($status, $key, $data = null, $token = "")
     return response()->json($response);
 }
 
-function getDays($from_date, $to_date)
+function rateValue($amount, $rate)
 {
-    $diff_in_days = 0;
-    if ($from_date && $to_date) {
-        $to = \Carbon\Carbon::parse($to_date);
-        $from = \Carbon\Carbon::parse($from_date);
-        $diff_in_days = $to->diffInDays($from);
-    }
-    return $diff_in_days;
-}
-
-function getTotalCost($unit, $from_date, $to_date)
-{
-    $total_cost = 0;
-    if (!empty($from_date) && !empty($to_date)) {
-        $period = CarbonPeriod::create(getStartOfDate($from_date), getEndOfDate(Carbon::parse($to_date)->subDay()));
-        foreach ($period as $date) {
-            $day = Carbon::parse($date)->format('l');
-            if (in_array($day, ['Thursday', 'Friday', 'Saturday'])) {
-                $total_cost += $unit->{strtolower($day) . '_price'};
-            } else {
-                $total_cost += $unit->midweek_price;
-            }
-        }
-//        session()->put('total_cost', $total_cost);
-    }
-    if ($unit->offers->count() > 0) {
-//        return
-        $total_cost = $unit->offers->first()->amount;
-
-    }
-    return $total_cost;
-}
-
-function GetDiscount($unit, $from_date, $to_date, $code)
-{
-    $total_cost = 0;
-    if (!empty($from_date) && !empty($to_date)) {
-        $period = CarbonPeriod::create(getStartOfDate($from_date), getEndOfDate(Carbon::parse($to_date)->subDay()));
-        foreach ($period as $date) {
-            $day = Carbon::parse($date)->format('l');
-            if (in_array($day, ['Thursday', 'Friday', 'Saturday'])) {
-                $total_cost += $unit->{strtolower($day) . '_price'};
-            } else {
-                $total_cost += $unit->midweek_price;
-            }
-        }
-
-
-        if ($unit->offers->count() > 0) {
-            $total_cost = $unit->offers->first()->amount;
-
-        }
-
-        if ($code != null) {
-            if ($code->unit_id == $unit->id) {
-                if ($code->type == "Amount") {
-                    $total_cost = $total_cost - $code->amount;
-                } else {
-                    $total_cost = ceil(($total_cost * $code->amount) / 100);
-                }
-            }
-        }
-    }
-
-    return $total_cost;
-}
-
-function getTotalWithVat($unit, $from_date, $to_date)
-{
-    $total_cost = getTotalCost($unit, $from_date, $to_date);
-    $vat = ceil(($total_cost * 15) / 100);
-    return $total_cost + $vat;
+    return round(($amount * $rate / 100), 2);
 }
 
 
 function getStartOfDate($date)
 {
-    return date('Y-m-d', strtotime($date)) . ' 00:00';
+    return date('Y-d-m', strtotime($date)) . ' 00:00';
 }
 
 function getEndOfDate($date)
 {
-    return date('Y-m-d', strtotime($date)) . ' 23:59';
+    return date('Y-d-m', strtotime($date)) . ' 23:59';
 }
+
+function getTimeSlot($interval, $start_time, $end_time)
+{
+    $start = new DateTime($start_time);
+    $end = new DateTime($end_time);
+    $startTime = $start->format('H:i');
+    $endTime = $end->format('H:i');
+    $i=0;
+    $time = [];
+    while(strtotime($startTime) <= strtotime($endTime)){
+        $start = $startTime;
+        $end = date('H:i',strtotime('+'.$interval.' minutes',strtotime($startTime)));
+        $startTime = date('H:i',strtotime('+'.$interval.' minutes',strtotime($startTime)));
+        $i++;
+        if(strtotime($startTime) <= strtotime($endTime)){
+            $time[$i]['slot_start_time'] = $start;
+            $time[$i]['slot_end_time'] = $end;
+        }
+    }
+    return $time;
+}
+
 
 if (!function_exists('ArabicDate')) {
     function ArabicDate()
@@ -278,13 +244,12 @@ function distance($lat1, $lon1, $lat2, $lon2, $unit = 'K')
     } else {
         return $miles;
     }
-
 }
 
 function upload($file, $dir)
 {
     $image = time() . uniqid() . '.' . $file->getClientOriginalExtension();
-    $file->move('uploads' . '/' . $dir, $image);
+    $file->move(public_path('uploads' . '/' . $dir), $image);
     return $image;
 }
 
@@ -292,8 +257,8 @@ function unlinkFile($image, $path)
 {
     if ($image != null) {
         if (!strpos($image, 'https')) {
-            if (file_exists(public_path("uploads/$path/") . $image)) {
-                unlink(public_path("uploads/$path/") . $image);
+            if (file_exists(storage_path("app/public/$path/") . $image)) {
+                unlink(storage_path("app/public/$path/") . $image);
             }
         }
     }
@@ -318,8 +283,8 @@ function unlinkImage($image)
 function firebase_connect()
 {
     $firebase = (new Factory)
-        ->withServiceAccount(app_path('handtohandapp-c0717-firebase-adminsdk-xktcv-b3dcd0eddc.json'))
-        ->withDatabaseUri('https://handtohandapp-c0717-default-rtdb.firebaseio.com/')
+        ->withServiceAccount(app_path('goapp-90825-firebase-adminsdk-cp0vq-17f2269a1a.json'))
+        ->withDatabaseUri('https://goapp-90825-default-rtdb.firebaseio.com/')
         ->createDatabase();
     return $firebase;
 }
@@ -373,123 +338,17 @@ if (!function_exists('company_url')) {
         return url('company/' . $url);
     }
 }
-
-
 if (!function_exists('admin')) {
     function admin()
     {
         return auth()->guard('admins');
     }
 }
-
-
-function msgdata($request, $status, $key, $data)
-{
-    $language = request()->header('lang');
-
-    $msg['status'] = $status;
-    $msg['msg'] = isset($language) ? Config::get('response.' . $key . '.' . request()->header('lang')) : Config::get('response.' . $key . '.ar');
-
-    $msg['data'] = $data;
-
-    return $msg;
-}
-
-
-if (!function_exists('auth_login')) {
-    function auth_login()
+if (!function_exists('store')) {
+    function store()
     {
-        if (Auth::guard('admins')->check()) {
-            return auth()->guard('admins');
-        }
-        if (Auth::guard('suppliers')->check()) {
-            return auth()->guard('suppliers');
-        }
+        return auth()->guard('stores');
     }
 }
-
-
-if (!function_exists('supplier_parent')) {
-    function supplier_parent()
-    {
-        if (Auth::guard('suppliers')->check()) {
-//            if (Auth::guard('suppliers')->user()->type == 'Manager') {
-            return Auth::guard('suppliers')->user()->id;
-//            } else {
-//                return Auth::guard('suppliers')->user()->parent_id;
-//            }
-        }
-    }
-}
-
-if (!function_exists('supplier_parent_api')) {
-    function supplier_parent_api()
-    {
-        return Auth::guard('suppliers-api')->user()->id;
-
-    }
-
-}
-
-if (!function_exists('supplier_parent2')) {
-    function supplier_parent2($id)
-    {
-//        if (\App\Models\Supplier::find($id)->type == 'Manager') {
-        return \App\Models\Supplier::find($id)->id;
-//        } else {
-//        return \App\Models\Supplier::find($id)->parent_id;
-//        }
-    }
-}
-
-if (!function_exists('sms')) {
-    function sms($body, $number)
-    {
-        $ch = curl_init();
-        $url = "http://basic.unifonic.com/rest/SMS/messages";
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "AppSid=ngKAr3bTdAMthOzNZumtHX3DaEuJEx&Body=" . $body . "&SenderID=AMAR-TICK&Recipient=" . $number . "&encoding=UTF8&responseType=json"); // define what you want to post
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $output = curl_exec($ch);
-        curl_close($ch);
-    }
-}
-
-if (!function_exists('firebaseValues')) {
-    function firebaseValues()
-    {
-        $firebase = (new Factory)
-            ->withServiceAccount(app_path('amartech-69196-firebase-adminsdk-q996n-4cb7b7513a.json'))
-            ->withDatabaseUri('https://amartech-69196-default-rtdb.firebaseio.com/')
-            ->createDatabase();
-        if (Auth::guard('admins')->check()) {
-            $getadmins_mail = $firebase
-                ->getReference('amar/inboxes')
-                ->orderByChild('receiver_type')
-                ->equalTo('admin')
-                ->limitToLast(20)
-                ->getValue();
-            return $getadmins_mail;
-        } else {
-            $getadmins_mail = $firebase
-                ->getReference('amar/inboxes')
-                ->orderByChild('filter_type_receiver_id')
-                ->equalTo('supplier_' . supplier_parent())
-//                ->orderByChild('receiver_id')
-//                ->equalTo(supplier_parent())
-                ->limitToLast(20)
-                ->getValue();
-            return $getadmins_mail;
-        }
-    }
-
-
-}
-
-
-
-
-
 
 

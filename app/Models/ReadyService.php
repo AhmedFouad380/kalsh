@@ -30,14 +30,14 @@ class ReadyService extends Model
         return asset('defaults/default_blank.png');
     }
 
-    public function setImageAttribute($image)
-    {
-        if (is_file($image)) {
-            $img_name = 'ready_service_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/uploads/ready_services/'), $img_name);
-            $this->attributes['image'] = $img_name;
-        }
-    }
+//    public function setImageAttribute($image)
+//    {
+//        if (is_file($image)) {
+//            $img_name = 'ready_service_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
+//            $image->move(public_path('/uploads/ready_services/'), $img_name);
+//            $this->attributes['image'] = $img_name;
+//        }
+//    }
 
     public function scopeActive($query): void
     {

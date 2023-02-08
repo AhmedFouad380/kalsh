@@ -26,5 +26,10 @@ class AppServiceProvider extends ServiceProvider
         if(!session()->get('lang')){
             session()->put('lang','en');
         }
+        if (request()->header('lang')){
+            app()->setLocale(request()->header('lang'));
+        }else{
+            app()->setLocale('ar');
+        }
     }
 }
