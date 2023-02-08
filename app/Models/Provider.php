@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
-class Provider extends Model
+class Provider extends Authenticatable implements JWTSubject
 {
     use HasFactory;
     protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $hidden = ['password','created_at','updated_at'];
 
     public function setPasswordAttribute($password)
     {
@@ -56,5 +59,20 @@ class Provider extends Model
     public function offers()
     {
         return $this->hasMany(Offer::class, 'provider_id');
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

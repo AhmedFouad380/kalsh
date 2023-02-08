@@ -1,15 +1,28 @@
 <?php
 
 return [
+    'phone_exists_login_now' => 'رقم الهاتف موجود من قبل يمكنك تسجيل الدخول الان عن طريق كود التحقق',
+    'phone_not_exists_register_now' => 'رقم الهاتف غير موجود يمكنك انشاء حساب الان',
+    'otp_invalid' => 'كود التحقق خطأ',
+    'code_send_to_email' => 'تم ارسال كود التحقق الى البريد الإلكتروني بنجاح ',
+
+    'your_otp_code_is' => 'كود التحقق من البريد هو :',
+    'phone_in_ksa' => 'رقم الجوال سعودي',
+    'phone_out_ksa' => 'رقم الجوال غير سعودي',
+    'unauthorized' => 'غير مصرح الدخول ',
+    'login_s' => 'تم تسجيل الدخول بنجاح',
+    'data_display_success' => 'تم عرض البيانات بنجاح',
+    'sign_up_success' => 'تم انشاء الحساب بنجاح',
+
     'Regions' => 'المناطق ',
     'Region' => 'المنطقة ',
     'Branches' => 'الفروع ',
     'UserName' => 'اسم العميل  ',
-    'view' => 'عرض  ',
+    'view' => 'عرض',
     'Details'=>'التفاصيل',
 
-    'Setting' => 'الاعدادات ',
-    'User' => 'مستخدم ',
+    'Setting' => 'الاعدادات',
+    'User' => 'مستخدم',
     'Accept&reject' => 'قبول /رفض ',
     'Users_Title' => 'ادارة العملاء ',
     'Users' => 'ادارة العملاء ',
@@ -324,7 +337,6 @@ return [
     'sell-contracts' => 'عقود المبايعة',
     'rent-contracts' => 'عقود التأجير',
     'Cities' => 'المدن',
-    'Setting' => 'الاعدادات العامة',
     'tax_num' => 'الرقم الضريبي ',
     'choose_role' => 'اختار الصلاحية ',
     'print_receipt' => 'طباعة السند ',
