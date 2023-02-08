@@ -148,10 +148,8 @@
                             </th>
 
                             <th class="min-w-125px">{{__('lang.name')}}</th>
-                            <th class="min-w-125px">{{__('lang.UserName')}}</th>
                             <th class="min-w-125px">{{__('lang.phone')}}</th>
                             <th class="min-w-125px">{{__('lang.email')}}</th>
-                            <th class="min-w-125px">{{__('lang.type')}}</th>
                             <th class="min-w-125px">{{__('lang.active')}}</th>
                             <th class="min-w-125px">{{__('lang.Actions')}}</th>
                         </tr>
@@ -206,10 +204,8 @@
                 columns: [
                     {data: 'checkbox', name: 'checkbox', "searchable": false, "orderable": false},
                     {data: 'name', name: 'name', "searchable": true, "orderable": true},
-                    {data: 'username', name: 'username', "searchable": true, "orderable": true},
                     {data: 'phone', name: 'phone', "searchable": true, "orderable": true},
                     {data: 'email', name: 'email', "searchable": true, "orderable": true},
-                    {data: 'type', name: 'type', "searchable": true, "orderable": true},
                     {data: 'is_active', name: 'is_active', "searchable": true, "orderable": true},
                     {data: 'actions', name: 'actions', "searchable": false, "orderable": false},
 

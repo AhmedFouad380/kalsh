@@ -19,7 +19,10 @@ use App\Models\Wishlist;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Session;
 
 class frontController extends Controller
@@ -73,7 +76,7 @@ class frontController extends Controller
     public function submitForgetPasswordForm(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
+            'email' => 'required|email|exists:admins',
         ]);
 
         $token = Str::random(64);

@@ -18,7 +18,7 @@
             <div class="w-lg-500px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
                 <!--begin::Form-->
                 <form class="form w-100"  id=""
-                      method="post" action="{{url('forget-password')}}">
+                      method="post" action="{{route('forget.password.post')}}">
                     <!--begin::Heading-->@csrf
                     <div class="text-center mb-10">
                         <!--begin::Logo-->
@@ -27,7 +27,7 @@
                         </a>
                         <!--end::Logo-->
                         <!--begin::Title-->
-                        <h1 class="text-danger mt-3">Forget password</h1>
+                        <h1 class="text-dark mt-3">Forget password</h1>
                         <div class="text-dark fw-bold fs-5 mb-5"> </div>
                         <!--end::Title-->
                     </div>
