@@ -34,14 +34,13 @@ class AuthController extends Controller
         $data = $request->validated();
 
         //generate otp
-        if (config('app.env') == 'local') {
-            $otp_code = 1234;
-        } else {
-            $otp_code = rand(0000, 9999);
-        }
+        $otp_code = rand(0000, 9999);
+
 
         $exists_ksa = Str::startsWith($data['phone'], '+966');
+
         if ($exists_ksa) {
+            if(User::where('phone'))
             $user_data['phone'] = $request->phone;
             $user_data['otp'] = $otp_code;
             User::create($user_data);
