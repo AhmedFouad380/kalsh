@@ -16,6 +16,10 @@ function success()
 {
     return 200;
 }
+function created()
+{
+    return 201;
+}
 
 function error()
 {
@@ -383,18 +387,25 @@ if (!function_exists('admin')) {
 }
 
 
-function msgdata($request, $status, $key, $data)
+function msgdata($status = true, $msg = null, $data = null, $code = 200)
 {
-    $language = request()->header('lang');
-
-    $msg['status'] = $status;
-    $msg['msg'] = isset($language) ? Config::get('response.' . $key . '.' . request()->header('lang')) : Config::get('response.' . $key . '.ar');
-
-    $msg['data'] = $data;
-
-    return $msg;
+    $responseArray = [
+        'status' => $status,
+        'msg' => $msg,
+        'data' => $data,
+    ];
+    return response()->json($responseArray, $code);
 }
 
+
+function msg($status, $msg, $code = 200)
+{
+    $responseArray = [
+        'status' => $status,
+        'msg' => $msg,
+    ];
+    return response()->json($responseArray, $code);
+}
 
 if (!function_exists('auth_login')) {
     function auth_login()
