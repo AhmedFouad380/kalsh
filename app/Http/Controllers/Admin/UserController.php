@@ -23,7 +23,7 @@ class UserController extends Controller
             ->addColumn('checkbox', function ($row) {
                 $checkbox = '';
                 $checkbox .= '<div class="form-check form-check-sm form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="' . $row->id . '" />
+                                    <input class="form-check-input selector" type="checkbox" value="' . $row->id . '" />
                                 </div>';
                 return $checkbox;
             })

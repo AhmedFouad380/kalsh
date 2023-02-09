@@ -20,7 +20,7 @@ class AdminsTableSeeder extends Seeder
             'name' => 'admin',
             'phone' => '96611111111',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('123456'),
+            'password' => '123456',
             'email_verified_at' => Carbon::now(),
             'status' => 'active'
         ]);

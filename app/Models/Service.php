@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Service extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $appends = ['name'];
@@ -28,14 +29,16 @@ class Service extends Model
         }
         return asset('defaults/default_blank.png');
     }
-//    public function setImageAttribute($image)
-//    {
-//        if (is_file($image)) {
-//            $img_name = 'service_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
-//            $image->move(public_path('/uploads/services/'), $img_name);
-//            $this->attributes['image'] = $img_name;
-//        }
-//    }
+    public function setImageAttribute($image)
+    {
+        if (is_file($image)) {
+            $img_name = 'service_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/uploads/services/'), $img_name);
+            $this->attributes['image'] = $img_name;
+        }else {
+            $this->attributes['image'] = $image;
+        }
+    }
 
     public function scopeActive($query)
     {

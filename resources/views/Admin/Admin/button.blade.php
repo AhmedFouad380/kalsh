@@ -159,7 +159,7 @@
 
     $("#delete").on("click", function () {
         var dataList = [];
-        $("input:checkbox:checked").each(function (index) {
+        $("#users_table input:checked").each(function (index) {
             dataList.push($(this).val())
         })
 

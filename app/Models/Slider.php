@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Slider extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     const HOME_TYPE = 'home';
     const STORES_TYPE = 'stores';
@@ -38,13 +39,15 @@ class Slider extends Model
         }
         return asset('defaults/default_blank.png');
     }
-//    public function setImageAttribute($image)
-//    {
-//        if (is_file($image)) {
-//            $img_name = 'slider_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
-//            $image->move(public_path('/uploads/sliders/'), $img_name);
-//            $this->attributes['image'] = $img_name;
-//        }
-//    }
+    public function setImageAttribute($image)
+    {
+        if (is_file($image)) {
+            $img_name = 'slider_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/uploads/sliders/'), $img_name);
+            $this->attributes['image'] = $img_name;
+        }else {
+            $this->attributes['image'] = $image;
+        }
+    }
 
 }
