@@ -87,7 +87,6 @@ class UserController extends Controller
         $user->password=Hash::make($request->password);
         $user->email=$request->email;
         $user->is_active=$request->is_active;
-        $user->type=$request->type;
         $user->save();
 
         return redirect()->back()->with('message', 'تم الاضافة بنجاح ');
@@ -143,8 +142,8 @@ class UserController extends Controller
         $user->name=$request->name;
         $user->email=$request->email;
         $user->phone=$request->phone;
-        if($request->is_active){
-            $user->is_active=$request->is_active;
+        if($request->status){
+            $user->status=$request->status;
         }
         if(isset($user->password)){
             $user->password=Hash::make($request->password);

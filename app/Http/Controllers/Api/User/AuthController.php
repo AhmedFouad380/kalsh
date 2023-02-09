@@ -35,21 +35,22 @@ class AuthController extends Controller
         // check if phone is ksa
         $isKsaPhone = Str::startsWith($request->phone, '+966');
         if ($isKsaPhone){
-            User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp]);
+            User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>Hash::make('123456')]);
             // $this->sms();
-            return callback_data(code_sent(),'otp_sent');
+
+            return callback_data(code_sent(),'otp_sent',(object)[]);
         }else{ // if not ksa phone
             $user = User::where('phone',$request->phone)->first();
             if (!$user){
-                return callback_data(complete_register(),'complete_register');
+                return callback_data(complete_register(),'complete_register',(object)[]);
             }else{
-                User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp]);
+                User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>Hash::make('123456')]);
                 Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($user) {
                     $message->to($user->email);
                     $message->subject('email verification');
                 });
             }
-            return callback_data(code_sent(),'otp_sent');
+            return callback_data(code_sent(),'otp_sent_mail',(object)[]);
         }
     }
 
@@ -79,6 +80,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'device_token' => $request->device_token,
             'otp' => $otp,
+            'password'=>Hash::make(123456)
         ]);
 
         // send mail
@@ -86,7 +88,7 @@ class AuthController extends Controller
             $message->to($request->email);
             $message->subject('email verification');
         });
-        return callback_data(code_sent(),'otp_sent');
+        return callback_data(code_sent(),'otp_sent_mail',(object)[]);
 
     }
     public function emailLogin(Request $request)
@@ -141,8 +143,7 @@ class AuthController extends Controller
 
             return callback_data(success(),'invalid_otp', (object)[]);
 
-        } elseif (!$jwt_token = Auth('user')->attempt(['phone' => $request->phone,'password' => 123456,'otp'=>$request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
-
+        } elseif (!$jwt_token = Auth('user')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
             return callback_data(success(),'invalid_otp', (object)[]);
 
         } else {
@@ -223,4 +224,15 @@ class AuthController extends Controller
         return msgdata(true, trans('lang.data_display_success'), $user, success());
     }
 
+
+    public function update_location(Request $request){
+
+        $user = User::find(Auth::guard('user')->id());
+        $user->lat=$request->lat;
+        $user->lng=$request->lng;
+        $user->save();
+
+        return callback_data(success(),'save_success', $user);
+
+    }
 }

@@ -185,18 +185,6 @@
 
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
-                                <label class="required fw-bold fs-6 mb-2"> {{__('lang.UserName')}}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" name="username"
-                                       class="form-control form-control-solid mb-3 mb-lg-0"
-                                       placeholder="" value="{{$employee->username}}" required/>
-                                <!--end::Input-->
-                                <span id="error-validation" style="color:red"></span>
-                            </div>
-
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
                                 <label class="required fw-bold fs-6 mb-2">{{__('lang.password')}}</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->

@@ -26,6 +26,7 @@ Route::prefix('user')->group(function () {
         Route::post('/Email_otp', [AuthController::class, 'EmailOtp']);
         Route::post('/email_login', [AuthController::class, 'emailLogin']);
         Route::post('/phone_login', [AuthController::class, 'phone_login']);
+        Route::post('/update_location', [AuthController::class, 'update_location']);
 
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);

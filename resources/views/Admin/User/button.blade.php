@@ -91,30 +91,7 @@
                                 <span id="error-validation" style="color:red"></span>
                             </div>
 
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-bold fs-6 mb-2"> {{__('lang.username')}}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input type="text" name="username" x
-                                       class="form-control form-control-solid mb-3 mb-lg-0"
-                                       placeholder="" value="" required/>
-                                <!--end::Input-->
-                                <span id="error-validation" style="color:red"></span>
-                            </div>
-                            <div class="fv-row mb-7">
-                                <!--begin::Label-->
-                                <label class="required fw-bold fs-6 mb-2"> {{__('lang.type')}}</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <!--end::Input-->
-                                <select name="form-control" name="type">
-                                    <option value="individual">individual</option>
-                                    <option value="company">company</option>
-                                    <option value="employee">employee</option>
-                                </select>
-                                <span id="error-validation" style="color:red"></span>
-                            </div>
+
 
                             <div class="fv-row mb-7">
                                 <!--begin::Label-->
@@ -141,11 +118,11 @@
                                     class="form-check form-switch form-check-custom form-check-solid">
                                     <label class="form-check-label" for="flexSwitchDefault">{{__('lang.active')}}
                                         ؟</label>
-                                    <input class="form-check-input" name="is_active" type="hidden"
+                                    <input class="form-check-input" name="status" type="hidden"
                                            value="inactive" id="flexSwitchDefault"/>
                                     <input
                                         class="form-check-input form-control form-control-solid mb-3 mb-lg-0"
-                                        name="is_active" type="checkbox"
+                                        name="status" type="checkbox"
                                         value="active" id="flexSwitchDefault" checked/>
                                 </div>
                             </div>

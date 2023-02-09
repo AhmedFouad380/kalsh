@@ -71,8 +71,13 @@ return
             ],
         'otp_sent' =>
             [
-                'ar' => 'تم ارسال كود التحقق بنجاح',
-                'en' => 'Otp Sent Successfully',
+                'ar' => 'تم ارسال كود التحقق بنجاح الى رقم الهاتف',
+                'en' => 'Otp Sent Successfully For Your Phone Number',
+            ],
+        'otp_sent_mail' =>
+            [
+                'ar' => 'تم ارسال كود التحقق بنجاح الى البريد الالتكتروني',
+                'en' => 'Otp Sent Successfully For Your Email',
             ],
         'complete_register' =>
             [
@@ -84,10 +89,10 @@ return
                 'ar' => 'من فضلك ادخل الإسم',
                 'en' => 'Name Required',
             ],
-        '' =>
+        'save_success' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'تم الحفظ بنجاح',
+                'en' => 'Saved successfully',
             ],
         '' =>
             [
