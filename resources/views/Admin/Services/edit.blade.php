@@ -2,7 +2,9 @@
 
 @section('css')
 @endsection
-
+@php
+    $route = 'services';
+@endphp
 @section('style')
     <style>
         @media (min-width: 992px) {

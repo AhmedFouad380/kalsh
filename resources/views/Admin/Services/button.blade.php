@@ -83,6 +83,7 @@
 </div>
 
 <script type="text/javascript">
+    $('.dropify').dropify();
 
     $("#delete").on("click", function () {
         var dataList = [];

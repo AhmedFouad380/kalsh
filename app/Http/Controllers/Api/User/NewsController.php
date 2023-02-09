@@ -18,6 +18,6 @@ class NewsController extends Controller
     public function index()
     {
         $news = NewsResource::collection(News::active()->orderBy('sort')->get());
-        return callback_data(success(),'news',$news);
+            return callback_data(success(),'news',$news);
     }
 }

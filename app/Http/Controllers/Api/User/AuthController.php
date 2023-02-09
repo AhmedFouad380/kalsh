@@ -141,6 +141,7 @@ class AuthController extends Controller
                    $message->to($user_data['email']);
                   $message->subject('email verification');
                });
+
             return callback_data(success(),'check_phones',$user_data2);
 
         }

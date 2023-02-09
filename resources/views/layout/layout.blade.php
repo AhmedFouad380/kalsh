@@ -39,6 +39,7 @@ License: For each use you must have a valid license purchased only from above li
     <!--begin::Global Stylesheets Bundle(used by all pages)-->
     <link href="{{asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @yield('css')
 <!--end::Global Stylesheets Bundle-->
 </head>
@@ -6000,8 +6001,11 @@ License: For each use you must have a valid license purchased only from above li
 <script src="{{asset('assets/js/custom/modals/create-app.js')}}"></script>
 <script src="{{asset('assets/js/custom/modals/users-search.js')}}"></script>
 <script src="{{asset('assets/js/pages/crud/file-upload/image-input.js?v=7.0.6')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!--end::Page Custom Javascript-->
 <script type="text/javascript">
+    $('.dropify').dropify();
+
     function update_active(el, route) {
         if (el.checked) {
             var status = 'active';
