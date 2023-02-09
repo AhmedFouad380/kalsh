@@ -46822,7 +46822,7 @@ body[data-kt-sticky-landing-header=on] {
   }
 }
 html {
-  font-family: sans-serif;
+  font-family: 'Cairo';
   text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -46835,7 +46835,7 @@ body {
   padding: 0px;
   font-size: 13px !important;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Cairo", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -47624,7 +47624,7 @@ body {
   width: auto;
   background-color: #ffffff;
   box-shadow: 0px 0px 50px 0px rgba(82, 63, 105, 0.1);
-  font-family: "Roboto", sans-serif;
+  font-family: "Cairo", sans-serif;
   z-index: 1000;
   border-radius: 0.475rem;
 }
@@ -47838,7 +47838,7 @@ body {
   }
 }
 .flatpickr-calendar {
-  font-family: inherit;
+  font-family: 'inherit';
   border: 0;
   box-shadow: 0px 0px 50px 0px rgba(82, 63, 105, 0.1);
   border-radius: 0.475rem;
@@ -48666,7 +48666,7 @@ div.dataTables_wrapper div.dataTables_processing {
 }
 
 .ql-toolbar {
-  font-family: "Roboto", sans-serif;
+  font-family: "Cairo", sans-serif;
 }
 .ql-toolbar.ql-snow {
   border: 1px solid #EFF2F5;
@@ -49198,7 +49198,7 @@ body.swal2-height-auto {
   box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075) !important;
 }
 .leaflet-container .leaflet-popup-content-wrapper .leaflet-popup-content {
-  font-family: "Roboto", sans-serif;
+  font-family: "Cairo", sans-serif;
   font-size: 1rem;
 }
 
