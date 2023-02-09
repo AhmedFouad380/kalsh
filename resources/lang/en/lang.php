@@ -1,6 +1,31 @@
 <?php
 
 return [
+    'status_changed' => 'Status changed successfully',
+    'important_numbers' => 'important numbers',
+
+    'added_s' => 'added successfully',
+    'edit' => 'edit',
+    'news' => 'news',
+    'pages' => 'pages',
+    'logout' => 'logout',
+    'cancel' => 'cancel',
+    'change_image' => 'Change image',
+    'updated_s' => 'Updated successfully',
+    'phone_exists_login_now' => 'The phone number already exists, you can log in now with the verification code',
+    'phone_not_exists_register_now' => 'The phone number does not exist, you can create an account now',
+    'otp_invalid' => 'Verification code is incorrect',
+    'code_send_to_email' => 'The verification code has been sent to the email successfully',
+
+    'services' => 'services',
+    'your_otp_code_is' => 'The verification code is:',
+    'phone_in_ksa' => 'Saudi Mobile Number',
+    'phone_out_ksa' => 'Non-Saudi mobile number',
+    'unauthorized' => 'unauthorized',
+    'login_s' => 'login successful',
+    'data_display_success' => 'data displayed successfully',
+    'sign_up_success' => 'The account was created successfully',
+
     'UserName' => 'Username  ',
     'Regions' => 'Regions ',
     'Branches' => 'Branches ',

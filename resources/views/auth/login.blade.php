@@ -23,6 +23,8 @@
                         <!--end::Title-->
                         <!--begin::Link-->
                         <!--end::Link-->
+                        @include('layout.messages')
+                        @include('layout.errors')
                     </div>
                     <!--begin::Heading-->
                     <!--begin::Input group-->
