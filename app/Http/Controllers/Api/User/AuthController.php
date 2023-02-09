@@ -76,6 +76,8 @@ class AuthController extends Controller
         User::create([
             'phone' => $request->phone,
             'email' => $request->email,
+            'name' => $request->name,
+            'device_token' => $request->device_token,
             'otp' => $otp,
         ]);
 
