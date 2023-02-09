@@ -34,11 +34,6 @@ return
                 'ar' => 'أرقام تهمك',
                 'en' => 'Important Numbers',
             ],
-        'check_phones' =>
-            [
-                'ar' => 'تم ارسال الكود بنجاح',
-                'en' => 'Otp Send Successfully',
-            ],
         'invalid_otp' =>
             [
                 'ar' => ' كود التفعيل غير صحيح',
@@ -49,15 +44,45 @@ return
                 'ar' => 'تم  التسجيل بنجاح',
                 'en' => 'login Successfully ',
             ],
-        '' =>
+        'phone_required' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'من فضلك ادخل رقم الجوال.',
+                'en' => 'Please enter phone number.',
             ],
-        '' =>
+        'phone_exists_before' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'رقم الجوال موجود من قبل',
+                'en' => 'Phone Exists Before',
+            ],
+        'email_required' =>
+            [
+                'ar' => 'من فضلك ادخل البريد الإلكتروني',
+                'en' => 'Email Required',
+            ],
+        'email_not_valid' =>
+            [
+                'ar' => 'البريد الإلكتروني غير صالح',
+                'en' => 'Email Not Valid',
+            ],
+        'email_exists_before' =>
+            [
+                'ar' => 'البريد الإلكتروني موجود من قبل',
+                'en' => 'Email Exists Before',
+            ],
+        'otp_sent' =>
+            [
+                'ar' => 'تم ارسال كود التحقق بنجاح',
+                'en' => 'Otp Sent Successfully',
+            ],
+        'complete_register' =>
+            [
+                'ar' => 'من فضلك قم بإكمال بياناتك أولاً.',
+                'en' => 'Please complete your data first.',
+            ],
+        'name_required' =>
+            [
+                'ar' => 'من فضلك ادخل الإسم',
+                'en' => 'Name Required',
             ],
         '' =>
             [

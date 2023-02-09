@@ -14,139 +14,76 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
 //    public function __construct()
 //    {
 //        $this->middleware('auth');
 //    }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-
     public function check_phone(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'phone'=>'required',
+        ],[
+            "phone.required" => 'phone_required',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(),$validator->errors()->first());
         }
-        //generate otp
-        $otp_code = rand(0000, 9999);
 
-
-        $exists_ksa = Str::startsWith($request->phone, '+966');
-
-        if ($exists_ksa) {
-            if($user=User::where('phone',$request->phone)->first()){
-                $user_data['phone'] = $request->phone;
-                $user_data['otp'] = $otp_code;
-                User::where('phone',$request->phone)->update($user_data);
-                $user_data['type']='in';
-                if($user->name == null){
-                    $user_data['is_complete']=0;
-                }else {
-                    $user_data['is_complete'] = 1;
-                }
-
+        $otp = otp_code();
+        // check if phone is ksa
+        $isKsaPhone = Str::startsWith($request->phone, '+966');
+        if ($isKsaPhone){
+            User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp]);
+            // $this->sms();
+            return callback_data(code_sent(),'otp_sent');
+        }else{ // if not ksa phone
+            $user = User::where('phone',$request->phone)->first();
+            if (!$user){
+                return callback_data(complete_register(),'complete_register');
             }else{
-                $user_data['phone'] = $request->phone;
-                $user_data['otp'] = $otp_code;
-                $user_data['status'] = 'active';
-                $user_data['password'] = Hash::make('123456');
-                User::create($user_data);
-                $user_data['type']='in';
-                $user_data['is_complete']=0;
-
+                User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp]);
+                Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($user) {
+                    $message->to($user->email);
+                    $message->subject('email verification');
+                });
             }
-
-            return callback_data(success(),'check_phones',$user_data);
-
-        } else {
-
-            if($user = User::where('phone',$request->phone)->first() ){
-                $user_data['otp'] = $otp_code;
-                User::where('phone',$request->phone)->first()->update($user_data);
-                $user = User::where('phone',$request->phone)->select('id','phone','email','otp')->first();
-                $user->type='out';
-                if($user->email == null){
-                    $user->is_complete=0;
-                }else {
-                    $user->is_complete=1;
-                    Mail::send('mail.register_code_mail', ['otp_code' => $otp_code], function ($message) use ($user) {
-                        $message->to($user->email);
-                        $message->subject('email verification');
-                    });
-
-                    return callback_data(success(),'check_phones',$user);
-                }
-
-
-            }else{
-                $user_data['phone'] = $request->phone;
-                $user_data['otp'] = null;
-                User::create($user_data);
-                $user = User::where('phone',$request->phone)->select('id','phone','email')->first();
-                $user->type='out';
-                if($user->name == null){
-                    $user->is_complete=0;
-                }else {
-                    $user->is_complete=1;
-                }
-            }
-            return callback_data(success(),'check_phones',$user);
-
+            return callback_data(code_sent(),'otp_sent');
         }
     }
 
     public function EmailOtp(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'phone'=>'required',
-            'email'=>'required',
+            'phone'=>'required|unique:users,phone',
+            'email'=>'required|email|unique:users,phone',
             'name'=>'required',
+        ],[
+            "phone.required" => 'phone_required',
+            "phone.unique" => 'phone_exists_before',
+            "email.required" => 'email_required',
+            "email.email" => 'email_not_valid',
+            "email.unique" => 'email_exists_before',
+            "name.required" => 'name_required',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(),$validator->errors()->first());
         }
-        $otp_code = rand(0000, 9999);
+        $otp = otp_code();
 
+        User::create([
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'otp' => $otp,
+        ]);
 
-        if(isset($request->phone)){
+        Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($request){
+            $message->to($request->email);
+            $message->subject('email verification');
+        });
+        return callback_data(code_sent(),'otp_sent');
 
-            $user_data['phone'] = $request->phone;
-            $user_data['email'] = $request->email;
-            $user_data['name'] = $request->name;
-            $user_data['password'] = Hash::make(123456);
-            $user_data['otp'] = $otp_code;
-            $user_data['status'] = 'active';
-            User::where('phone',$request->phone)->update($user_data);
-            $user_data['type']='out';
-            $user_data['is_complete']=2;
-
-            $user_data2['email'] = $request->email;
-            $user_data2['otp'] = $otp_code;
-
-            User::where('phone',$request->phone)->first();
-
-
-
-            //send mail to not ksa number by email.................................
-               Mail::send('mail.register_code_mail', ['otp_code' => $otp_code], function ($message) use ($user_data) {
-                   $message->to($user_data['email']);
-                  $message->subject('email verification');
-               });
-
-            return callback_data(success(),'check_phones',$user_data2);
-
-        }
     }
     public function emailLogin(Request $request)
     {

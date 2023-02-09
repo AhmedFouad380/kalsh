@@ -32,7 +32,7 @@ function error()
     return 401;
 }
 
-function negative_wallet()
+function code_sent()
 {
     return 402;
 }
@@ -42,14 +42,14 @@ function token_expired()
     return 403;
 }
 
-function not_active()
-{
-    return 405;
-}
-
 function not_found()
 {
     return 404;
+}
+
+function complete_register()
+{
+    return 405;
 }
 
 
@@ -63,7 +63,7 @@ function google_api_key()
     return "AIzaSyAGlTpZIZ49RVV5VX8KhzafRqjzaTRbnn0";
 }
 
-function verification_code()
+function otp_code()
 {
     $code = mt_rand(1000, 9999);
 //    $code = 1111;
