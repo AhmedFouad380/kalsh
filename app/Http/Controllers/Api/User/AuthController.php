@@ -72,12 +72,14 @@ class AuthController extends Controller
         }
         $otp = otp_code();
 
+        // create user
         User::create([
             'phone' => $request->phone,
             'email' => $request->email,
             'otp' => $otp,
         ]);
 
+        // send mail
         Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($request){
             $message->to($request->email);
             $message->subject('email verification');
