@@ -76,14 +76,25 @@ class AuthController extends Controller
 
             if($user = User::where('phone',$request->phone)->first() ){
                 $user_data['phone'] = $request->phone;
-                $user_data['otp'] = null;
+                $user_data['otp'] = $otp_code;
                 User::where('phone',$request->phone)->first()->update($user_data);
                 $user = User::where('phone',$request->phone)->select('id','phone','email')->first();
                 $user->type='out';
-                if($user->name == null){
+
+                if($user->email == null){
                     $user->is_complete=0;
                 }else {
                     $user->is_complete=1;
+                    User::where('phone',$request->phone)->first();
+
+
+
+                    //send mail to not ksa number by email.................................
+                    Mail::send('mail.register_code_mail', ['otp_code' => $otp_code], function ($message) use ($user_data) {
+                        $message->to($user_data['email']);
+                        $message->subject('email verification');
+                    });
+
                 }
 
 
