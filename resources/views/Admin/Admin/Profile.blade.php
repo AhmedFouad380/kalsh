@@ -19,7 +19,7 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column align-items-start justify-content-center flex-wrap me-lg-2 pb-2 pb-lg-0" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', lg: '#kt_header_container'}">
                 <!--begin::Heading-->
-                <h1 class="text-dark fw-bolder my-0 fs-2">{{__('lang.Setting')}} </h1>
+                <h1 class="text-dark fw-bolder my-0 fs-2">{{__('lang.profile')}} </h1>
                 <!--end::Heading-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb fw-bold fs-base my-1">
@@ -27,7 +27,7 @@
                         <a href="{{url('/')}}" class="text-muted">{{__('lang.Dashboard')}}</a>
                     </li>
                     <li class="breadcrumb-item text-muted">{{__('lang.Admins')}}</li>
-                    <li class="breadcrumb-item text-muted">{{__('lang.Setting')}}</li>
+                    <li class="breadcrumb-item text-muted">{{__('lang.profile')}}</li>
 
                 </ul>
                 <!--end::Breadcrumb-->

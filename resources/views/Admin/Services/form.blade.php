@@ -1,3 +1,4 @@
+
 <!--begin::Input group-->
 <div class="fv-row mb-7">
     <!--begin::Label-->
@@ -37,26 +38,13 @@
 <!--end::Input group-->
 
 <div class="form-group row">
-    <label class="col-xl-3 col-lg-3 col-form-label text-right">Example Label</label>
+    <label class="col-xl-3 col-lg-3 col-form-label text-right">{{trans('lang.image')}}</label>
     <div class="col-lg-9 col-xl-6">
-        <input type="file" name="image" class="dropify" data-default-file="{{old('price',$data->image ?? '')}}" >
-        <span class="form-text text-muted">Allowed file types:  png, jpg, jpeg.</span>
+        <input type="file" @if(request()->segment(2) != 'edit') required @endif name="image" class="dropify" data-default-file="{{old('price',$data->image ?? '')}}" >
+        <span class="form-text text-muted">{{trans('lang.allows_files_type')}}:  png, jpg, jpeg , svg.</span>
     </div>
 </div>
-<div class="fv-row mb-7">
-    <div
-        class="form-check form-switch form-check-custom form-check-solid">
-        <label class="form-check-label" for="flexSwitchDefault">{{__('lang.active')}}
-            ؟</label>
-        <input class="form-check-input" name="is_active" type="hidden"
-               value="inactive" id="flexSwitchDefault"/>
-        <input
-            class="form-check-input form-control form-control-solid mb-3 mb-lg-0"
-            name="is_active" type="checkbox"
-            value="active" id="flexSwitchDefault" checked/>
-    </div>
-</div>
-<!--end::Input group-->
+
 
 
 

@@ -60,8 +60,8 @@
                 <!--end::Menu item-->
                 <!--begin::Menu item-->
                 <div class="menu-item px-5">
-                    <a href="{{url('Setting')}}" class="menu-link px-5">
-                        <span class="menu-text">{{__('lang.Setting')}}</span>
+                    <a href="{{route('profile')}}" class="menu-link px-5">
+                        <span class="menu-text">{{__('lang.profile')}}</span>
                     </a>
                 </div>
                 <!--end::Menu item-->

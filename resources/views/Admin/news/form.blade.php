@@ -1,3 +1,6 @@
+@push('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@endpush
 <!--begin::Input group-->
 <div class="fv-row mb-7">
     <!--begin::Label-->
@@ -31,35 +34,19 @@
            placeholder="" value="{{old('url',$data->url ?? '')}}"/>
     <!--end::Input-->
 </div>
-
-
-<!--end::Input group-->
-
-<div class="col-lg-8">
-    <div class="form-group col-md-6">
-        <label> الصورة الاساسية <span class="text-danger">*</span></label>
-        <div class="col-lg-8">
-            <div class="image-input image-input-outline" id="kt_image_1">
-                <div class="image-input-wrapper {{ $errors->has('image') ? 'border-danger' : '' }}"
-                     style="background-image: url({{old('image', $data->image ?? 'defaults/default_image.png' )}})"></div>
-                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-warning btn-shadow"
-                       data-action="change" data-toggle="tooltip" title=""
-                       data-original-title="اختر صوره">
-                    <i class="fa fa-pen icon-sm text-muted"></i>
-                    <input type="file" value="{{old('image', $data->image ?? '')}}" name="image"
-                           accept=".png, .jpg, .jpeg"/>
-                </label>
-                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-warning btn-shadow"
-                      data-action="cancel" data-toggle="tooltip" title="حذف الصورة">
-                          <i class="ki ki-bold-close icon-xs text-muted"></i>
-                     </span>
-            </div>
-        </div>
+<div class="form-group row">
+    <label class="col-xl-3 col-lg-3 col-form-label text-right">{{trans('lang.image')}}</label>
+    <div class="col-lg-9 col-xl-6">
+        <input type="file" @if(request()->segment(2) != 'edit') required @endif name="image" class="dropify"
+               data-default-file="{{old('price',$data->image ?? '')}}">
+        <span class="form-text text-muted">{{trans('lang.allows_files_type')}}:  png, jpg, jpeg , svg.</span>
     </div>
 </div>
-<!--end::Input group-->
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script !src="">
+        $('.dropify').dropify();
         var avatar1 = new KTImageInput('kt_image_1');
     </script>
 @endpush

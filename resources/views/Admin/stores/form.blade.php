@@ -32,32 +32,13 @@
     <!--end::Input-->
 </div>
 
-
-<!--end::Input group-->
-
-<div class="col-lg-8">
-    <div class="form-group col-md-6">
-        <label> الصورة الاساسية <span class="text-danger">*</span></label>
-        <div class="col-lg-8">
-            <div class="image-input image-input-outline" id="kt_image_1">
-                <div class="image-input-wrapper {{ $errors->has('image') ? 'border-danger' : '' }}"
-                     style="background-image: url({{old('image', $data->image ?? 'defaults/default_image.png' )}})"></div>
-                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-warning btn-shadow"
-                       data-action="change" data-toggle="tooltip" title=""
-                       data-original-title="اختر صوره">
-                    <i class="fa fa-pen icon-sm text-muted"></i>
-                    <input type="file" value="{{old('image', $data->image ?? '')}}" name="image"
-                           accept=".png, .jpg, .jpeg"/>
-                </label>
-                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-warning btn-shadow"
-                      data-action="cancel" data-toggle="tooltip" title="حذف الصورة">
-                          <i class="ki ki-bold-close icon-xs text-muted"></i>
-                     </span>
-            </div>
-        </div>
+<div class="form-group row">
+    <label class="col-xl-3 col-lg-3 col-form-label text-right">{{trans('lang.image')}}</label>
+    <div class="col-lg-9 col-xl-6">
+        <input type="file" @if(request()->segment(2) != 'edit') required @endif name="image" class="dropify" data-default-file="{{old('image',$data->image ?? '')}}" >
+        <span class="form-text text-muted">{{trans('lang.allows_files_type')}}:  png, jpg, jpeg , svg.</span>
     </div>
 </div>
-<!--end::Input group-->
 @push('scripts')
     <script !src="">
         var avatar1 = new KTImageInput('kt_image_1');

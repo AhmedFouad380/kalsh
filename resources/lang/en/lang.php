@@ -1,9 +1,12 @@
 <?php
 
 return [
+    'profile' => 'profile',
+    'please_wait' => 'please wait',
+    'number' => 'the number',
+    'allows_files_type' => 'Allowed file types ',
     'status_changed' => 'Status changed successfully',
     'important_numbers' => 'important numbers',
-
     'added_s' => 'added successfully',
     'edit' => 'edit',
     'news' => 'news',
@@ -16,7 +19,6 @@ return [
     'phone_not_exists_register_now' => 'The phone number does not exist, you can create an account now',
     'otp_invalid' => 'Verification code is incorrect',
     'code_send_to_email' => 'The verification code has been sent to the email successfully',
-
     'services' => 'services',
     'your_otp_code_is' => 'The verification code is:',
     'phone_in_ksa' => 'Saudi Mobile Number',
@@ -25,7 +27,6 @@ return [
     'login_s' => 'login successful',
     'data_display_success' => 'data displayed successfully',
     'sign_up_success' => 'The account was created successfully',
-
     'UserName' => 'Username  ',
     'Regions' => 'Regions ',
     'Branches' => 'Branches ',

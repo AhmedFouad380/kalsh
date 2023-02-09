@@ -105,6 +105,13 @@ class ServicesController extends Controller
     public function update(ServiceRequest $request)
     {
         $data = $request->validated();
+        if ($data['image'] == null) {
+            unset($data['image']);
+        }else{
+            $img_name = 'service_' . time() . random_int(0000, 9999) . '.' . $data['image']->getClientOriginalExtension();
+            $data['image']->move(public_path('/uploads/services/'), $img_name);
+            $data['image'] = $img_name;
+        }
         $this->objectName::whereId($request->id)->update($data);
         return redirect(route($this->route . '.index'))->with('message', trans('lang.updated_s'));
     }

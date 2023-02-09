@@ -1,3 +1,6 @@
+@php
+    $route = 'services';
+@endphp
 <div class="dt-buttons flex-wrap">
 
     <!--end::Filter-->
@@ -66,7 +69,7 @@
                             <button type="submit" class="btn btn-primary"
                                     data-kt-users-modal-action="submit">
                                 <span class="indicator-label">{{__('lang.save')}}</span>
-                                <span class="indicator-progress">برجاء الانتظار
+                                <span class="indicator-progress">{{__('lang.please_wait')}}
                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                             </button>
                         </div>

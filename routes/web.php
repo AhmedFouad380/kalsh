@@ -33,7 +33,7 @@ Route::post('reset-password', [\App\Http\Controllers\frontController::class, 'su
 
 Route::group(['middleware' => ['admin']], function () {
 
-    Route::get('Setting', [\App\Http\Controllers\frontController::class, 'Setting']);
+    Route::get('Setting', [\App\Http\Controllers\frontController::class, 'Setting'])->name('profile');
 
     Route::get('/', function () {
         return view('Admin.index');

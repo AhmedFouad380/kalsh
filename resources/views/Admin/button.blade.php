@@ -162,7 +162,7 @@
                             <button type="submit" class="btn btn-primary"
                                     data-kt-users-modal-action="submit">
                                 <span class="indicator-label">حفظ</span>
-                                <span class="indicator-progress">برجاء الانتظار
+                                <span class="indicator-progress">{{__('lang.please_wait')}}
                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                             </button>
                         </div>

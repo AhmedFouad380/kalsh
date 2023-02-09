@@ -1,5 +1,7 @@
 @extends('layout.layout')
-
+@php
+    $route = 'services';
+@endphp
 @section('css')
 @endsection
 @php
@@ -151,7 +153,7 @@
                     <!--begin::Form-->
                     <form id="kt_account_profile_details_form" action="{{url($route.'/update/'.$data->id)}}"
                           class="form"
-                          method="post">
+                          method="post"  enctype="multipart/form-data" >
                     @csrf
                     <!--begin::Card body-->
                         <div class="card-body border-top p-9">

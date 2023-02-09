@@ -1,7 +1,10 @@
 <?php
 
 return [
+    'please_wait' => 'برجاء الانتظار',
+    'number' => 'الرقم',
     'status_changed' => 'تم تغيير الحالة بنجاح',
+    'allows_files_type' => 'متاح انواع الملفات هذه ',
     'important_numbers' => 'أرقام تهمك',
     'added_s' => 'تم الاضافة بنجاح',
     'edit' => 'تعديل',
@@ -193,6 +196,7 @@ return [
     'BranchAccount' => 'حسابات الفرع ',
     'AccouontRequests' => 'مطالبة ماليه ',
     'Profile' => 'الصفحة الشخصية ',
+    'profile' => 'الصفحة الشخصية ',
     'Owners' => 'اصحاب العقارات ',
     'operation_failed' => 'حدث خطا ما الرجاء المحاولة في وقت لاحق ',
     'Sliders' => 'اعدادات السليدر ',

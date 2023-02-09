@@ -28,7 +28,7 @@ class NewsRequest extends FormRequest
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
             'url' => 'required|url|string|max:900',
-            'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg', Rule::requiredIf($this->routeIs('news.store'))],
+            'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,svg', Rule::requiredIf($this->routeIs('news.store'))],
         ];
     }
 }
