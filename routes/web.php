@@ -30,7 +30,11 @@ Route::get('reset-password/{token}', [\App\Http\Controllers\frontController::cla
 Route::post('reset-password', [\App\Http\Controllers\frontController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 
+
 Route::group(['middleware' => ['admin']], function () {
+
+    Route::get('Setting', [\App\Http\Controllers\frontController::class, 'Setting']);
+
     Route::get('/', function () {
         return view('Admin.index');
     });
