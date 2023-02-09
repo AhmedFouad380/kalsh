@@ -56,7 +56,6 @@ class AuthController extends Controller
                     $user_data['is_complete'] = 1;
                 }
 
-
             }else{
                 $user_data['phone'] = $request->phone;
                 $user_data['otp'] = $otp_code;
@@ -67,34 +66,26 @@ class AuthController extends Controller
                 $user_data['is_complete']=0;
 
             }
-            //send otp to ksa number by sms...............................
-//            $message = 'Your otp code is :' . $otp_code;
-//            smsotp::send($data['phone'],$message);
+
             return callback_data(success(),'check_phones',$user_data);
 
         } else {
 
             if($user = User::where('phone',$request->phone)->first() ){
-                $user_data['phone'] = $request->phone;
                 $user_data['otp'] = $otp_code;
                 User::where('phone',$request->phone)->first()->update($user_data);
-                $user = User::where('phone',$request->phone)->select('id','phone','email')->first();
+                $user = User::where('phone',$request->phone)->select('id','phone','email','otp')->first();
                 $user->type='out';
-
                 if($user->email == null){
                     $user->is_complete=0;
                 }else {
                     $user->is_complete=1;
-                    User::where('phone',$request->phone)->first();
-
-
-
-                    //send mail to not ksa number by email.................................
-                    Mail::send('mail.register_code_mail', ['otp_code' => $otp_code], function ($message) use ($user_data) {
-                        $message->to($user_data['email']);
+                    Mail::send('mail.register_code_mail', ['otp_code' => $otp_code], function ($message) use ($user) {
+                        $message->to($user->email);
                         $message->subject('email verification');
                     });
 
+                    return callback_data(success(),'check_phones',$user);
                 }
 
 
