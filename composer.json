@@ -14,9 +14,9 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
-        "php-open-source-saver/jwt-auth": "^2.0",
         "simplesoftwareio/simple-qrcode": "~4",
         "teckwei1993/laravel-otp": "^1.0",
+        "tymon/jwt-auth": "^1.0",
         "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {

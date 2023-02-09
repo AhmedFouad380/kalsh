@@ -21,6 +21,11 @@ function register()
 {
     return 201;
 }
+function validation()
+{
+    return 400;
+}
+
 
 function error()
 {

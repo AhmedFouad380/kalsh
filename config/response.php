@@ -34,20 +34,20 @@ return
                 'ar' => 'أرقام تهمك',
                 'en' => 'Important Numbers',
             ],
-        '' =>
+        'check_phones' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'تم ارسال الكود بنجاح',
+                'en' => 'Otp Send Successfully',
             ],
-        '' =>
+        'invalid_otp' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => ' كود التفعيل غير صحيح',
+                'en' => 'Invalid otp ',
             ],
-        '' =>
+        'login_success' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'تم  التسجيل بنجاح',
+                'en' => 'login Successfully ',
             ],
         '' =>
             [

@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-        PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Teckwei1993\Otp\OtpServiceProvider::class,
     ],
 
