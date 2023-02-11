@@ -23,7 +23,7 @@ class AuthController extends Controller
     public function check_phone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone'=>'required',
+            'phone'=>'required|regex:/(966)[0-9]{8}/',
         ],[
             "phone.required" => 'phone_required',
         ]);
@@ -37,6 +37,23 @@ class AuthController extends Controller
         if ($isKsaPhone){
             User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>Hash::make('123456')]);
             // $this->sms();
+            $curl = curl_init();
+
+            $message=  'Your Otp Code is : '.$otp.' ( Klsh App )';
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'http://REST.GATEWAY.SA/api/SendSMS?api_id=API61856605654&api_password=RiuFeVWosu&sms_type=T&encoding=T&sender_id=Gateway.sa&phonenumber=+966560452395&textmessage=test&uid=xyz&callback_url=https://xyz.com/',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
 
             return callback_data(code_sent(),'otp_sent',(object)[]);
         }else{ // if not ksa phone
@@ -57,7 +74,7 @@ class AuthController extends Controller
     public function EmailOtp(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'phone'=>'required|unique:users,phone',
+            'phone'=>'required|unique:users,phone|regex:/(966)[0-9]{8}/',
             'email'=>'required|email|unique:users,phone',
             'name'=>'required',
         ],[
@@ -129,7 +146,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'otp' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|regex:/(966)[0-9]{8}/',
             'device_token'=>'required'
         ]);
         if ($validator->fails()) {

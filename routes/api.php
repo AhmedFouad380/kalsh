@@ -20,6 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('provider')->group(function () {
+    Route::prefix('auth')->group(function () {
+        Route::post('/check_phone', [\App\Http\Controllers\Api\Provider\AuthController::class, 'check_phone']);
+        Route::post('/phone_login', [\App\Http\Controllers\Api\Provider\AuthController::class, 'phone_login']);
+        Route::post('/update_location', [\App\Http\Controllers\Api\Provider\AuthController::class, 'update_location']);
+    });
+});
 Route::prefix('user')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('/check_phone', [AuthController::class, 'check_phone']);
