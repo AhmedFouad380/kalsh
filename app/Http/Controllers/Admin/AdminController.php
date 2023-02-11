@@ -33,8 +33,8 @@ class AdminController extends Controller
             })
 
             ->AddColumn('is_active', function ($row) {
-                $is_active = '<div class="badge badge-light-success fw-bolder">Active</div>';
-                $not_active = '<div class="badge badge-light-danger fw-bolder">inactive</div>';
+                $is_active = '<div class="badge badge-light-success fw-bolder">' . trans('lang.active') . '</div>';
+                $not_active = '<div class="badge badge-light-danger fw-bolder">' . trans('lang.inactive') . '</div>';
                 if ($row->status == 'active') {
                     return $is_active;
                 } else {
@@ -43,7 +43,7 @@ class AdminController extends Controller
             })
 
             ->addColumn('actions', function ($row) {
-                $actions = ' <a href="' . url("Admin-edit/" . $row->id) . '" class="btn btn-active-light-info">Edit <i class="bi bi-pencil-fill"></i>  </a>';
+                $actions = ' <a href="' . url("Admin-edit/" . $row->id) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
                 return $actions;
 
             })

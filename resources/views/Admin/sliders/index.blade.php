@@ -1,29 +1,8 @@
 @extends('layout.layout')
 @php
-    $route = 'services';
+    $route = 'sliders';
 @endphp
 @section('title',__('lang.Users'))
-@section('css')
-    <link href="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ URL::asset('assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet"
-          type="text/css"/>
-@endsection
-
-@section('style')
-    <style>
-        @media (min-width: 992px) {
-            .aside-me .content {
-                padding-right: 30px;
-            }
-        }
-
-        .select2-container .select2-selection--single .select2-selection__clear {
-            padding-right: 355px;
-        }
-    </style>
-@endsection
-
 @section('header')
     <!--begin::Breadcrumb-->
     <div id="kt_header" class="header" data-kt-sticky="true" data-kt-sticky-name="header"
@@ -72,8 +51,6 @@
 @section('content')
     <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
         <!--begin::Post-->
-
-
         <div class="content flex-row-fluid" id="kt_content">
             <!--begin::Card-->
             <div class="card">
@@ -87,7 +64,15 @@
                         <!--begin::Table row-->
 
                         <tr class="text-start text-muted fw-bolder fs-5 text-uppercase gs-0">
+                            <th class="w-10px pe-2">
+                                <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                    <input class="form-check-input" type="checkbox" data-kt-check="true"
+                                           data-kt-check-target="#users_table .form-check-input" value="1"/>
+                                </div>
+                            </th>
+
                             <th class="min-w-125px">{{__('lang.image')}}</th>
+                            <th class="min-w-125px">{{__('lang.page_type')}}</th>
                             <th class="min-w-125px">{{__('lang.name_ar')}}</th>
                             <th class="min-w-125px">{{__('lang.name_en')}}</th>
                             <th class="min-w-125px">{{__('lang.Users_active')}}</th>
@@ -130,23 +115,32 @@
                     "url": "{{ url('admin/assets/ar.json') }}"
                 },
                 buttons: [
-                    {extend: 'print', className: 'btn btn-light-primary me-3', text: '<i class="bi bi-printer-fill fs-2x"></i>'},
+                    {
+                        extend: 'print',
+                        className: 'btn btn-light-primary me-3',
+                        text: '<i class="bi bi-printer-fill fs-2x"></i>'
+                    },
                     // {extend: 'pdf', className: 'btn btn-raised btn-danger', text: 'PDF'},
-                    {extend: 'excel', className: 'btn btn-light-primary me-3', text: '<i class="bi bi-file-earmark-spreadsheet-fill fs-2x"></i>'},
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-light-primary me-3',
+                        text: '<i class="bi bi-file-earmark-spreadsheet-fill fs-2x"></i>'
+                    },
                     // {extend: 'colvis', className: 'btn secondary', text: 'إظهار / إخفاء الأعمدة '}
                 ],
                 ajax: {
-                    url: '{{ route('services.datatable') }}',
-                    data: {
-
-                    }
+                    url: '{{ route($route.'.datatable') }}',
+                    data: {}
                 },
                 columns: [
-                    { data: 'image', name: 'image', "searchable": false, "orderable": false,
-                        render: function( data ) {
+                    {data: 'checkbox', name: 'checkbox', "searchable": false, "orderable": false},
+                    {
+                        data: 'image', name: 'image', "searchable": false, "orderable": false,
+                        render: function (data) {
                             return "<img src=\"" + data + "\" height=\"50\"/>";
                         }
                     },
+                    {data: 'type', name: 'type', "searchable": true, "orderable": true},
                     {data: 'name_ar', name: 'name_ar', "searchable": true, "orderable": true},
                     {data: 'name_en', name: 'name_en', "searchable": true, "orderable": true},
                     {data: 'is_active', name: 'is_active', "searchable": true, "orderable": true},
@@ -154,8 +148,10 @@
                 ]
             });
             $.ajax({
-                url: "{{ URL::to('/services/add-button')}}",
-                success: function (data) { $('.add_button').append(data); },
+                url: "{{ URL::to($route.'/add-button')}}",
+                success: function (data) {
+                    $('.add_button').append(data);
+                },
                 dataType: 'html'
             });
         });

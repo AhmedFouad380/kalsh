@@ -4,24 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\NewsRequest;
+use App\Http\Requests\Dashboard\ProviderRequest;
 use App\Http\Requests\Dashboard\ServiceRequest;
-use App\Http\Requests\Dashboard\StoreRequest;
 use App\Models\Admin;
 use App\Models\News;
+use App\Models\Provider;
 use App\Models\Service;
-use App\Models\Store;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
-class StoresController extends Controller
+class ProvidersController extends Controller
 {
-    protected $viewPath = 'Admin.stores.';
-    private $route = 'stores';
+    protected $viewPath = 'Admin.providers.';
+    private $route = 'providers';
 
-    public function __construct(Store $model)
+    public function __construct(Provider $model)
     {
         $this->objectName = $model;
     }
@@ -81,9 +81,10 @@ class StoresController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(StoreRequest $request)
+    public function store(ProviderRequest $request)
     {
         $data = $request->validated();
+        $data['email_verified_at'] = Carbon::now();
         $this->objectName::create($data);
         return redirect(route($this->route . '.index'))->with('message', trans('lang.added_s'));
     }
@@ -119,14 +120,14 @@ class StoresController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request)
+    public function update(ProviderRequest $request)
     {
         $data = $request->validated();
         if ($data['image'] == null) {
             unset($data['image']);
-        }else{
-            $img_name = 'store_' . time() . random_int(0000, 9999) . '.' . $data['image']->getClientOriginalExtension();
-            $data['image']->move(public_path('/uploads/stores/'), $img_name);
+        } else {
+            $img_name = 'provider_' . time() . random_int(0000, 9999) . '.' . $data['image']->getClientOriginalExtension();
+            $data['image']->move(public_path('/uploads/providers/'), $img_name);
             $data['image'] = $img_name;
         }
         $this->objectName::whereId($request->id)->update($data);

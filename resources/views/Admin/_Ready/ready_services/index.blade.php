@@ -1,29 +1,8 @@
 @extends('layout.layout')
 @php
-    $route = 'services';
+    $route = 'ready_services';
 @endphp
 @section('title',__('lang.Users'))
-@section('css')
-    <link href="{{ URL::asset('assets/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet"
-          type="text/css"/>
-    <link href="{{ URL::asset('assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet"
-          type="text/css"/>
-@endsection
-
-@section('style')
-    <style>
-        @media (min-width: 992px) {
-            .aside-me .content {
-                padding-right: 30px;
-            }
-        }
-
-        .select2-container .select2-selection--single .select2-selection__clear {
-            padding-right: 355px;
-        }
-    </style>
-@endsection
-
 @section('header')
     <!--begin::Breadcrumb-->
     <div id="kt_header" class="header" data-kt-sticky="true" data-kt-sticky-name="header"
@@ -72,8 +51,6 @@
 @section('content')
     <div id="kt_content_container" class="d-flex flex-column-fluid align-items-start container-xxl">
         <!--begin::Post-->
-
-
         <div class="content flex-row-fluid" id="kt_content">
             <!--begin::Card-->
             <div class="card">
@@ -90,6 +67,7 @@
                             <th class="min-w-125px">{{__('lang.image')}}</th>
                             <th class="min-w-125px">{{__('lang.name_ar')}}</th>
                             <th class="min-w-125px">{{__('lang.name_en')}}</th>
+                            <th class="min-w-125px">{{__('lang.is_checked')}}</th>
                             <th class="min-w-125px">{{__('lang.Users_active')}}</th>
                             <th class="min-w-125px">{{__('lang.Actions')}}</th>
                         </tr>
@@ -130,32 +108,42 @@
                     "url": "{{ url('admin/assets/ar.json') }}"
                 },
                 buttons: [
-                    {extend: 'print', className: 'btn btn-light-primary me-3', text: '<i class="bi bi-printer-fill fs-2x"></i>'},
+                    {
+                        extend: 'print',
+                        className: 'btn btn-light-primary me-3',
+                        text: '<i class="bi bi-printer-fill fs-2x"></i>'
+                    },
                     // {extend: 'pdf', className: 'btn btn-raised btn-danger', text: 'PDF'},
-                    {extend: 'excel', className: 'btn btn-light-primary me-3', text: '<i class="bi bi-file-earmark-spreadsheet-fill fs-2x"></i>'},
+                    {
+                        extend: 'excel',
+                        className: 'btn btn-light-primary me-3',
+                        text: '<i class="bi bi-file-earmark-spreadsheet-fill fs-2x"></i>'
+                    },
                     // {extend: 'colvis', className: 'btn secondary', text: 'إظهار / إخفاء الأعمدة '}
                 ],
                 ajax: {
-                    url: '{{ route('services.datatable') }}',
-                    data: {
-
-                    }
+                    url: '{{ route($route.'.datatable') }}',
+                    data: {}
                 },
                 columns: [
-                    { data: 'image', name: 'image', "searchable": false, "orderable": false,
-                        render: function( data ) {
+                    {
+                        data: 'image', name: 'image', "searchable": false, "orderable": false,
+                        render: function (data) {
                             return "<img src=\"" + data + "\" height=\"50\"/>";
                         }
                     },
                     {data: 'name_ar', name: 'name_ar', "searchable": true, "orderable": true},
                     {data: 'name_en', name: 'name_en', "searchable": true, "orderable": true},
+                    {data: 'is_checked', name: 'is_checked', "searchable": true, "orderable": true},
                     {data: 'is_active', name: 'is_active', "searchable": true, "orderable": true},
                     {data: 'actions', name: 'actions', "searchable": false, "orderable": false},
                 ]
             });
             $.ajax({
-                url: "{{ URL::to('/services/add-button')}}",
-                success: function (data) { $('.add_button').append(data); },
+                url: "{{ URL::to($route.'/add-button')}}",
+                success: function (data) {
+                    $('.add_button').append(data);
+                },
                 dataType: 'html'
             });
         });
