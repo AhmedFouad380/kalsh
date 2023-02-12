@@ -33,7 +33,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::prefix('auth')->group(function () {
             Route::post('/update_location', [\App\Http\Controllers\Api\User\AuthController::class, 'update_location']);
             Route::get('/profile', [\App\Http\Controllers\Api\User\AuthController::class, 'profile']);
-
         });
     });
 
@@ -45,7 +44,6 @@ Route::prefix('user')->group(function () {
         Route::post('/Email_otp', [AuthController::class, 'EmailOtp']);
         Route::post('/email_login', [AuthController::class, 'emailLogin']);
         Route::post('/phone_login', [AuthController::class, 'phone_login']);
-
     });
 });
 Route::prefix('provider')->group(function () {
