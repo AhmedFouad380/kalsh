@@ -1,6 +1,6 @@
 @extends('layout.layout')
 @php
-    $route = 'ready_services';
+    $route = 'ready_orders';
 @endphp
 @section('title',__('lang.Users'))
 @section('header')

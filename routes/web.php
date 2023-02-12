@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ProvidersController;
 use App\Http\Controllers\Admin\SlidersController;
 use App\Http\Controllers\Admin\ScreensController;
 use App\Http\Controllers\Admin\Ready\ReadyServicesController;
+use App\Http\Controllers\Admin\Ready\ReadyOrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -163,6 +164,18 @@ Route::group(['middleware' => ['admin']], function () {
             Route::post('/change_active', [ReadyServicesController::class, 'changeActive'])->name('.change_active');
             Route::post('/change_is_checked', [ReadyServicesController::class, 'changeIsChecked'])->name('.change_is_checked');
             Route::get('/add-button', [ReadyServicesController::class, 'table_buttons'])->name('.table_buttons');
+        });
+        Route::group(['prefix' => 'ready_orders', 'as' => 'ready_orders'], function () {
+            Route::get('/', [ReadyOrdersController::class, 'index'])->name('.index');
+            Route::get('/datatable', [ReadyOrdersController::class, 'datatable'])->name('.datatable');
+            Route::get('/create', [ReadyOrdersController::class, 'create'])->name('.create');
+            Route::post('/store', [ReadyOrdersController::class, 'store'])->name('.store');
+            Route::get('/edit/{id}', [ReadyOrdersController::class, 'edit'])->name('.edit');
+            Route::post('/update/{id}', [ReadyOrdersController::class, 'update'])->name('.update');
+            Route::get('delete', [ReadyOrdersController::class, 'destroy'])->name('.delete');
+            Route::post('/change_active', [ReadyOrdersController::class, 'changeActive'])->name('.change_active');
+            Route::post('/change_is_checked', [ReadyOrdersController::class, 'changeIsChecked'])->name('.change_is_checked');
+            Route::get('/add-button', [ReadyOrdersController::class, 'table_buttons'])->name('.table_buttons');
         });
     });
 

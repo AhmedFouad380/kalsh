@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin\Ready;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\Ready\ReadyOrderRequest;
 use App\Http\Requests\Dashboard\Ready\ReadyServiceRequest;
 use App\Http\Requests\Dashboard\ServiceRequest;
 use App\Models\Admin;
+use App\Models\Order;
 use App\Models\ReadyService;
 use App\Models\Service;
 use App\Models\User;
@@ -13,13 +15,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 
-class ReadyServicesController extends Controller
+class ReadyOrdersController extends Controller
 {
-    protected $viewPath = 'Admin._Ready.ready_services.';
-    private $route = 'ready_services';
+    protected $viewPath = 'Admin._Ready.ready_orders.';
+    private $route = 'ready_orders';
 
 
-    public function __construct(ReadyService $model)
+    public function __construct(Order $model)
     {
         $this->objectName = $model;
     }
@@ -31,7 +33,8 @@ class ReadyServicesController extends Controller
 
     public function datatable(Request $request)
     {
-        $data = $this->objectName::orderBy('sort', 'asc');
+        $data = $this->objectName::where('type','ready')->orderBy('sort', 'asc');
+
         return DataTables::of($data)
             ->addColumn('checkbox', function ($row) {
                 $checkbox = '';
@@ -50,14 +53,11 @@ class ReadyServicesController extends Controller
             ->addColumn('actions', function ($row) {
                 $actions = ' <a href="' . route($this->route . ".edit", ['id' => $row->id]) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
                 return $actions;
+
             })
             ->rawColumns(['actions', 'checkbox', 'name', 'is_active', 'branch','is_checked'])
             ->make();
 
-    }
-    public function table_buttons()
-    {
-        return view($this->viewPath . '.button');
     }
 
     /**
@@ -77,7 +77,7 @@ class ReadyServicesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(ReadyServiceRequest $request)
+    public function store(ReadyOrderRequest $request)
     {
         $data = $request->validated();
         $this->objectName::create($data);
@@ -113,7 +113,7 @@ class ReadyServicesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ReadyServiceRequest $request)
+    public function update(ReadyOrderRequest $request)
     {
         $data = $request->validated();
         if ($data['image'] == null) {
@@ -155,5 +155,10 @@ class ReadyServicesController extends Controller
         $data['is_checked'] = $request->is_checked;
         $this->objectName::where('id', $request->id)->update($data);
         return 1;
+    }
+
+    public function table_buttons()
+    {
+        return view($this->viewPath . '.button');
     }
 }

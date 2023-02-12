@@ -16,7 +16,7 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        if(!Admin::where('phone','96611111111')->first()){
+        if (!Admin::where('phone', '96611111111')->first()) {
             Admin::create([
                 'name' => 'admin',
                 'phone' => '96611111111',
