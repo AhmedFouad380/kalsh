@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\AuthController;
-use App\Http\Controllers\Api\Provider\AuthController as ProviderAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     Route::prefix('provider')->middleware('provider')->group(function () {
         Route::prefix('auth')->group(function () {
-            Route::post('/update_location', [\App\Http\Controllers\Api\Provider\AuthController::class, 'update_location']);
-            Route::get('/profile', [ProviderAuth::class, 'profile']);
+            Route::post('/update-location', [\App\Http\Controllers\Api\Provider\AuthController::class, 'updateLocation']);
+            Route::get('/profile', [\App\Http\Controllers\Api\Provider\AuthController::class, 'profile']);
 
         });
     });
@@ -31,7 +30,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     Route::prefix('user')->middleware('user')->group(function () {
         Route::prefix('auth')->group(function () {
-            Route::post('/update_location', [\App\Http\Controllers\Api\User\AuthController::class, 'update_location']);
+            Route::post('/update-location', [\App\Http\Controllers\Api\User\AuthController::class, 'updateLocation']);
             Route::get('/profile', [\App\Http\Controllers\Api\User\AuthController::class, 'profile']);
         });
     });

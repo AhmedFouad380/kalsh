@@ -99,29 +99,49 @@ return
                 'ar' => 'تم بنجاح',
                 'en' => 'done successfully',
             ],
-        '' =>
+        'readyServices' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'خدمات مستعد',
+                'en' => 'Ready Services',
             ],
-        '' =>
+        'ready_service_required' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'اختر خدمة مستعد',
+                'en' => 'Please select ready service',
             ],
-        '' =>
+        'ready_service_unique' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'الخدمة التي قمت بإختيارها غير موجودة',
+                'en' => 'The service you chosen is not found',
             ],
-        '' =>
+        'radius_required' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'من فضلك اختر نطاق البحث',
+                'en' => 'Please select search radius',
             ],
-        '' =>
+        'radius_between' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'نطاق البحث من 1 لـ 100 كيلو متر',
+                'en' => 'Searching radius should be between 1 and 100 KM.',
+            ],
+        'description_required_without_voice' =>
+            [
+                'ar' => 'يجب ادخال وصف للطلب او تعليق صوتي به بيانات الطلب',
+                'en' => 'You must enter a description of the request or a voice comment containing the request data',
+            ],
+        'description_min_10' =>
+            [
+                'ar' => 'الوصف 10 أحرف علي الأقل',
+                'en' => 'Description at least 10 chars',
+            ],
+        'voice_required_without_description' =>
+            [
+                'ar' => 'يجب ادخال وصف للطلب او تعليق صوتي به بيانات الطلب',
+                'en' => 'You must enter a description of the request or a voice comment containing the request data',
+            ],
+        'voice_mimes_mp3' =>
+            [
+                'ar' => 'صيغة الملف الصوتي غير مدعومة',
+                'en' => 'The audio file format is not supported',
             ],
     ];

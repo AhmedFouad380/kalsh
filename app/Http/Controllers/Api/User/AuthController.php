@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
 
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//    }
-
     public function check_phone(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -125,15 +120,12 @@ class AuthController extends Controller
         $jwt_token = null;
         if ($count == 0) {
             return callback_data(success(),'invalid_otp', (object)[]);
-        } elseif (!$jwt_token = Auth('user')->attempt(['email' => $request->email,'password' => 123456], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
+        } elseif (!$jwt_token = Auth('user')->attempt(['email' => $request->email,'password' => 123456])) {
             return callback_data(success(),'invalid_otp', (object)[]);
-
         } else {
-
             $user = Auth::guard('user')->user();
             $user->device_token = $request->device_token;
             $user->save();
-
             $user->token = $jwt_token;
 
             return callback_data(success(),'login_success', $user);
@@ -153,15 +145,12 @@ class AuthController extends Controller
             return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
         }
 
-
         $count =  User::where('otp',$request->otp)->where('phone',$request->phone)->count();
         $jwt_token = null;
         if ($count == 0) {
-
-            return callback_data(success(),'invalid_otp', (object)[]);
-
-        } elseif (!$jwt_token = Auth('user')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
-            return callback_data(success(),'invalid_otp', (object)[]);
+            return callback_data(error(),'invalid_otp', (object)[]);
+        } elseif (!$jwt_token = Auth('user')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp])) {
+            return callback_data(error(),'invalid_otp', (object)[]);
 
         } else {
 
@@ -194,8 +183,7 @@ class AuthController extends Controller
     }
 
 
-    public function update_location(Request $request){
-
+    public function updateLocation(Request $request){
         $user = User::find(Auth::guard('user')->id());
         $user->lat=$request->lat;
         $user->lng=$request->lng;
