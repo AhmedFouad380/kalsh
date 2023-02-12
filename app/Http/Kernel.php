@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\User;
+use App\Http\Middleware\UserMiddleware;
+use App\Models\Provider;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\Admin;
 
@@ -45,8 +47,12 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\HttpsProtocolMiddleware::class
 
         ],
+
+        'provider'=>[
+            \App\Http\Middleware\providerMiddleware::class,
+        ],
         'user'=>[
-            User::class,
+            UserMiddleware::class,
         ],
         'admin'=>[
             Admin::class,

@@ -20,13 +20,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('provider')->group(function () {
-    Route::prefix('auth')->group(function () {
-        Route::post('/check_phone', [\App\Http\Controllers\Api\Provider\AuthController::class, 'check_phone']);
-        Route::post('/phone_login', [\App\Http\Controllers\Api\Provider\AuthController::class, 'phone_login']);
-        Route::post('/update_location', [\App\Http\Controllers\Api\Provider\AuthController::class, 'update_location']);
+    Route::prefix('provider')->middleware('provider')->group(function () {
+        Route::prefix('auth')->group(function () {
+            Route::post('/update_location', [\App\Http\Controllers\Api\Provider\AuthController::class, 'update_location']);
+            Route::get('/profile', [ProviderAuth::class, 'profile']);
+
+        });
     });
-});
+
+
+    Route::prefix('user')->middleware('user')->group(function () {
+        Route::prefix('auth')->group(function () {
+            Route::post('/update_location', [\App\Http\Controllers\Api\User\AuthController::class, 'update_location']);
+            Route::get('/profile', [\App\Http\Controllers\Api\User\AuthController::class, 'profile']);
+
+        });
+    });
+
+
+
 Route::prefix('user')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('/check_phone', [AuthController::class, 'check_phone']);
@@ -42,10 +54,9 @@ Route::prefix('user')->group(function () {
 });
 Route::prefix('provider')->group(function () {
     Route::prefix('auth')->group(function () {
-        Route::post('/login', [ProviderAuth::class, 'login']);
-        Route::post('/register', [ProviderAuth::class, 'register']);
+        Route::post('/check_phone', [\App\Http\Controllers\Api\Provider\AuthController::class, 'check_phone']);
+        Route::post('/phone_login', [\App\Http\Controllers\Api\Provider\AuthController::class, 'phone_login']);
     });
-    Route::get('/profile', [ProviderAuth::class, 'profile']);
 });
 
 Route::get('/home',[\App\Http\Controllers\Api\User\HomeController::class,'index']);

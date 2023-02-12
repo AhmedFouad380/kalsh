@@ -35,7 +35,7 @@ class AuthController extends Controller
         // check if phone is ksa
         $isKsaPhone = Str::startsWith($request->phone, '+966');
         if ($isKsaPhone){
-            User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>Hash::make('123456')]);
+            User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>'123456']);
             // $this->sms();
             $curl = curl_init();
 
@@ -61,7 +61,7 @@ class AuthController extends Controller
             if (!$user){
                 return callback_data(complete_register(),'complete_register',(object)[]);
             }else{
-                User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>Hash::make('123456')]);
+                User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>'123456']);
                 Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($user) {
                     $message->to($user->email);
                     $message->subject('email verification');
@@ -97,7 +97,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'device_token' => $request->device_token,
             'otp' => $otp,
-            'password'=>Hash::make(123456)
+            'password'=>123456
         ]);
 
         // send mail
@@ -185,60 +185,12 @@ class AuthController extends Controller
 
 
 
-    public function register(RegistrationNotKSASendCodeRequest $request)
-    {
-        $data = $request->validated();
-        //send email to user to make register
-        if (config('app.env') == 'local') {
-            $otp_code = 1234;
-        } else {
-            $otp_code = rand(0000, 9999);
-//            $otp_code = \Otp::generate($data['email']);
-        }
-//        Mail::send('mail.register_code_mail', ['otp_code' => $otp_code], function ($message) use ($data) {
-//            $message->to($data['email']);
-//            $message->subject('email verification');
-//        });
-        $data['otp'] = $otp_code;
-        User::create($data);
-        return msg(true, trans('lang.code_send_to_email'), 203);
-    }
 
-    public function verifyOtp(VerifyOtpRequest $request)
-    {
-        $data = $request->validated();
-        $data['location'] = 'out_ksa';
-
-        //send email to user to make register
-        if (config('app.env') == 'production') {
-//            $otp_code = rand(0000, 9999);
-            $validated = \Otp::validate($data['email'], $data['otp']);
-            if (!$validated) {
-                return msg(false, trans('lang.otp_invalid'), error());
-            }
-        }
-        $select_user = User::where('otp', $data['otp'])->first();
-        if ($select_user) {
-//            $select_user->email_verified_at = Carbon::now();
-//            $select_user->otp = null;
-//            $select_user->save();
-
-            //make login
-            if (!$token = JWTAuth::fromUser($select_user)) {
-                return msg(false, trans('lang.unauthorized'), error());
-            }
-            $result['token'] = $token;
-            $result['user_data'] = Auth::guard('user')->user();
-            return msgdata(true, trans('lang.login_s'), $result, success());
-        } else {
-            return msg(false, trans('lang.otp_invalid'), error());
-        }
-    }
 
     public function profile()
     {
         $user = Auth::guard('user')->user();
-        return msgdata(true, trans('lang.data_display_success'), $user, success());
+        return callback_data(success(),'success_response', $user);
     }
 
 

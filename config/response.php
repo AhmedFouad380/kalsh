@@ -94,10 +94,10 @@ return
                 'ar' => 'تم الحفظ بنجاح',
                 'en' => 'Saved successfully',
             ],
-        '' =>
+        'success_response' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'تم بنجاح',
+                'en' => 'done successfully',
             ],
         '' =>
             [

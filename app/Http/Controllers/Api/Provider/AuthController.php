@@ -38,7 +38,7 @@ class AuthController extends Controller
         $otp = otp_code();
         // check if phone is ksa
         $isKsaPhone = Str::startsWith($request->phone, '+966');
-            Provider::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>Hash::make('123456')]);
+            Provider::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>'123456']);
             // $this->sms();
 
         $curl = curl_init();
@@ -110,7 +110,7 @@ class AuthController extends Controller
     public function profile()
     {
         $client = Auth::guard('provider')->user();
-        return msgdata(true, trans('lang.data_display_success'), $client, success());
+        return callback_data(success(),'success_response', $client);
     }
 
 }
