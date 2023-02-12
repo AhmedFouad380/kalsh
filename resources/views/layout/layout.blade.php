@@ -102,22 +102,30 @@ License: For each use you must have a valid license purchased only from above li
                         <!--end::Nav item-->
                             <!--begin::Nav item-->
                             <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                data-bs-placement="right" data-bs-dismiss="click" title="Menu">
+                                data-bs-placement="right" data-bs-dismiss="click" title="{{trans('lang.basic_menus')}}">
                                 <!--begin::Nav link-->
-                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light active"
+                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) != 'ready') active @endif "
                                    data-bs-toggle="tab" href="#kt_aside_nav_tab_menu">
                                     <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Home\Home.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect x="0" y="0" width="24" height="24"/>
+        <path d="M3.95709826,8.41510662 L11.47855,3.81866389 C11.7986624,3.62303967 12.2013376,3.62303967 12.52145,3.81866389 L20.0429,8.41510557 C20.6374094,8.77841684 21,9.42493654 21,10.1216692 L21,19.0000642 C21,20.1046337 20.1045695,21.0000642 19,21.0000642 L4.99998155,21.0000673 C3.89541205,21.0000673 2.99998155,20.1046368 2.99998155,19.0000673 L2.99999828,10.1216672 C2.99999935,9.42493561 3.36258984,8.77841732 3.95709826,8.41510662 Z M10,13 C9.44771525,13 9,13.4477153 9,14 L9,17 C9,17.5522847 9.44771525,18 10,18 L14,18 C14.5522847,18 15,17.5522847 15,17 L15,14 C15,13.4477153 14.5522847,13 14,13 L10,13 Z" fill="#000000"/>
+    </g>
+</svg><!--end::Svg Icon--></span>
+                                    <!--end::Svg Icon-->
+                                </a>
+                                <!--end::Nav link-->
+                            </li>
+
+                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                data-bs-placement="right" data-bs-dismiss="click" title="{{trans('lang.ready_service')}}">
+                                <!--begin::Nav link-->
+                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'ready') active @endif "
+                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_ready">
+                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                     <span class="svg-icon svg-icon-2x">
-												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none">
-													<rect x="2" y="2" width="9" height="9" rx="2" fill="black"/>
-													<rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2"
-                                                          fill="black"/>
-													<rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2"
-                                                          fill="black"/>
-													<rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2"
-                                                          fill="black"/>
-												</svg>
+												 <img style="width: 22px;" src="{{url('/')}}\assets\media\svg\ready_logo.svg">
 											</span>
                                     <!--end::Svg Icon-->
                                 </a>
@@ -1486,11 +1494,12 @@ License: For each use you must have a valid license purchased only from above li
                                 </div>
                                 <!--end::Tab pane-->
                                 <!--begin::Tab pane-->
-                                <div class="tab-pane fade active show" id="kt_aside_nav_tab_menu" role="tabpanel">
+
                                     <!--begin::Menu-->
-                                @include('layout.sidebare')
+                                @include('layout.sidebars.basic_menus')
+                                @include('layout.sidebars.ready_menus')
                                 <!--end::Menu-->
-                                </div>
+
                                 <!--end::Tab pane-->
                                 <!--begin::Tab pane-->
                                 <div class="tab-pane fade" id="kt_aside_nav_tab_subscription" role="tabpanel">
@@ -6022,6 +6031,25 @@ License: For each use you must have a valid license purchased only from above li
             _token: '{{ csrf_token() }}',
             id: el.value,
             status: status
+        }, function (data) {
+            if (data == 1) {
+                toastr.success("{{trans('lang.status_changed')}}");
+            } else {
+                toastr.error("{{trans('lang.status_changed')}}");
+            }
+        });
+    }
+
+    function update_is_checked(el, route) {
+        if (el.checked) {
+            var is_checked = 1;
+        } else {
+            var is_checked = 0;
+        }
+        $.post(route, {
+            _token: '{{ csrf_token() }}',
+            id: el.value,
+            is_checked: is_checked
         }, function (data) {
             if (data == 1) {
                 toastr.success("{{trans('lang.status_changed')}}");

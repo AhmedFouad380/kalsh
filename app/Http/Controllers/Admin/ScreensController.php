@@ -3,25 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dashboard\NewsRequest;
-use App\Http\Requests\Dashboard\ServiceRequest;
-use App\Http\Requests\Dashboard\StoreRequest;
-use App\Models\Admin;
-use App\Models\News;
-use App\Models\Service;
-use App\Models\Store;
-use App\Models\User;
+use App\Http\Requests\Dashboard\ScreenRequest;
+use App\Http\Requests\Dashboard\SliderRequest;
+use App\Models\Screen;
+use App\Models\Slider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
-class StoresController extends Controller
+class ScreensController extends Controller
 {
-    protected $viewPath = 'Admin.stores.';
-    private $route = 'stores';
+    protected $viewPath = 'Admin.screens.';
+    private $route = 'screens';
 
-    public function __construct(Store $model)
+    public function __construct(Screen $model)
     {
         $this->objectName = $model;
     }
@@ -50,7 +44,7 @@ class StoresController extends Controller
             })
             ->addColumn('is_active', $this->viewPath . 'parts.active_btn')
             ->addColumn('actions', function ($row) {
-                $actions = ' <a href="' . url($this->route . "/edit/" . $row->id) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
+                $actions = ' <a href="' . url($this->route . "/edit/" . $row->id) . '" class="btn btn-active-light-info">' . trans('lang.edit') . '<i class="bi bi-pencil-fill"></i>  </a>';
                 return $actions;
 
             })
@@ -81,7 +75,7 @@ class StoresController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(StoreRequest $request)
+    public function store(ScreenRequest $request)
     {
         $data = $request->validated();
         $this->objectName::create($data);
@@ -119,14 +113,14 @@ class StoresController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request)
+    public function update(SliderRequest $request)
     {
         $data = $request->validated();
         if ($data['image'] == null) {
             unset($data['image']);
-        }else{
-            $img_name = 'store_' . time() . random_int(0000, 9999) . '.' . $data['image']->getClientOriginalExtension();
-            $data['image']->move(public_path('/uploads/stores/'), $img_name);
+        } else {
+            $img_name = 'screen_' . time() . random_int(0000, 9999) . '.' . $data['image']->getClientOriginalExtension();
+            $data['image']->move(public_path('/uploads/screens/'), $img_name);
             $data['image'] = $img_name;
         }
         $this->objectName::whereId($request->id)->update($data);

@@ -16,13 +16,16 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        Admin::create([
-            'name' => 'admin',
-            'phone' => '96611111111',
-            'email' => 'admin@gmail.com',
-            'password' => '123456',
-            'email_verified_at' => Carbon::now(),
-            'status' => 'active'
-        ]);
+        if(!Admin::where('phone','96611111111')->first()){
+            Admin::create([
+                'name' => 'admin',
+                'phone' => '96611111111',
+                'email' => 'admin@gmail.com',
+                'password' => '123456',
+                'email_verified_at' => Carbon::now(),
+                'status' => 'active'
+            ]);
+        }
+
     }
 }
