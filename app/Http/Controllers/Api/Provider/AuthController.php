@@ -60,7 +60,7 @@ class AuthController extends Controller
         curl_close($curl);
 
 
-            return callback_data(code_sent(),'otp_sent',(object)[]);
+            return callback_data(code_sent(),'otp_sent',$otp);
 
     }
 
@@ -92,6 +92,8 @@ class AuthController extends Controller
 
             $user = Auth::guard('provider')->user();
             $user->device_token = $request->device_token;
+            $user->email_verified_at=\Carbon\Carbon::now();
+            $user->otp=null;
             $user->save();
 
             $user->token = $jwt_token;
@@ -109,7 +111,7 @@ class AuthController extends Controller
     }
     public function profile()
     {
-        $client = Auth::guard('provider')->user();
+        $client = Provider::where('id',Auth::guard('provider')->id())->select('name','email','phone')->firstOrFail();
         return callback_data(success(),'success_response', $client);
     }
 
