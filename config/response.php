@@ -146,7 +146,7 @@ return
             ],
         'ready_order_created_successfully' =>
             [
-                'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار عروض مقدمي خدمات',
+                'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار عروض مقدمي الخدمات',
                 'en' => 'Your order created successfully and waiting for providers offers',
             ],
         'my_orders' =>
@@ -173,6 +173,21 @@ return
             [
                 'ar' => 'تم ارسال التقييم من قبل',
                 'en' => 'Rate send to user before',
+            ],
+        'rate_send_to_user_successfully' =>
+            [
+                'ar' => 'تم ارسال التقييم للمستخدم بنجاح',
+                'en' => 'rate send to user successfully',
+            ],
+        'order_must_complete_first' =>
+            [
+                'ar' => 'يجب أن يكتمل الطلب أولاً',
+                'en' => 'order must complete first',
+            ],
+        'set_location_first' =>
+            [
+                'ar' => 'حدد موقعك أولاً',
+                'en' => 'Set your location first',
             ],
 
 

@@ -52,6 +52,10 @@ function complete_register()
     return 405;
 }
 
+function not_accepted()
+{
+    return 406;
+}
 
 function nearest_radius()
 {

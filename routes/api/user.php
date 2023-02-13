@@ -53,6 +53,8 @@ Route::prefix('user')->group(function () {
             Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
             Route::get('/orders', [ReadyServiceOrderController::class, 'orders']);
         });
+        Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);
+
     });
 
 });
