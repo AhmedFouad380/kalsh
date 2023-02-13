@@ -149,10 +149,10 @@ return
                 'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار عروض مقدمي خدمات',
                 'en' => 'Your order created successfully and waiting for providers offers',
             ],
-        '' =>
+        'my_orders' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'طلباتي',
+                'en' => 'My orders',
             ],
         '' =>
             [
@@ -163,5 +163,47 @@ return
             [
                 'ar' => '',
                 'en' => '',
+            ],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /////////// notifications msgs
+
+        'new_ready_order_title' =>
+            [
+                'ar' => 'لديك طلب جديد',
+                'en' => 'You have a new order',
+            ],
+        'new_ready_order_msg' =>
+            [
+                'ar' => 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك',
+                'en' => 'You have a new order near you, hurry up and submit your offer',
             ],
     ];

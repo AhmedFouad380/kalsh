@@ -34,9 +34,8 @@ class Store extends Model
     public function setImageAttribute($image)
     {
         if (is_file($image)) {
-            $img_name = 'store_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/uploads/stores/'), $img_name);
-            $this->attributes['image'] = $img_name;
+            $imageFields = upload($image, 'stores');
+            $this->attributes['image'] = $imageFields;
         }else {
             $this->attributes['image'] = $image;
         }
