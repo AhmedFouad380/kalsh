@@ -12,9 +12,11 @@ Route::prefix('provider')->group(function () {
 
     //routes not should authenticated
 
-    Route::prefix('auth')->group(function () {
-        Route::post('/check_phone', [AuthController::class, 'check_phone']);
-        Route::post('/phone_login', [AuthController::class, 'phone_login']);
+    Route::middleware('guest')->group(function () {
+        Route::prefix('auth')->group(function () {
+            Route::post('/check_phone', [AuthController::class, 'check_phone']);
+            Route::post('/phone_login', [AuthController::class, 'phone_login']);
+        });
     });
 
     //routes should authenticated

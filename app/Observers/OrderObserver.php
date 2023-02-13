@@ -6,6 +6,7 @@ use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Provider;
 use App\Models\Status;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class OrderObserver
@@ -44,7 +45,12 @@ class OrderObserver
                     'status_id' => Status::PENDING_STATUS,
                 ]);
                 $provider = Provider::findOrFail($provider->id);
-                sendToProvider([$provider->device_token],'','');
+
+                $title = Config::get('response.new_ready_order_title.'.$provider->lang);
+                $msg = Config::get('response.new_ready_order_msg.'.$provider->lang);
+                $notificationType = Config::get('notificationtypes.new_order');
+
+                sendToProvider([$provider->device_token],$title,$msg,$notificationType,$order->id,$order->type);
             }
         }
     }

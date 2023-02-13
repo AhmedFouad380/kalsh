@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\Service;
 use App\Models\Status;
@@ -48,8 +49,12 @@ class ReadyServiceOrderController extends Controller
         ]);
 
         return callback_data(success(),'ready_order_created_successfully');
+    }
 
-
+    public function orders()
+    {
+        $orders = OrderResource::collection(Order::where('user_id',Auth::guard('user')->id())->orderBy('id','desc')->get());
+        return callback_data(success(),'my_orders',$orders);
     }
 
 
