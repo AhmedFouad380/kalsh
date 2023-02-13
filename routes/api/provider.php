@@ -28,9 +28,9 @@ Route::prefix('provider')->group(function () {
             Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         });
 
-        Route::prefix('orders')->group(function () {
+        Route::prefix('offers')->group(function () {
             Route::get('/', [ReadyServiceOrderController::class, 'orders']);
-            Route::post('/send-offer', [ReadyServiceOrderController::class, 'sendOffer']);
+            Route::post('/send', [ReadyServiceOrderController::class, 'sendOffer']);
         });
     });
 

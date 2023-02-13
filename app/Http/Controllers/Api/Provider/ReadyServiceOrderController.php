@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OfferResource;
 use App\Http\Resources\ServiceResource;
 use App\Http\Resources\SliderResource;
+use App\Models\Chat;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Service;
@@ -19,48 +21,43 @@ class ReadyServiceOrderController extends Controller
 
     public function orders()
     {
-        $provider = Auth::guard('provider')->user();
-
-        $data['slider'] = SliderResource::make(Slider::where('type',Slider::HOME_TYPE)->active()->first());
-        $data = ServiceResource::collection(Offer::where('provider',$provider->id)->active()->orderBy('sort')->get());
-        return callback_data(success(),'home',$data);
+        $data = OfferResource::collection(Offer::where('provider_id', Auth::guard('provider')->user()->id)->orderBy('created_at', 'desc')->get());
+        return callback_data(success(), 'offers', $data);
     }
 
-    public function createOrder(Request $request)
+    public function sendOffer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'ready_service_id' => 'required|exists:ready_services,id',
-            'radius' => 'required|between:1,100',
-            'description' => 'required_without:voice|min:10',
-            'voice' => 'required_without:description|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
-        ], [
-            'ready_service_id.required' => 'ready_service_required',
-            'ready_service_id.exists' => 'ready_service_unique',
-            'radius.required' => 'radius_required',
-            'radius.between' => 'radius_between',
-            'description.required_without' => 'description_required_without_voice',
-            'description.min' => 'description_min_10',
-            'voice.required_without' => 'voice_required_without_description',
-            'voice.mimes' => 'voice_mimes_mp3',
+            'offer_id' => 'required|exists:offers,id',
+            'description' => 'required|string|max:1000',
         ]);
         if (!is_array($validator) && $validator->fails()) {
-            return callback_data(error(),$validator->errors()->first());
+            return callback_data(error(), $validator->errors()->first());
+        }
+        //first store reply
+        $offer = Offer::findOrFail($request->offer_id);
+
+        //check exists chat first ..
+        $exists_chat = Chat::where('user_id', $offer->order->user_id)->where('provider_id', Auth::guard('provider')->id())->where('order_id', $offer->order_id)->first();
+        if (!$exists_chat) {
+            $offer->description = $request->description;
+            if ($offer->save()) {
+                //second start chat with user
+                Chat::create([
+                    'user_id' => $offer->order->user_id,
+                    'provider_id' => Auth::guard('provider')->id(),
+                    'order_id' => $offer->order_id,
+                    'offer_id' => $request->offer_id,
+                ]);
+                //create two default messages (one for order content , second for offer description)
+//                ...
+            }
+        } else {
+            return callback_data(error(), 'offer_send_before');
         }
 
-        Order::create([
-            'user_id' => Auth::guard('user')->id(),
-            'type' => 'ready',
-            'service_id' => Service::where('id',4)->value('id'),
-            'ready_service_id' => $request->ready_service_id,
-            'radius' => $request->radius,
-            'from_lat' => Auth::guard('user')->user()->lat,
-            'from_lng' => Auth::guard('user')->user()->lng,
-            'description' => $request->description,
-            'voice' => $request->voice,
-            'status_id' => Status::PENDING_STATUS,
-        ]);
 
-        return callback_data(success(),'ready_order_created_successfully');
+        return callback_data(success(), 'offer_send_to_user_successfully');
 
 
     }
