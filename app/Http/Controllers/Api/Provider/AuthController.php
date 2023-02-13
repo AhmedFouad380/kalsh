@@ -18,13 +18,7 @@ use PHPOpenSourceSaver\JWTAuth\JWTAuth;
 class AuthController extends Controller
 {
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-
-    public function check_phone(Request $request)
+    public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'phone'=>'required|regex:/(966)[0-9]{8}/',
@@ -56,17 +50,14 @@ class AuthController extends Controller
         ));
 
         $response = curl_exec($curl);
-
         curl_close($curl);
-
-
-            return callback_data(code_sent(),'otp_sent',$otp);
+        return callback_data(code_sent(),'otp_sent',$otp);
 
     }
 
 
 
-    public function phone_login(Request $request)
+    public function phoneLogin(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'otp' => 'required',

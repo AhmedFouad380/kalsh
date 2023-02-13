@@ -164,6 +164,11 @@ return
                 'ar' => 'تم ارسال العرض للمستخدم بنجاح',
                 'en' => 'Offer send to user successfully',
             ],
+        'pending_orders' =>
+            [
+                'ar' => 'طلبات في انتظار عروض',
+                'en' => 'Pending Orders',
+            ],
 
 
 
