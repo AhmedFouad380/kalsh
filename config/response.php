@@ -169,6 +169,11 @@ return
                 'ar' => 'طلبات في انتظار عروض',
                 'en' => 'Pending Orders',
             ],
+        'rate_send_before' =>
+            [
+                'ar' => 'تم ارسال التقييم من قبل',
+                'en' => 'Rate send to user before',
+            ],
 
 
 

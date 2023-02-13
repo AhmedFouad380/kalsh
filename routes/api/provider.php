@@ -32,6 +32,7 @@ Route::prefix('provider')->group(function () {
         Route::prefix('offers')->group(function () {
             Route::post('/send', [ReadyServiceOrderController::class, 'sendOffer']);
         });
+        Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateUser']);
     });
 
 });
