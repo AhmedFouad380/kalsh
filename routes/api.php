@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::prefix('auth')->group(function () {
             Route::post('/update-location', [\App\Http\Controllers\Api\Provider\AuthController::class, 'updateLocation']);
             Route::get('/profile', [\App\Http\Controllers\Api\Provider\AuthController::class, 'profile']);
+            Route::post('/updateProfile', [\App\Http\Controllers\Api\Provider\AuthController::class, 'updateProfile']);
 
         });
     });
