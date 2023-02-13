@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ServicesController;
 use App\Http\Controllers\Admin\NewsController;
@@ -194,5 +195,33 @@ Route::get('lang/{lang}', function ($lang) {
 
 
     return back();
+});
+
+Route::get('nearest', function () {
+    $providers = \App\Models\Provider::active()
+        ->online()
+        ->select('providers.*',DB::raw('
+                              6371 * ACOS(
+                                  LEAST(
+                                    1.0,
+                                    COS(RADIANS(lat))
+                                    * COS(RADIANS(' . '31.1' . '))
+                                    * COS(RADIANS(lng - ' . '30.2' . '))
+                                    + SIN(RADIANS(lat))
+                                    * SIN(RADIANS(' . '31.1' . '))
+                                  )
+                                ) as distance'))
+        ->having("distance", "<", 30)
+        ->orderBy("distance",'asc')
+        ->get();
+    return($providers);
+
+});
+
+
+Route::get('/sendNotification', function () {
+    dd(send(['eKEVjzBlSl6BYvWnmbkVRp:APA91bFvccfkGc9V6g-LjPnntgxAETiAI-OS-vjmdvsOoes5YBIKA1lhB1VQIRxlxw80q10EsBNTAP7B6KfGseA8sJB6JHU2_NidoFTeezg5c_OmS5UEdSdipUhDMt1HLqyd6pflZjTk']
+        ,'test','test message', 'order', null,null));
+    return 'notification sent';
 });
 

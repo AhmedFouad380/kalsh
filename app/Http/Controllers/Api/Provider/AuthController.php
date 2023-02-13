@@ -113,15 +113,7 @@ class AuthController extends Controller
         return callback_data(success(),'success_response', $client);
     }
 
-    public function updateLocation(Request $request){
-        $user = Provider::find(Auth::guard('provider')->id());
-        $user->lat=$request->lat;
-        $user->lng=$request->lng;
-        $user->save();
 
-        return callback_data(success(),'save_success', $user);
-
-    }
     public function updateProfile(Request $request){
         $user = Provider::find(Auth::guard('provider')->id());
         $user->name=$request->name;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\User\ReadyServiceOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\AuthController;
@@ -21,29 +22,36 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     Route::prefix('provider')->middleware('provider')->group(function () {
         Route::prefix('auth')->group(function () {
-            Route::post('/update-location', [\App\Http\Controllers\Api\Provider\AuthController::class, 'updateLocation']);
+            Route::post('/update-location', [\App\Http\Controllers\Api\Provider\HomeController::class, 'updateLocation']);
+            Route::post('/set-language', [\App\Http\Controllers\Api\Provider\HomeController::class, 'setLanguage']);
             Route::get('/profile', [\App\Http\Controllers\Api\Provider\AuthController::class, 'profile']);
-            Route::post('/updateProfile', [\App\Http\Controllers\Api\Provider\AuthController::class, 'updateProfile']);
+            Route::post('/update-profile', [\App\Http\Controllers\Api\Provider\AuthController::class, 'updateProfile']);
 
         });
     });
 
 
+    // authenticated user apis
     Route::prefix('user')->middleware('user')->group(function () {
         Route::prefix('auth')->group(function () {
-            Route::post('/update-location', [\App\Http\Controllers\Api\User\AuthController::class, 'updateLocation']);
+            Route::post('/update-location', [\App\Http\Controllers\Api\User\HomeController::class, 'updateLocation']);
+            Route::post('/set-language', [\App\Http\Controllers\Api\User\HomeController::class, 'setLanguage']);
             Route::get('/profile', [\App\Http\Controllers\Api\User\AuthController::class, 'profile']);
+        });
+
+        Route::prefix('ready-services')->group(function () {
+            Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
         });
     });
 
 
-
+// guest user apis
 Route::prefix('user')->group(function () {
     Route::prefix('auth')->group(function () {
-        Route::post('/check_phone', [AuthController::class, 'check_phone']);
-        Route::post('/Email_otp', [AuthController::class, 'EmailOtp']);
-        Route::post('/email_login', [AuthController::class, 'emailLogin']);
-        Route::post('/phone_login', [AuthController::class, 'phone_login']);
+        Route::post('/check-phone', [AuthController::class, 'checkPhone']);
+        Route::post('/Email-otp', [AuthController::class, 'EmailOtp']);
+        Route::post('/email-login', [AuthController::class, 'emailLogin']);
+        Route::post('/phone-login', [AuthController::class, 'phoneLogin']);
     });
 });
 Route::prefix('provider')->group(function () {

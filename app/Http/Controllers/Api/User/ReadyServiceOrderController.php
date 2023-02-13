@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Service;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -39,10 +40,14 @@ class ReadyServiceOrderController extends Controller
             'service_id' => Service::where('id',4)->value('id'),
             'ready_service_id' => $request->ready_service_id,
             'radius' => $request->radius,
+            'from_lat' => Auth::guard('user')->user()->lat,
+            'from_lng' => Auth::guard('user')->user()->lng,
             'description' => $request->description,
             'voice' => $request->voice,
+            'status_id' => Status::PENDING_STATUS,
         ]);
 
+        return callback_data(success(),'ready_order_created_successfully');
 
 
     }

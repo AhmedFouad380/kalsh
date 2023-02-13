@@ -70,36 +70,17 @@ function otp_code()
     return $code;
 }
 
-function send_to_user($tokens, $title, $msg, $notification_type, $store_id, $order_id)
+function sendToUser($tokens, $title, $msg, $notification_type, $order_id, $order_type)
 {
-    send($tokens, $title, $msg, $notification_type, $store_id, $order_id);
+    send($tokens, $title, $msg, $notification_type, $order_id, $order_type);
 }
 
-function send_to_driver($tokens, $title, $msg, $notification_type, $store_id, $order_id)
+function sendToProvider($tokens, $title, $msg, $notification_type, $order_id, $order_type)
 {
-    send($tokens, $title, $msg, $notification_type, $store_id, $order_id);
+    send($tokens, $title, $msg, $notification_type, $order_id, $order_type);
 }
 
-function send_to_store($tokens, $title, $msg, $notification_type, $store_id, $order_id)
-{
-    send($tokens, $title, $msg, $notification_type, $store_id, $order_id);
-}
-
-function getModel($model,$store)
-{
-    $model = 'App\\Models\\' . $model;
-    if (is_null($store->parent_id)){ // get all store branches models
-        $branches_ids = Store::where('parent_id',$store->id)->pluck('id')->toArray();
-        $model = $model::where(function ($query) use ($store,$branches_ids){
-            $query->where('store_id',$store->id)->orWhereIn('store_id',$branches_ids);
-        });
-    }else{ // get only this branch models
-        $model = $model::where('store_id',$store->id);
-    }
-    return $model;
-}
-
-function send($tokens, $title, $msg, $notification_type, $store_id, $order_id)
+function send($tokens, $title, $msg, $notification_type, $order_id, $order_type)
 {
     $api_key = getServerKey();
     $fields = array
@@ -112,8 +93,8 @@ function send($tokens, $title, $msg, $notification_type, $store_id, $order_id)
             'message' => $msg,
             'body' => $msg,
             'notification_type' => $notification_type,
-            'store_id' => $store_id,
             'order_id' => $order_id,
+            'order_type' => $order_type,
         ],
         'notification' => [
             'title' => $title,
@@ -121,8 +102,8 @@ function send($tokens, $title, $msg, $notification_type, $store_id, $order_id)
             'message' => $msg,
             'body' => $msg,
             'notification_type' => $notification_type,
-            'store_id' => $store_id,
             'order_id' => $order_id,
+            'order_type' => $order_type,
         ],
         'vibrate' => 1,
         'sound' => 1
@@ -152,7 +133,7 @@ function send($tokens, $title, $msg, $notification_type, $store_id, $order_id)
 
 function getServerKey()
 {
-    return 'AAAAOihFkSw:APA91bGLJ3jVKT2cBQHEcjWnX-wMlI6IeQzouYORuvpFvofqhbrYxJCdQpzC6ttP71Qv7TXYSrTEcm-7ESJIbtxhwc7dFIrj6-uQL2rUBq0ORj-Z0-XzdtGP7vGXI-2R1fdJkFzzEUH1';
+    return 'AAAAbpD6MDk:APA91bHuM9DPZi7g-XtDmMkI0HNA937hOPa6nCTvTzEN1huY8T-f4bNmC7hBDd9LLBIt2f4L_P5pxTa38XfVQLZxyfD5im2kpfvaSz5kdkBtAPeOBHHmUNoWRePSoddHZCLlSICFvj_r';
 }
 
 function callback_data($status, $key, $data = null, $token = "")

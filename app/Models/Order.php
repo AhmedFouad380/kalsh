@@ -68,4 +68,23 @@ class Order extends Model
             $this->attributes['voice'] = $img_name;
         }
     }
+
+    public static function statusList(){
+        return [
+            Status::PENDING_STATUS => trans(''),
+            Status::ACCEPTED_STATUS => trans(''),
+            Status::CANCELED_BY_USER_STATUS => trans(''),
+            Status::CANCELED_BY_SYSTEM_STATUS => trans(''),
+            Status::CANCELED_BY_PROVIDER_STATUS => trans(''),
+            Status::COMPLETED_STATUS => trans(''),
+            Status::UNKNOWN_STATUS => trans(''),
+            Status::REJECTED_STATUS => trans(''),
+        ];
+    }
+
+    // Return status for show and index pages.
+    public function getLocalStatusAttribute()
+    {
+        return @static::statusList()[$this->status_id];
+    }
 }

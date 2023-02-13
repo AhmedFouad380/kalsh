@@ -144,4 +144,24 @@ return
                 'ar' => 'صيغة الملف الصوتي غير مدعومة',
                 'en' => 'The audio file format is not supported',
             ],
+        'ready_order_created_successfully' =>
+            [
+                'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار عروض مقدمي خدمات',
+                'en' => 'Your order created successfully and waiting for providers offers',
+            ],
+        '' =>
+            [
+                'ar' => '',
+                'en' => '',
+            ],
+        '' =>
+            [
+                'ar' => '',
+                'en' => '',
+            ],
+        '' =>
+            [
+                'ar' => '',
+                'en' => '',
+            ],
     ];

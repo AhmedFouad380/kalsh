@@ -7,7 +7,10 @@ use App\Http\Resources\ServiceResource;
 use App\Http\Resources\SliderResource;
 use App\Models\Service;
 use App\Models\Slider;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -16,5 +19,36 @@ class HomeController extends Controller
         $data['slider'] = SliderResource::make(Slider::where('type',Slider::HOME_TYPE)->active()->first());
         $data['services'] = ServiceResource::collection(Service::active()->orderBy('sort')->get());
         return callback_data(success(),'home',$data);
+    }
+
+    public function updateLocation(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'lat'=>'required',
+            'lng'=>'required',
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(),$validator->errors()->first());
+        }
+        $user = Auth::guard('user')->user();
+        $user->lat = $request->lat;
+        $user->lng = $request->lng;
+        $user->save();
+        return callback_data(success(),'save_success', $user);
+
+    }
+
+    public function setLanguage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'lang'=>'required|in:ar,en',
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(),$validator->errors()->first());
+        }
+        $user = Auth::guard('user')->user();
+        $user->lang = $request->lang;
+        $user->save();
+        return callback_data(success(),'save_success', $user);
     }
 }

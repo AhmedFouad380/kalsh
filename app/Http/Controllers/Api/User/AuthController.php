@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
 
-    public function check_phone(Request $request)
+    public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'phone'=>'required|regex:/(966)[0-9]{8}/',
@@ -50,11 +50,11 @@ class AuthController extends Controller
 
             curl_close($curl);
 
-            return callback_data(code_sent(),'otp_sent',(object)[]);
+            return callback_data(code_sent(),'otp_sent');
         }else{ // if not ksa phone
             $user = User::where('phone',$request->phone)->first();
             if (!$user){
-                return callback_data(complete_register(),'complete_register',(object)[]);
+                return callback_data(complete_register(),'complete_register');
             }else{
                 User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>'123456']);
                 Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($user) {
@@ -62,7 +62,7 @@ class AuthController extends Controller
                     $message->subject('email verification');
                 });
             }
-            return callback_data(code_sent(),'otp_sent_mail',(object)[]);
+            return callback_data(code_sent(),'otp_sent_mail');
         }
     }
 
@@ -100,7 +100,7 @@ class AuthController extends Controller
             $message->to($request->email);
             $message->subject('email verification');
         });
-        return callback_data(code_sent(),'otp_sent_mail',(object)[]);
+        return callback_data(code_sent(),'otp_sent_mail');
 
     }
     public function emailLogin(Request $request)
@@ -134,7 +134,7 @@ class AuthController extends Controller
 
 
     }
-    public function phone_login(Request $request)
+    public function phoneLogin(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'otp' => 'required',
@@ -182,14 +182,4 @@ class AuthController extends Controller
         return callback_data(success(),'success_response', $user);
     }
 
-
-    public function updateLocation(Request $request){
-        $user = User::find(Auth::guard('user')->id());
-        $user->lat=$request->lat;
-        $user->lng=$request->lng;
-        $user->save();
-
-        return callback_data(success(),'save_success', $user);
-
-    }
 }

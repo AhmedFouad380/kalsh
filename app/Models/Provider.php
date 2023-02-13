@@ -40,6 +40,10 @@ class Provider extends Authenticatable implements JWTSubject
     {
         $query->where('status', 'active');
     }
+    public function scopeOnline($query): void
+    {
+        $query->where('online', 1);
+    }
 
 
     public function services()

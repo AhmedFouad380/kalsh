@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Status;
 use Illuminate\Database\Seeder;
 
 class StatusesTableSeeder extends Seeder
@@ -13,6 +14,35 @@ class StatusesTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $data = [
+            [
+                'name' => 'pending',
+            ],
+            [
+                'name' => 'accepted',
+            ],
+            [
+                'name' => 'canceled_by_user',
+            ],
+            [
+                'name' => 'canceled_by_system',
+            ],
+            [
+                'name' => 'canceled_by_provider',
+            ],
+            [
+                'name' => 'completed',
+            ],
+            [
+                'name' => 'un_known',
+            ],
+            [
+                'name' => 'rejected',
+            ],
+        ];
+
+        foreach ($data as $get) {
+            Status::updateOrCreate($get);
+        }
     }
 }
