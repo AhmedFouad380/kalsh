@@ -10,6 +10,7 @@ use App\Http\Resources\SliderResource;
 use App\Models\Chat;
 use App\Models\Offer;
 use App\Models\Order;
+use App\Models\Rate;
 use App\Models\Service;
 use App\Models\Slider;
 use App\Models\Status;
@@ -57,11 +58,42 @@ class ReadyServiceOrderController extends Controller
                     'order_id' => $offer->order_id,
                     'offer_id' => $request->offer_id,
                 ]);
-                //create two default messages (one for order content , second for offer description)
+                // TODO: create two default messages (one for order content , second for offer description)
 //                ...
             }
         } else {
             return callback_data(error(), 'offer_send_before');
+        }
+
+
+        return callback_data(success(), 'offer_send_to_user_successfully');
+
+
+    }
+
+
+    public function rateUser(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'order_id' => 'required|exists:orders,id,provider_id,' . Auth::guard('provider')->id(),
+            'comment' => 'required|string|max:1000',
+            'rate' => 'required|integer|between:1,5',
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+
+        }
+        //first check if rated before or not
+//        $exists_order = Order::where('provider_id',Auth::guard('provider')->id())->where('id',$request->order_id)->first();
+        $exists_rate = Rate::where('provider_id', Auth::guard('provider')->id())->where('order_id', $request->order_id)->first();
+
+        //check exists chat first ..
+        if (!$exists_rate) {
+            //second start chat with user
+            Rate::create($data);
+        } else {
+            return callback_data(error(), 'rate_send_before');
         }
 
 

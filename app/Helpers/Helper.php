@@ -141,7 +141,7 @@ function callback_data($status, $key, $data = null, $token = "")
     $language = request()->header('lang');
     $response = [
         'status' => $status,
-        'msg' => isset($language) ? Config::get('response.' . $key . '.' . request()->header('lang')) : Config::get('response.' . $key),
+        'msg' => isset($language) ? Config::get('response.' . $key . '.' . request()->header('lang')) : $key,
         'data' => $data,
     ];
     $token ? $response['token'] = $token : '';
