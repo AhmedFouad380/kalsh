@@ -51,6 +51,7 @@ Route::prefix('user')->group(function () {
         });
         Route::prefix('ready-services')->group(function () {
             Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
+            Route::get('/orders', [ReadyServiceOrderController::class, 'orders']);
         });
     });
 

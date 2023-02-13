@@ -154,15 +154,20 @@ return
                 'ar' => 'طلباتي',
                 'en' => 'My orders',
             ],
-        '' =>
+        'offers' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'العروض',
+                'en' => 'offers',
             ],
-        '' =>
+        'offer_send_to_user_successfully' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'تم ارسال العرض للمستخدم بنجاح',
+                'en' => 'Offer send to user successfully',
+            ],
+        'pending_orders' =>
+            [
+                'ar' => 'طلبات في انتظار عروض',
+                'en' => 'Pending Orders',
             ],
 
 

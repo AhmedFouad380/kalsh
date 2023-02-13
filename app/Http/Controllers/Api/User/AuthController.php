@@ -119,9 +119,9 @@ class AuthController extends Controller
 
         $jwt_token = null;
         if ($count == 0) {
-            return callback_data(success(),'invalid_otp', (object)[]);
+            return callback_data(success(),'invalid_otp');
         } elseif (!$jwt_token = Auth('user')->attempt(['email' => $request->email,'password' => 123456])) {
-            return callback_data(success(),'invalid_otp', (object)[]);
+            return callback_data(success(),'invalid_otp');
         } else {
             $user = Auth::guard('user')->user();
             $user->device_token = $request->device_token;
@@ -150,9 +150,9 @@ class AuthController extends Controller
         $count =  User::where('otp',$request->otp)->where('phone',$request->phone)->count();
         $jwt_token = null;
         if ($count == 0) {
-            return callback_data(error(),'invalid_otp', (object)[]);
+            return callback_data(error(),'invalid_otp');
         } elseif (!$jwt_token = Auth('user')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp])) {
-            return callback_data(error(),'invalid_otp', (object)[]);
+            return callback_data(error(),'invalid_otp');
 
         } else {
 

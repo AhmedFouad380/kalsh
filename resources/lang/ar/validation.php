@@ -216,6 +216,8 @@ return [
         'scheme_number' => 'رقم المخطط',
         'taxepercent' => 'الضريبه بالنسبة المئويه',
         'total' => 'قيمه العقد',
+        'offer_id' => 'رقم العرض',
+        'message' => 'الرسالة',
 
 
 

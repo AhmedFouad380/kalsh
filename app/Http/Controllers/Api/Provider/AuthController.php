@@ -18,13 +18,7 @@ use PHPOpenSourceSaver\JWTAuth\JWTAuth;
 class AuthController extends Controller
 {
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-
-    public function check_phone(Request $request)
+    public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'phone'=>'required|regex:/(966)[0-9]{8}/',
@@ -56,17 +50,14 @@ class AuthController extends Controller
         ));
 
         $response = curl_exec($curl);
-
         curl_close($curl);
-
-
-            return callback_data(code_sent(),'otp_sent',$otp);
+        return callback_data(code_sent(),'otp_sent',$otp);
 
     }
 
 
 
-    public function phone_login(Request $request)
+    public function phoneLogin(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'otp' => 'required',
@@ -83,10 +74,10 @@ class AuthController extends Controller
         $jwt_token = null;
         if ($count == 0) {
 
-            return callback_data(success(),'invalid_otp', (object)[]);
+            return callback_data(success(),'invalid_otp');
 
         } elseif (!$jwt_token = Auth('provider')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
-            return callback_data(success(),'invalid_otp', (object)[]);
+            return callback_data(success(),'invalid_otp');
 
         } else {
 

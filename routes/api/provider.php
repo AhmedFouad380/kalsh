@@ -14,8 +14,8 @@ Route::prefix('provider')->group(function () {
 
     Route::middleware('guest')->group(function () {
         Route::prefix('auth')->group(function () {
-            Route::post('/check_phone', [AuthController::class, 'check_phone']);
-            Route::post('/phone_login', [AuthController::class, 'phone_login']);
+            Route::post('/check-phone', [AuthController::class, 'checkPhone']);
+            Route::post('/phone-login', [AuthController::class, 'phoneLogin']);
         });
     });
 
@@ -28,12 +28,13 @@ Route::prefix('provider')->group(function () {
             Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         });
 
-        Route::get('/services', [HomeController::class, 'Services']);
-        Route::get('/ready-service', [HomeController::class, 'ReadyService']);
+        Route::get('/services', [HomeController::class, 'services']);
+        Route::get('/ready-service', [HomeController::class, 'readyService']);
+        Route::post('/store-form', [HomeController::class, 'StoreForm']);
 
-        Route::prefix('orders')->group(function () {
-            Route::get('/', [ReadyServiceOrderController::class, 'orders']);
-            Route::post('/send-offer', [ReadyServiceOrderController::class, 'sendOffer']);
+        Route::get('/pending-orders', [ReadyServiceOrderController::class, 'pendingOrders']);
+        Route::prefix('offers')->group(function () {
+            Route::post('/send', [ReadyServiceOrderController::class, 'sendOffer']);
         });
     });
 

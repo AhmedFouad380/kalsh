@@ -38,18 +38,10 @@ class OrderObserver
             ->get();
 
         if (!$providers->isEmpty()){
+            $notificationType = Config::get('notificationtypes.new_order');
             foreach ($providers as $provider){
-                Offer::create([
-                    'order_id' => $order->id,
-                    'provider_id' => $provider->id,
-                    'status_id' => Status::PENDING_STATUS,
-                ]);
-                $provider = Provider::findOrFail($provider->id);
-
                 $title = Config::get('response.new_ready_order_title.'.$provider->lang);
                 $msg = Config::get('response.new_ready_order_msg.'.$provider->lang);
-                $notificationType = Config::get('notificationtypes.new_order');
-
                 sendToProvider([$provider->device_token],$title,$msg,$notificationType,$order->id,$order->type);
             }
         }
