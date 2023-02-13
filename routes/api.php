@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::prefix('provider')->middleware('provider')->group(function () {
         Route::prefix('auth')->group(function () {
             Route::post('/update-location', [\App\Http\Controllers\Api\Provider\HomeController::class, 'updateLocation']);
-            Route::post('/set-language', [\App\Http\Controllers\Api\Provider\HomeController::class, 'setLanguage']);
+            Route::post('/update-language', [\App\Http\Controllers\Api\Provider\HomeController::class, 'updateLanguage']);
             Route::get('/profile', [\App\Http\Controllers\Api\Provider\AuthController::class, 'profile']);
             Route::post('/update-profile', [\App\Http\Controllers\Api\Provider\AuthController::class, 'updateProfile']);
 
@@ -35,7 +35,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::prefix('user')->middleware('user')->group(function () {
         Route::prefix('auth')->group(function () {
             Route::post('/update-location', [\App\Http\Controllers\Api\User\HomeController::class, 'updateLocation']);
-            Route::post('/set-language', [\App\Http\Controllers\Api\User\HomeController::class, 'setLanguage']);
+            Route::post('/update-language', [\App\Http\Controllers\Api\User\HomeController::class, 'updateLanguage']);
             Route::get('/profile', [\App\Http\Controllers\Api\User\AuthController::class, 'profile']);
         });
 

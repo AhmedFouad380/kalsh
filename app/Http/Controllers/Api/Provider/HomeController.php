@@ -13,6 +13,14 @@ class HomeController extends Controller
 
     public function updateLocation(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'lat'=>'required',
+            'lng'=>'required',
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return response()->json(['status' => error(),'msg' => $validator->errors()->first()]);
+        }
+
         $provider = Auth::guard('provider')->user();
         $provider->lat = $request->lat;
         $provider->lng = $request->lng;
@@ -20,7 +28,7 @@ class HomeController extends Controller
         return callback_data(success(),'save_success', $provider);
     }
 
-    public function setLanguage(Request $request)
+    public function updateLanguage(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'lang'=>'required|in:ar,en',
@@ -29,8 +37,8 @@ class HomeController extends Controller
             return callback_data(error(),$validator->errors()->first());
         }
         $provider = Auth::guard('provider')->user();
-        $user->lang = $request->lang;
-        $user->save();
-        return callback_data(success(),'save_success', $user);
+        $provider->lang = $request->lang;
+        $provider->save();
+        return callback_data(success(),'save_success', $provider);
     }
 }

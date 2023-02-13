@@ -28,7 +28,7 @@ class HomeController extends Controller
             'lng'=>'required',
         ]);
         if (!is_array($validator) && $validator->fails()) {
-            return callback_data(error(),$validator->errors()->first());
+            return response()->json(['status' => error(),'msg' => $validator->errors()->first()]);
         }
         $user = Auth::guard('user')->user();
         $user->lat = $request->lat;
@@ -38,13 +38,13 @@ class HomeController extends Controller
 
     }
 
-    public function setLanguage(Request $request)
+    public function updateLanguage(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'lang'=>'required|in:ar,en',
         ]);
         if (!is_array($validator) && $validator->fails()) {
-            return callback_data(error(),$validator->errors()->first());
+            return response()->json(['status' => error(),'msg' => $validator->errors()->first()]);
         }
         $user = Auth::guard('user')->user();
         $user->lang = $request->lang;
