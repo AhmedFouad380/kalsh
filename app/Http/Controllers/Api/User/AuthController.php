@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone'=>'required|regex:/(966)[0-9]{8}/',
+            'phone'=>'required',
         ],[
             "phone.required" => 'phone_required',
         ]);
@@ -50,7 +50,7 @@ class AuthController extends Controller
 
             curl_close($curl);
 
-            return callback_data(code_sent(),'otp_sent',$otp);
+            return callback_data(success(),'otp_sent',$otp);
         }else{ // if not ksa phone
             $user = User::where('phone',$request->phone)->first();
             if (!$user){
@@ -69,7 +69,7 @@ class AuthController extends Controller
     public function EmailOtp(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'phone'=>'required|unique:users,phone|regex:/(966)[0-9]{8}/',
+            'phone'=>'required|unique:users,phone',
             'email'=>'required|email|unique:users,phone',
             'name'=>'required',
         ],[
@@ -100,7 +100,7 @@ class AuthController extends Controller
             $message->to($request->email);
             $message->subject('email verification');
         });
-        return callback_data(code_sent(),'otp_sent_mail');
+        return callback_data(code_sent(),'otp_sent_mail',$otp);
 
     }
     public function emailLogin(Request $request)
@@ -182,7 +182,7 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $user = User::where('id',Auth::guard('user')->id())->select('name','email','phone');
+        $user = User::where('id',Auth::guard('user')->id())->select('name','email','phone')->firstOrFail();
         return callback_data(success(),'success_response', $user);
     }
 

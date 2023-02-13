@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ReadyServiceResource;
 use App\Http\Resources\ServiceResource;
 use App\Http\Resources\SliderResource;
+use App\Models\ReadyService;
 use App\Models\Service;
 use App\Models\Slider;
 use App\Models\User;
@@ -51,4 +53,6 @@ class HomeController extends Controller
         $user->save();
         return callback_data(success(),'save_success', $user);
     }
+
+
 }

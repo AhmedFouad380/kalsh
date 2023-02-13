@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::post('/update-profile', [\App\Http\Controllers\Api\User\AuthController::class, 'updateProfile']);
         });
 
-        Route::prefix('ready-services')->group(function () {
+            Route::prefix('ready-services')->group(function () {
             Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
         });
     });
@@ -59,6 +59,7 @@ Route::prefix('provider')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('/check_phone', [\App\Http\Controllers\Api\Provider\AuthController::class, 'check_phone']);
         Route::post('/phone_login', [\App\Http\Controllers\Api\Provider\AuthController::class, 'phone_login']);
+
     });
 });
 
