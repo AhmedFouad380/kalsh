@@ -170,7 +170,7 @@ Route::group(['middleware' => ['admin']], function () {
             Route::get('/datatable', [ReadyOrdersController::class, 'datatable'])->name('.datatable');
             Route::get('/create', [ReadyOrdersController::class, 'create'])->name('.create');
             Route::post('/store', [ReadyOrdersController::class, 'store'])->name('.store');
-            Route::get('/edit/{id}', [ReadyOrdersController::class, 'edit'])->name('.edit');
+            Route::get('/show/{id}', [ReadyOrdersController::class, 'show'])->name('.show');
             Route::post('/update/{id}', [ReadyOrdersController::class, 'update'])->name('.update');
             Route::get('delete', [ReadyOrdersController::class, 'destroy'])->name('.delete');
             Route::post('/change_active', [ReadyOrdersController::class, 'changeActive'])->name('.change_active');

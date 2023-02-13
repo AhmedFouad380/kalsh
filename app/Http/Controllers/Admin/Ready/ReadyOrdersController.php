@@ -33,7 +33,7 @@ class ReadyOrdersController extends Controller
 
     public function datatable(Request $request)
     {
-        $data = $this->objectName::where('type','ready')->orderBy('sort', 'asc');
+        $data = $this->objectName::where('type', 'ready')->orderBy('created_at', 'desc');
 
         return DataTables::of($data)
             ->addColumn('checkbox', function ($row) {
@@ -43,19 +43,31 @@ class ReadyOrdersController extends Controller
                                 </div>';
                 return $checkbox;
             })
-            ->editColumn('name', function ($row) {
-                $name = '';
-                $name .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row->name . '</span>';
-                return $name;
-            })
-            ->addColumn('is_checked', $this->viewPath . 'parts.is_checked_btn')
-            ->addColumn('is_active', $this->viewPath . 'parts.active_btn')
             ->addColumn('actions', function ($row) {
-                $actions = ' <a href="' . route($this->route . ".edit", ['id' => $row->id]) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
+                $actions = ' <a href="' . route($this->route . ".show", ['id' => $row->id]) . '" class="btn btn-active-light-info">' . trans('lang.view') . ' <i class="bi bi-eye"></i>  </a>';
                 return $actions;
-
             })
-            ->rawColumns(['actions', 'checkbox', 'name', 'is_active', 'branch','is_checked'])
+            ->addColumn('readyService', function ($row) {
+                return $row->readyService ? $row->readyService->name : '';
+            })
+            ->addColumn('customer_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            })
+            ->addColumn('provider_name', function ($row) {
+                return $row->provider ? $row->provider->name : '';
+            })
+            ->editColumn('created_at', function ($row) {
+                return $row->created_at ? $row->created_at->format('Y-m-d g:i a') : '';
+            })
+            ->addColumn('payment_status', function ($row) {
+                $text = $row->payment_status ? trans('lang.' . $row->payment_status) : '';
+                return ' <span class="text-gray-800 text-hover-primary mb-1">' . $text . '</span>';
+            })
+            ->addColumn('status', function ($row) {
+                $text = $row->status ? trans('lang.' . $row->status->name) : '';
+                return ' <span class="text-gray-800 text-hover-primary mb-1">' . $text . '</span>';
+            })
+            ->rawColumns(['actions', 'checkbox', 'readyService', 'customer_name', 'provider_name', 'status','payment_status'])
             ->make();
 
     }
@@ -83,6 +95,7 @@ class ReadyOrdersController extends Controller
         $this->objectName::create($data);
         return redirect(route($this->route . '.index'))->with('message', trans('lang.added_s'));
     }
+
     /**
      * Display the specified resource.
      *
@@ -91,9 +104,9 @@ class ReadyOrdersController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = $this->objectName::with(['userRating','providerRating'])->findOrFail($id);
+        return view($this->viewPath . '.show', compact('data'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
@@ -33,6 +33,16 @@ class Order extends Model
         return $this->belongsTo(Service::class, 'service_id');
     }
 
+    public function userRating()
+    {
+        return $this->hasOne(Rate::class, 'order_id')->where('type','from_user');
+    }
+
+    public function providerRating()
+    {
+        return $this->hasOne(Rate::class, 'order_id')->where('type','from_provider');
+    }
+
     public function readyService()
     {
         return $this->belongsTo(ReadyService::class, 'ready_service_id');
@@ -41,5 +51,21 @@ class Order extends Model
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id');
+    }
+
+    public function getVoiceAttribute($image)
+    {
+        if (!empty($image)) {
+            return asset('uploads/order_voices') . '/' . $image;
+        }
+    }
+
+    public function setVoiceAttribute($image)
+    {
+        if (is_file($image)) {
+            $img_name = 'voice_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/uploads/order_voices/'), $img_name);
+            $this->attributes['voice'] = $img_name;
+        }
     }
 }

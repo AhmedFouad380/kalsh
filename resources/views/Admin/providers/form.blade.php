@@ -55,7 +55,7 @@
 </div>
 <div class="form-group row">
     <label class="col-xl-3 col-lg-3 col-form-label text-right">{{trans('lang.image')}}</label>
-    <div class="col-lg-9 col-xl-6">
+    <div class="col-lg-9 col-xl-12">
         <input type="file" name="image" class="dropify"
                data-default-file="{{old('price',$data->image ?? '')}}">
         <span class="form-text text-muted">{{trans('lang.allows_files_type')}}:  png, jpg, jpeg , svg.</span>
