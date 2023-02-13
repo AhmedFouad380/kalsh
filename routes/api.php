@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\User\ReadyServiceOrderController;
+use App\Http\Controllers\Api\User\ReadyServicesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\User\AuthController;
@@ -66,3 +67,4 @@ Route::get('/home',[\App\Http\Controllers\Api\User\HomeController::class,'index'
 Route::get('/stores',[\App\Http\Controllers\Api\User\StoresController::class,'index']);
 Route::get('/news',[\App\Http\Controllers\Api\User\NewsController::class,'index']);
 Route::get('/importantNumbers',[\App\Http\Controllers\Api\User\ImportantNumbersController::class,'index']);
+Route::get('/readyServices', [ReadyServicesController::class, 'index']);
