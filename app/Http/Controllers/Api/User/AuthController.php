@@ -50,7 +50,7 @@ class AuthController extends Controller
 
             curl_close($curl);
 
-            return callback_data(code_sent(),'otp_sent');
+            return callback_data(code_sent(),'otp_sent',$otp);
         }else{ // if not ksa phone
             $user = User::where('phone',$request->phone)->first();
             if (!$user){
@@ -125,6 +125,8 @@ class AuthController extends Controller
         } else {
             $user = Auth::guard('user')->user();
             $user->device_token = $request->device_token;
+            $user->email_verified_at=\Carbon\Carbon::now();
+            $user->otp=null;
             $user->save();
             $user->token = $jwt_token;
 
@@ -156,6 +158,8 @@ class AuthController extends Controller
 
             $user = Auth::guard('user')->user();
             $user->device_token = $request->device_token;
+            $user->email_verified_at=\Carbon\Carbon::now();
+            $user->otp=null;
             $user->save();
 
             $user->token = $jwt_token;
@@ -178,8 +182,17 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $user = Auth::guard('user')->user();
+        $user = User::where('id',Auth::guard('user')->id())->select('name','email','phone');
         return callback_data(success(),'success_response', $user);
     }
 
+
+    public function updateProfile(Request $request){
+        $user = User::find(Auth::guard('user')->id());
+        $user->name=$request->name;
+        $user->save();
+
+        return callback_data(success(),'save_success', $user);
+
+    }
 }

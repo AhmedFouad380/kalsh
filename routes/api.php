@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
             Route::post('/update-location', [\App\Http\Controllers\Api\User\HomeController::class, 'updateLocation']);
             Route::post('/update-language', [\App\Http\Controllers\Api\User\HomeController::class, 'updateLanguage']);
             Route::get('/profile', [\App\Http\Controllers\Api\User\AuthController::class, 'profile']);
+            Route::post('/update-profile', [\App\Http\Controllers\Api\User\AuthController::class, 'updateProfile']);
         });
 
         Route::prefix('ready-services')->group(function () {
