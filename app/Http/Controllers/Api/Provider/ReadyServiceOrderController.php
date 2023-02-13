@@ -10,6 +10,7 @@ use App\Http\Resources\SliderResource;
 use App\Models\Chat;
 use App\Models\Offer;
 use App\Models\Order;
+use App\Models\Rate;
 use App\Models\Service;
 use App\Models\Slider;
 use App\Models\Status;
@@ -23,7 +24,7 @@ class ReadyServiceOrderController extends Controller
 
     public function pendingOrders()
     {
-        $data = OrderResource::collection(Order::where('status_id',Status::PENDING_STATUS)
+        $data = OrderResource::collection(Order::where('status_id', Status::PENDING_STATUS)
             ->whereNull('provider_id')
             ->orderBy('created_at', 'desc')
             ->get());
@@ -33,15 +34,17 @@ class ReadyServiceOrderController extends Controller
     public function sendOffer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => ['required',Rule::exists('orders','id')],
+            'order_id' => ['required', Rule::exists('orders', 'id')],
             'description' => 'required|string|max:1000',
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
         }
-        //first store reply
+        //first send offer
         Offer::create([
-            'order_id' => $request->order_id
+            'order_id' => $request->order_id,
+            'status_id' => Status::PENDING_STATUS,
+            'description' => $request->description
         ]);
         $offer = Offer::findOrFail($request->offer_id);
 
@@ -63,12 +66,38 @@ class ReadyServiceOrderController extends Controller
         } else {
             return callback_data(error(), 'offer_send_before');
         }
-
-
         return callback_data(success(), 'offer_send_to_user_successfully');
-
-
     }
 
 
+    public function rateUser(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'order_id' => 'required|exists:orders,id,provider_id,' . Auth::guard('provider')->id(),
+            'comment' => 'required|string|max:1000',
+            'rate' => 'required|integer|between:1,5',
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        //first check if rated before or not
+        $exists_rate = Rate::where('provider_id', Auth::guard('provider')->id())->where('order_id', $request->order_id)->first();
+        if (!$exists_rate) {
+            $order = Order::where('id', $request->order_id)->first();
+            if ($order->status_id != Status::COMPLETED_STATUS) {
+                return callback_data(error(), 'order_must_complete_first');
+            }
+            $data['user_id'] = $order->user_id;
+            $data['provider_id'] = Auth::guard('provider')->id();
+            $data['type'] = 'from_provider';
+            Rate::create($data);
+            //update order make provider rate = 1
+            $order->provider_rated = 1;
+            $order->save();
+            return callback_data(success(), 'rate_send_to_user_successfully');
+        } else {
+            return callback_data(error(), 'rate_send_before');
+        }
+    }
 }
