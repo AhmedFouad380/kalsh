@@ -39,30 +39,31 @@ class ReadyServiceOrderController extends Controller
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
         }
-        //first store reply
+        //first send offer
         Offer::create([
-            'order_id' => $request->order_id
+            'order_id' => $request->order_id,
+            'status_id' => Status::PENDING_STATUS,
+            'description' => $request->description
         ]);
-        $offer = Offer::findOrFail($request->offer_id);
 
         //check exists chat first ..
-        $exists_chat = Chat::where('user_id', $offer->order->user_id)->where('provider_id', Auth::guard('provider')->id())->where('order_id', $offer->order_id)->first();
-        if (!$exists_chat) {
-            $offer->description = $request->description;
-            if ($offer->save()) {
-                //second start chat with user
-                Chat::create([
-                    'user_id' => $offer->order->user_id,
-                    'provider_id' => Auth::guard('provider')->id(),
-                    'order_id' => $offer->order_id,
-                    'offer_id' => $request->offer_id,
-                ]);
-                //create two default messages (one for order content , second for offer description)
-//                ...
-            }
-        } else {
-            return callback_data(error(), 'offer_send_before');
-        }
+//        $exists_chat = Chat::where('user_id', $offer->order->user_id)->where('provider_id', Auth::guard('provider')->id())->where('order_id', $offer->order_id)->first();
+//        if (!$exists_chat) {
+//            $offer->description = $request->description;
+//            if ($offer->save()) {
+//                //second start chat with user
+//                Chat::create([
+//                    'user_id' => $offer->order->user_id,
+//                    'provider_id' => Auth::guard('provider')->id(),
+//                    'order_id' => $offer->order_id,
+//                    'offer_id' => $request->offer_id,
+//                ]);
+//                //create two default messages (one for order content , second for offer description)
+////                ...
+//            }
+//        } else {
+//            return callback_data(error(), 'offer_send_before');
+//        }
 
 
         return callback_data(success(), 'offer_send_to_user_successfully');
