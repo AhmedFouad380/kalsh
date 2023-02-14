@@ -159,7 +159,7 @@ return
                 'ar' => 'العروض',
                 'en' => 'offers',
             ],
-        'offer_send_to_user_successfully' =>
+        'offer_sent_successfully' =>
             [
                 'ar' => 'تم ارسال العرض للمستخدم بنجاح',
                 'en' => 'Offer send to user successfully',
@@ -173,6 +173,11 @@ return
             [
                 'ar' => 'تم ارسال التقييم من قبل',
                 'en' => 'Rate send to user before',
+            ],
+        'offer_sent_before' =>
+            [
+                'ar' => 'تم ارسال عرض لهذا الطلب من قبل',
+                'en' => 'Offer sent on this order before',
             ],
 
 
@@ -212,6 +217,17 @@ return
                 'en' => 'You have a new order',
             ],
         'new_ready_order_msg' =>
+            [
+                'ar' => 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك',
+                'en' => 'You have a new order near you, hurry up and submit your offer',
+            ],
+
+        'new_ready_offer_title' =>
+            [
+                'ar' => 'لديك طلب جديد',
+                'en' => 'You have a new order',
+            ],
+        'new_ready_offer_msg' =>
             [
                 'ar' => 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك',
                 'en' => 'You have a new order near you, hurry up and submit your offer',

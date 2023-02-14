@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Provider;
@@ -38,11 +39,23 @@ class OrderObserver
             ->get();
 
         if (!$providers->isEmpty()){
-            $notificationType = Config::get('notificationtypes.new_order');
             foreach ($providers as $provider){
-                $title = Config::get('response.new_ready_order_title.'.$provider->lang);
-                $msg = Config::get('response.new_ready_order_msg.'.$provider->lang);
-                sendToProvider([$provider->device_token],$title,$msg,$notificationType,$order->id,$order->type);
+                $title_ar = 'لديك طلب جديد';
+                $title_en = 'You have a new order';
+                $msg_ar = 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك.';
+                $msg_en = 'You have a new order near you, hurry up and submit your offer.';
+                sendToProvider([$provider->device_token],${'title_'.$provider->lang},${'msg_'.$provider->lang},Notification::NEW_ORDER_TYPE,$order->id,$order->type);
+
+                Notification::create([
+                    'type' => Notification::NEW_ORDER_TYPE,
+                    'notifiable_type' => Provider::class,
+                    'notifiable_id' => $provider->id,
+                    'order_id' => $order->id,
+                    'title_ar' => $title_ar,
+                    'title_en' => $title_en,
+                    'description_ar' => $msg_ar,
+                    'description_en' => $msg_en,
+                ]);
             }
         }
     }
