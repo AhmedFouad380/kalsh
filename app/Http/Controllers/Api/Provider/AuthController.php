@@ -74,10 +74,10 @@ class AuthController extends Controller
         $jwt_token = null;
         if ($count == 0) {
 
-            return callback_data(success(),'invalid_otp', (object)[]);
+            return callback_data(success(),'invalid_otp');
 
         } elseif (!$jwt_token = Auth('provider')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
-            return callback_data(success(),'invalid_otp', (object)[]);
+            return callback_data(success(),'invalid_otp');
 
         } else {
 

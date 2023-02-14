@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\Rate;
 use App\Models\Service;
 use App\Models\Status;
 use Illuminate\Http\Request;
@@ -34,6 +35,11 @@ class ReadyServiceOrderController extends Controller
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(),$validator->errors()->first());
         }
+        $user = Auth::guard('user')->user() ;
+        if(empty($user->lat) ||  empty($user->lng) ){
+            return callback_data(not_accepted(),'set_location_first');
+
+        }
 
         Order::create([
             'user_id' => Auth::guard('user')->id(),
@@ -41,8 +47,8 @@ class ReadyServiceOrderController extends Controller
             'service_id' => Service::where('id',4)->value('id'),
             'ready_service_id' => $request->ready_service_id,
             'radius' => $request->radius,
-            'from_lat' => Auth::guard('user')->user()->lat,
-            'from_lng' => Auth::guard('user')->user()->lng,
+            'from_lat' => $user->lat,
+            'from_lng' => $user->lng,
             'description' => $request->description,
             'voice' => $request->voice,
             'status_id' => Status::PENDING_STATUS,
@@ -55,6 +61,39 @@ class ReadyServiceOrderController extends Controller
     {
         $orders = OrderResource::collection(Order::where('user_id',Auth::guard('user')->id())->orderBy('id','desc')->get());
         return callback_data(success(),'my_orders',$orders);
+    }
+
+
+
+    public function rateProvider(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'order_id' => 'required|exists:orders,id,user_id,' . Auth::guard('user')->id(),
+            'comment' => 'required|string|max:1000',
+            'rate' => 'required|integer|between:1,5',
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        //first check if rated before or not
+        $exists_rate = Rate::where('user_id', Auth::guard('user')->id())->where('order_id', $request->order_id)->first();
+        if (!$exists_rate) {
+            $order = Order::where('id', $request->order_id)->first();
+            if ($order->status_id != Status::COMPLETED_STATUS) {
+                return callback_data(error(), 'order_must_complete_first');
+            }
+            $data['provider_id'] = $order->provider_id;
+            $data['user_id'] = Auth::guard('user')->id();
+            $data['type'] = 'from_user';
+            Rate::create($data);
+            //update order make user rate = 1
+            $order->user_rated = 1;
+            $order->save();
+            return callback_data(success(), 'rate_send_to_user_successfully');
+        } else {
+            return callback_data(error(), 'rate_send_before');
+        }
     }
 
 

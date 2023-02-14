@@ -34,9 +34,8 @@ class News extends Model
     public function setImageAttribute($image)
     {
         if (is_file($image)) {
-            $img_name = 'news_' . time() . random_int(0000, 9999) . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('/uploads/news/'), $img_name);
-            $this->attributes['image'] = $img_name;
+            $imageFields = upload($image, 'news');
+            $this->attributes['image'] = $imageFields;
         } else {
             $this->attributes['image'] = $image;
         }

@@ -146,7 +146,7 @@ return
             ],
         'ready_order_created_successfully' =>
             [
-                'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار عروض مقدمي خدمات',
+                'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار عروض مقدمي الخدمات',
                 'en' => 'Your order created successfully and waiting for providers offers',
             ],
         'my_orders' =>
@@ -178,6 +178,21 @@ return
             [
                 'ar' => 'تم ارسال عرض لهذا الطلب من قبل',
                 'en' => 'Offer sent on this order before',
+            ],
+        'rate_send_to_user_successfully' =>
+            [
+                'ar' => 'تم ارسال التقييم للمستخدم بنجاح',
+                'en' => 'rate send to user successfully',
+            ],
+        'order_must_complete_first' =>
+            [
+                'ar' => 'يجب أن يكتمل الطلب أولاً',
+                'en' => 'order must complete first',
+            ],
+        'set_location_first' =>
+            [
+                'ar' => 'حدد موقعك أولاً',
+                'en' => 'Set your location first',
             ],
 
 
@@ -217,17 +232,6 @@ return
                 'en' => 'You have a new order',
             ],
         'new_ready_order_msg' =>
-            [
-                'ar' => 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك',
-                'en' => 'You have a new order near you, hurry up and submit your offer',
-            ],
-
-        'new_ready_offer_title' =>
-            [
-                'ar' => 'لديك طلب جديد',
-                'en' => 'You have a new order',
-            ],
-        'new_ready_offer_msg' =>
             [
                 'ar' => 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك',
                 'en' => 'You have a new order near you, hurry up and submit your offer',

@@ -55,6 +55,8 @@ Route::prefix('user')->group(function () {
             Route::get('/orders', [ReadyServiceOrderController::class, 'orders']);
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
+        Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);
+
     });
 
 });

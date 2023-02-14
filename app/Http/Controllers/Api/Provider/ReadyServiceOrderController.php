@@ -27,7 +27,7 @@ class ReadyServiceOrderController extends Controller
 
     public function pendingOrders()
     {
-        $data = OrderResource::collection(Order::where('status_id',Status::PENDING_STATUS)
+        $data = OrderResource::collection(Order::where('status_id', Status::PENDING_STATUS)
             ->whereNull('provider_id')
             ->orderBy('created_at', 'desc')
             ->get());
@@ -110,25 +110,24 @@ class ReadyServiceOrderController extends Controller
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
-
         }
         //first check if rated before or not
-//        $exists_order = Order::where('provider_id',Auth::guard('provider')->id())->where('id',$request->order_id)->first();
         $exists_rate = Rate::where('provider_id', Auth::guard('provider')->id())->where('order_id', $request->order_id)->first();
-
-        //check exists chat first ..
         if (!$exists_rate) {
-            //second start chat with user
+            $order = Order::where('id', $request->order_id)->first();
+            if ($order->status_id != Status::COMPLETED_STATUS) {
+                return callback_data(error(), 'order_must_complete_first');
+            }
+            $data['user_id'] = $order->user_id;
+            $data['provider_id'] = Auth::guard('provider')->id();
+            $data['type'] = 'from_provider';
             Rate::create($data);
+            //update order make provider rate = 1
+            $order->provider_rated = 1;
+            $order->save();
+            return callback_data(success(), 'rate_send_to_user_successfully');
         } else {
             return callback_data(error(), 'rate_send_before');
         }
-
-
-        return callback_data(success(), 'offer_send_to_user_successfully');
-
-
     }
-
-
 }
