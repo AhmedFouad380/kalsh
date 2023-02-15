@@ -17,9 +17,9 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
-        $offerSent = Offer::where('provider_id',Auth::guard('provider')->id())
+        $offer = Offer::where('provider_id',Auth::guard('provider')->id())
             ->where('order_id',$this->id)
-            ->exists();
+            ->first();
         return [
             'id' => (int) $this->id,
             'type' => (string) $this->type,
@@ -44,7 +44,8 @@ class OrderResource extends JsonResource
             'payment_status' => (string) $this->payment_status,
             'user_rated' => $this->user_rated,
             'provider_rated' => $this->provider_rated,
-            'offer_sent' => $offerSent,
+            'offer_sent' => $offer ? true : false,
+            'offer_description' => $offer ? $offer->description : "",
             'created_at' => (string) Carbon::make($this->created_at)->toDateString(),
         ];
     }

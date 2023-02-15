@@ -66,7 +66,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('delete-User', [UserController::class, 'destroy']);
     Route::post('store-User', [UserController::class, 'store']);
     Route::get('User-edit/{id}', [UserController::class, 'edit'])->name('users.edit');
-    Route::get('User-edit/show/{id}', [UserController::class, 'show'])->name('users.show');
+//    Route::get('User-edit/show/{id}', [UserController::class, 'show'])->name('users.show');
     Route::post('update-User', [UserController::class, 'update']);
     Route::get('/add-button-User', function () {
         return view('Admin/User/button');
