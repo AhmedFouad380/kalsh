@@ -189,8 +189,16 @@ class AuthController extends Controller
 
 
     public function updateProfile(Request $request){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email'=>'email'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
+        }
         $user = User::find(Auth::guard('user')->id());
         $user->name=$request->name;
+        $user->email=$request->email;
         $user->save();
 
         return callback_data(success(),'save_success', $user);
