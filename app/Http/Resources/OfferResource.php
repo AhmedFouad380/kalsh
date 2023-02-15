@@ -16,10 +16,11 @@ class OfferResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'order_id' => $this->order_id, //user order resource
-            'status_id' => $this->status_id, //user order resource
-            'order' => (new OrderResource($this->order)), //user order resource
-//            'description' => $this->description,
+            'order_id' => $this->order_id,
+            'status_id' => $this->status_id,
+            'order' => $this->order ? OrderResource::make($this->order) : null,
+            'provider' => $this->provider,
+            'description' => $this->description,
         ];
     }
 }

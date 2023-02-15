@@ -79,6 +79,10 @@ class ReadyServiceOrderController extends Controller
         }
 
         $offer = Offer::findOrFail($request->offer_id);
+        $order = Order::where('id',$offer->order_id)->where('user_id',Auth::guard('user')->id())->first();
+        if (!$order){
+            return callback_data(error(),'order_not_found');
+        }
 
         // accept offer
         $offer->status_id = Status::ACCEPTED_STATUS;
@@ -105,7 +109,7 @@ class ReadyServiceOrderController extends Controller
         ]);
 
         // reject other offers
-        Offer::whereNot('id',$offer->id)->where('order_id',$offer->order_id)
+        Offer::where('id','!=',$offer->id)->where('order_id',$offer->order_id)
             ->where('status_id',Status::PENDING_STATUS)
             ->update([
             'status_id' => Status::CANCELED_BY_USER_STATUS
