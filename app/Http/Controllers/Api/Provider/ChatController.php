@@ -37,6 +37,8 @@ class ChatController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'chat_id' => 'required|exists:chats,id',
+            'message'=>'required_without:voice',
+            'voice'=>'required_without:message'
         ], [
             'chat_id.required' => 'chat_id_required',
         ]);

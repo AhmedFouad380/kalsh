@@ -21,7 +21,7 @@ class AuthController extends Controller
     public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone'=>'required|regex:/(+966)[0-9]{8}/',
+            'phone'=>'required|regex:/(966)[0-9]{8}/',
         ],[
             "phone.required" => 'phone_required',
         ]);
