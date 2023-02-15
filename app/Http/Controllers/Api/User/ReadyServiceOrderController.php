@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Models\Notification;
+use App\Models\Offer;
 use App\Models\Order;
+use App\Models\Provider;
 use App\Models\Rate;
 use App\Models\Service;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ReadyServiceOrderController extends Controller
 {
@@ -61,6 +65,53 @@ class ReadyServiceOrderController extends Controller
     {
         $orders = OrderResource::collection(Order::where('user_id',Auth::guard('user')->id())->orderBy('id','desc')->get());
         return callback_data(success(),'my_orders',$orders);
+    }
+
+    public function acceptOffer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'offer_id' => ['required',Rule::exists('offers','id')->where(function($query){
+                $query->where('status_id',Status::PENDING_STATUS);
+            })]
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+
+        $offer = Offer::findOrFail($request->offer_id);
+
+        // accept offer
+        $offer->status_id = Status::ACCEPTED_STATUS;
+        $offer->save();
+
+        // send notification to provider
+        $provider = $offer->provider;
+
+        $title_ar = 'قبول عرض';
+        $title_en = 'Offer Accept';
+        $msg_ar = 'تم قبول عرضك المقدم علي طلب رقم '.'#'.$offer->order_id;
+        $msg_en = 'You offer has been accepted for order #'.$offer->order_id;
+        sendToProvider([$provider->device_token],${'title_'.$provider->lang},${'msg_'.$provider->lang},Notification::ACCEPT_OFFER_TYPE,$offer->order_id,@optional($offer->order)->type);
+
+        Notification::create([
+            'type' => Notification::ACCEPT_OFFER_TYPE,
+            'notifiable_type' => Provider::class,
+            'notifiable_id' => $provider->id,
+            'order_id' => $offer->order_id,
+            'title_ar' => $title_ar,
+            'title_en' => $title_en,
+            'description_ar' => $msg_ar,
+            'description_en' => $msg_en,
+        ]);
+
+        // reject other offers
+        Offer::whereNot('id',$offer->id)->where('order_id',$offer->order_id)
+            ->where('status_id',Status::PENDING_STATUS)
+            ->update([
+            'status_id' => Status::CANCELED_BY_USER_STATUS
+        ]);
+
+        return callback_data(success(),'offer_accepted_successfully');
     }
 
 

@@ -12,6 +12,7 @@ class Notification extends Model
 
     const NEW_ORDER_TYPE = 'new_order';
     const NEW_OFFER_TYPE = 'new_offer';
+    const ACCEPT_OFFER_TYPE = 'accept_offer';
     const ACCEPT_ORDER_TYPE = 'accept_order';
     const REJECT_ORDER_TYPE = 'reject_order';
 

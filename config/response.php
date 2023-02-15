@@ -199,6 +199,11 @@ return
                 'ar' => 'تم رفض الطلب بنجاح',
                 'en' => 'Order rejected successfully',
             ],
+        'offer_accepted_successfully' =>
+            [
+                'ar' => 'تم قبول العرض بنجاح',
+                'en' => 'Offer accepted successfully',
+            ],
 
 
 

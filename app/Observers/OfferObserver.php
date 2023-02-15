@@ -20,7 +20,7 @@ class OfferObserver
         $order = $offer->order;
         $user = User::where('id',$order->user_id)->first();
 
-        $title_ar = 'لديك عرض جديد';
+        $title_ar = 'عرض جديد';
         $title_en = 'New Offer';
         $msg_ar = 'قام '.$offer->provider->name.' بتقديم عرض جديد علي طلبك.';
         $msg_en = $offer->provider->name.' Send you a new offer for your order.';
