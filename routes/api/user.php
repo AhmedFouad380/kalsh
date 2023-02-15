@@ -16,6 +16,7 @@ use \App\Http\Controllers\Api\User\StoresController;
 use \App\Http\Controllers\Api\User\NewsController;
 use \App\Http\Controllers\Api\User\ImportantNumbersController;
 use \App\Http\Controllers\Api\User\ChatController;
+use \App\Http\Controllers\Api\PageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -50,17 +51,18 @@ Route::prefix('user')->group(function () {
             Route::get('/profile', [AuthController::class, 'profile']);
             Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         });
-            Route::prefix('chat')->group(function () {
+        Route::prefix('chat')->group(function () {
             Route::get('/', [ChatController::class, 'getChat']);
             Route::post('/send', [ChatController::class, 'sendMessage']);
         });
-            Route::prefix('ready-services')->group(function () {
+        Route::prefix('ready-services')->group(function () {
             Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
             Route::get('/orders', [ReadyServiceOrderController::class, 'orders']);
             Route::post('/accept-offer', [ReadyServiceOrderController::class, 'acceptOffer']);
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);
+        Route::get('page',[PageController::class,'Page']);
 
     });
 
