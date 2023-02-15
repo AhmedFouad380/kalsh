@@ -37,8 +37,8 @@ class ReadyServiceOrderController extends Controller
     public function sendOffer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => ['required',Rule::exists('orders','id')->where(function($query){
-                $query->where('status_id',Status::PENDING_STATUS);
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::PENDING_STATUS);
             })],
             'description' => 'required|string|max:1000',
         ]);
@@ -47,9 +47,9 @@ class ReadyServiceOrderController extends Controller
         }
         // check if offer sent before
         $offerExists = Offer::where('order_id', $request->order_id)
-            ->where('provider_id',Auth::guard('provider')->id())
+            ->where('provider_id', Auth::guard('provider')->id())
             ->first();
-        if ($offerExists){
+        if ($offerExists) {
             return callback_data(error(), 'offer_sent_before');
         }
 
@@ -78,7 +78,7 @@ class ReadyServiceOrderController extends Controller
         ]);
 
         // create messages if not exists
-        if (!$chat->messages()->exists()){
+        if (!$chat->messages()->exists()) {
             // 1- order description
             Message::create([
                 'chat_id' => $chat->id,
@@ -97,6 +97,32 @@ class ReadyServiceOrderController extends Controller
             ]);
         }
         return callback_data(success(), 'offer_sent_successfully');
+    }
+
+    public function cancelOffer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::PENDING_STATUS);
+            })],
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        // check if offer sent before
+        $offerExists = Offer::where('order_id', $request->order_id)
+            ->where('provider_id', Auth::guard('provider')->id())
+            ->first();
+        if ($offerExists) {
+            return callback_data(error(), 'offer_sent_before');
+        }
+        //send reject offer
+        $offer = Offer::create([
+            'order_id' => $request->order_id,
+            'provider_id' => Auth::guard('provider')->id(),
+            'status_id' => Status::CANCELED_BY_PROVIDER_STATUS,
+        ])->refresh();
+        return callback_data(success(), 'order_rejected_successfully');
     }
 
 

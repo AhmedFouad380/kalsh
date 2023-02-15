@@ -36,6 +36,7 @@ Route::prefix('provider')->group(function () {
         Route::get('/pending-orders', [ReadyServiceOrderController::class, 'pendingOrders']);
         Route::prefix('offers')->group(function () {
             Route::post('/send', [ReadyServiceOrderController::class, 'sendOffer']);
+            Route::post('/cancel', [ReadyServiceOrderController::class, 'cancelOffer']);
         });
         Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateUser']);
 

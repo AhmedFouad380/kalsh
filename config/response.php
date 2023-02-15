@@ -194,6 +194,11 @@ return
                 'ar' => 'حدد موقعك أولاً',
                 'en' => 'Set your location first',
             ],
+        'order_rejected_successfully' =>
+            [
+                'ar' => 'تم رفض الطلب بنجاح',
+                'en' => 'Order rejected successfully',
+            ],
 
 
 
