@@ -20,4 +20,22 @@ class Message extends Model
               return  Provider::find($this->sender_id)->name;
           }
       }
+
+    public function getVoiceAttribute($image)
+    {
+        if (!empty($image)) {
+            return asset('uploads/chat') . '/' . $image;
+        }
+        return asset('defaults/default_blank.png');
+    }
+
+    public function setVoiceAttribute($image)
+    {
+        if (is_file($image)) {
+            $imageFields = upload($image, 'chat');
+            $this->attributes['voice'] = $imageFields;
+        }else {
+            $this->attributes['voice'] = $image;
+        }
+    }
 }
