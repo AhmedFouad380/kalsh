@@ -72,7 +72,9 @@ class HomeController extends Controller
             'city_id'=>'required|exists:cities,id',
             'service_id'=>'required|exists:services,id',
             'ready_service_id.*'=>'exists:ready_services,id',
-
+            'driving_license_image'=>'required_if:service_id,2|required_if:service_id,1',
+            'undermining_image'=>'required_if:service_id,2|required_if:service_id,1',
+            'insurance_image'=>'required_if:service_id,1'
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return response()->json(['status' => error(),'msg' => $validator->errors()->first()]);
