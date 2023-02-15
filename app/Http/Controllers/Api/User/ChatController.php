@@ -17,16 +17,17 @@ class ChatController extends Controller
 {
     public function getChat(Request $request){
         $validator = Validator::make($request->all(), [
-            'offer_id' => 'required|exists:offers,id',
-        ], [
-            'offer_id.required' => 'offer_id_required',
+            'order_id' => 'required|exists:orders,id',
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(),$validator->errors()->first());
         }
-        $chat  = Chat::where('offer_id',$request->offer_id)->where('user_id',Auth::guard('user')->id())->first();
-        $stores = MessageResource::collection(Message::where('chat_id',$chat->id)->orderBy('id','desc')->paginate(20));
-        return callback_data(success(),'success_response',$stores);
+        $chat  = Chat::where('order_id',$request->order_id)->where('user_id',Auth::guard('user')->id())->select('id','order_id','offer_id')->firstOrFail();
+
+        $messages = MessageResource::collection(Message::where('chat_id',$chat->id)->orderBy('id','desc')->paginate(20));
+        $data['chat']=$chat;
+        $data['message']=$messages;
+        return callback_data(success(),'success_response',$data);
 
     }
     public function sendMessage(Request $request){

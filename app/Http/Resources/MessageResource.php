@@ -19,7 +19,9 @@ class MessageResource extends JsonResource
             'message' => $this->message,
             'sender_id' => $this->sender_id,
             'sender_name'=>$this->sender_name,
+            'sender_type'=>$this->sender_type,
             'voice'=>$this->voice,
+            'is_read'=>$this->is_read,
             'created_at'=>\Carbon\Carbon::parse($this->created_at)->format('Y-m-d H:i'),
         ];
     }

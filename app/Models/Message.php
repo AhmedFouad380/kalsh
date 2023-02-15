@@ -26,7 +26,7 @@ class Message extends Model
         if (!empty($image)) {
             return asset('uploads/chat') . '/' . $image;
         }
-        return asset('defaults/default_blank.png');
+        return null;
     }
 
     public function setVoiceAttribute($image)

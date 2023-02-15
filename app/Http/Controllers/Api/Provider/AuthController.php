@@ -110,6 +110,7 @@ class AuthController extends Controller
     public function updateProfile(Request $request){
         $user = Provider::find(Auth::guard('provider')->id());
         $user->name=$request->name;
+        $user->email=$request->email;
         $user->save();
 
         return callback_data(success(),'save_success', $user);
