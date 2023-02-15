@@ -3,6 +3,7 @@
 return [
 
 
+    'link' => 'الرابط',
     'provider_offers' => 'عروض مقدمي الخدمة',
 
     'delivery_service' => 'خدمات التوصيل',

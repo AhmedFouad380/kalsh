@@ -36,19 +36,24 @@ class Order extends Model
 
     public function userRating()
     {
-        return $this->hasOne(Rate::class, 'order_id')->where('type','from_user');
+        return $this->hasOne(Rate::class, 'order_id')->where('type', 'from_user');
     }
 
     public function providerRating()
     {
-        return $this->hasOne(Rate::class, 'order_id')->where('type','from_provider');
+        return $this->hasOne(Rate::class, 'order_id')->where('type', 'from_provider');
+    }
+
+    public function offers()
+    {
+        return $this->hasMany(Offer::class, 'order_id');
     }
 
     public function rejectedOrder()
     {
         return $this->hasOne(Offer::class, 'order_id')
-            ->where('status_id',Status::CANCELED_BY_PROVIDER_STATUS)
-            ->where('provider_id',Auth::guard('provider')->id());
+            ->where('status_id', Status::CANCELED_BY_PROVIDER_STATUS)
+            ->where('provider_id', Auth::guard('provider')->id());
     }
 
     public function readyService()
@@ -77,7 +82,8 @@ class Order extends Model
         }
     }
 
-    public static function statusList(){
+    public static function statusList()
+    {
         return [
             Status::PENDING_STATUS => trans(''),
             Status::ACCEPTED_STATUS => trans(''),

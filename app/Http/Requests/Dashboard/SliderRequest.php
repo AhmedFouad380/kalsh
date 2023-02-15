@@ -27,6 +27,7 @@ class SliderRequest extends FormRequest
         return [
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
+            'link' => 'required|url|max:255',
             'image' => 'nullable|image|mimes:png,jpg,jpeg,svg',
         ];
     }
