@@ -198,6 +198,32 @@ return
             'ar' => 'رقم العرض  مطلوب',
             'en' => 'Offer id required',
         ],
+        'order_rejected_successfully' =>
+            [
+                'ar' => 'تم رفض الطلب بنجاح',
+                'en' => 'Order rejected successfully',
+            ],
+        'offer_accepted_successfully' =>
+            [
+                'ar' => 'تم قبول العرض بنجاح',
+                'en' => 'Offer accepted successfully',
+            ],
+        'order_accepted_successfully' =>
+            [
+                'ar' => 'تم قبول الطلب بنجاح',
+                'en' => 'Order accepted successfully',
+            ],
+        'order_not_found' =>
+            [
+                'ar' => 'الطلب غير موجود',
+                'en' => 'Order not found',
+            ],
+        'offer_not_found' =>
+            [
+                'ar' => 'العرض غير موجود او لم يتم قبوله بعد',
+                'en' => 'Offer not found or not accepted yet',
+            ],
+
 
 
 

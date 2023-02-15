@@ -70,6 +70,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Order::class, 'user_id');
     }
 
+    public function ordersCompleated()
+    {
+        return $this->hasMany(Order::class, 'user_id')->where('status_id',Status::COMPLETED_STATUS);
+    }
+
+    public function ordersNotCompleated()
+    {
+        return $this->hasMany(Order::class, 'user_id')->where('status_id','!=',Status::COMPLETED_STATUS);
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

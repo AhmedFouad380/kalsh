@@ -17,27 +17,27 @@ class CitiesTableSeeder extends Seeder
         City::create([
             'name_ar' => 'الرياض',
             'name_en' => 'Riyadh',
-            'image' => 'active',
+            'status' => 'active',
         ]);
         City::create([
             'name_ar' => 'المدينة المنورة',
             'name_en' => 'Medina',
-            'image' => 'active',
+            'status' => 'active',
         ]);
         City::create([
             'name_ar' => 'مكة',
             'name_en' => 'Mecca',
-            'image' => 'active',
+            'status' => 'active',
         ]);
         City::create([
             'name_ar' => 'القصيم',
             'name_en' => 'Al-Qassim',
-            'image' => 'active',
+            'status' => 'active',
         ]);
         City::create([
             'name_ar' => 'تبوك',
             'name_en' => 'Tabuk',
-            'image' => 'active',
+            'status' => 'active',
         ]);
     }
 }

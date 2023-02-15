@@ -1,5 +1,4 @@
-@extends('admin.layouts.master-without-nav')
-
+@extends('layout.auth')
 @section('css')
 @endsection
 

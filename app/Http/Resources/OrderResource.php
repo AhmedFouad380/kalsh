@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Offer;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class OrderResource extends JsonResource
 {
@@ -15,6 +17,9 @@ class OrderResource extends JsonResource
      */
     public function toArray($request)
     {
+        $offerSent = Offer::where('provider_id',Auth::guard('provider')->id())
+            ->where('order_id',$this->id)
+            ->exists();
         return [
             'id' => $this->id,
             'type' => $this->type,
@@ -39,6 +44,7 @@ class OrderResource extends JsonResource
             'payment_status' => $this->payment_status,
             'user_rated' => $this->user_rated,
             'provider_rated' => $this->provider_rated,
+            'offer_sent' => $offerSent,
             'created_at' => Carbon::make($this->created_at)->toDateString(),
         ];
     }

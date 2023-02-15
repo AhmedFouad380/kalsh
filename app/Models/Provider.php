@@ -61,6 +61,21 @@ class Provider extends Authenticatable implements JWTSubject
         return $this->hasMany(Order::class, 'provider_id');
     }
 
+    public function ordersCompleated()
+    {
+        return $this->hasMany(Order::class, 'provider_id')->where('status_id',Status::COMPLETED_STATUS);
+    }
+
+    public function ordersNotCompleated()
+    {
+        return $this->hasMany(Order::class, 'provider_id')->where('status_id','!=',Status::COMPLETED_STATUS);
+    }
+
+    public function userRates()
+    {
+        return $this->hasMany(Rate::class, 'provider_id')->where('type','from_user');
+    }
+
     public function offers()
     {
         return $this->hasMany(Offer::class, 'provider_id');

@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ImportantNumbersTableSeeder::class);
         $this->call(ScreenSeeder::class);
         $this->call(StatusesTableSeeder::class);
+        $this->call(CitiesTableSeeder::class);
     }
 }

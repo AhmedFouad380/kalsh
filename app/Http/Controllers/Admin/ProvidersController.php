@@ -8,7 +8,9 @@ use App\Http\Requests\Dashboard\ProviderRequest;
 use App\Http\Requests\Dashboard\ServiceRequest;
 use App\Models\Admin;
 use App\Models\News;
+use App\Models\Order;
 use App\Models\Provider;
+use App\Models\Rate;
 use App\Models\Service;
 use App\Models\User;
 use Carbon\Carbon;
@@ -49,8 +51,13 @@ class ProvidersController extends Controller
                 return $name;
             })
             ->addColumn('is_active', $this->viewPath . 'parts.active_btn')
+//            ->addColumn('actions', function ($row) {
+//                $actions = ' <a href="' . url($this->route . "/edit/" . $row->id) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
+//                return $actions;
+//
+//            })
             ->addColumn('actions', function ($row) {
-                $actions = ' <a href="' . url($this->route . "/edit/" . $row->id) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
+                $actions = ' <a href="' . url($this->route . "/show/" . $row->id) . '" class="btn btn-active-light-info">' . trans('lang.view') . ' <i class="bi bi-eye-fill"></i>  </a>';
                 return $actions;
 
             })
@@ -98,7 +105,88 @@ class ProvidersController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = $this->objectName::findOrFail($id);
+        return view($this->viewPath . '.show.show', compact('data'));
+    }
+
+    public function orders($id)
+    {
+        $data = $this->objectName::findOrFail($id);
+        return view($this->viewPath . '.show.show', compact('data'));
+    }
+
+    public function ordersDatatable(Request $request, $id)
+    {
+        $data = Order::where('provider_id', $id)->orderBy('created_at', 'desc');
+
+        return DataTables::of($data)
+            ->addColumn('checkbox', function ($row) {
+                $checkbox = '';
+                $checkbox .= '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                                    <input class="form-check-input selector" type="checkbox" value="' . $row->id . '" />
+                                </div>';
+                return $checkbox;
+            })
+            ->addColumn('actions', function ($row) {
+                $actions = ' <a href="' . route("ready_orders.show", ['id' => $row->id]) . '" class="btn btn-active-light-info">' . trans('lang.view') . ' <i class="bi bi-eye"></i>  </a>';
+                return $actions;
+            })
+            ->addColumn('readyService', function ($row) {
+                return $row->readyService ? $row->readyService->name : '';
+            })
+            ->addColumn('customer_name', function ($row) {
+                return $row->user ? $row->user->name : '';
+            })
+            ->addColumn('provider_name', function ($row) {
+                return $row->provider ? $row->provider->name : '';
+            })
+            ->addColumn('service', function ($row) {
+                return $row->service ? $row->service->name : '';
+            })
+            ->editColumn('created_at', function ($row) {
+                return $row->created_at ? $row->created_at->format('Y-m-d g:i a') : '';
+            })
+            ->addColumn('payment_status', function ($row) {
+                $text = $row->payment_status ? trans('lang.' . $row->payment_status) : '';
+                return ' <span class="text-gray-800 text-hover-primary mb-1">' . $text . '</span>';
+            })
+            ->addColumn('status', function ($row) {
+                $text = $row->status ? trans('lang.' . $row->status->name) : '';
+                return ' <span class="text-gray-800 text-hover-primary mb-1">' . $text . '</span>';
+            })
+            ->rawColumns(['actions', 'checkbox', 'service', 'readyService', 'customer_name', 'provider_name', 'status', 'payment_status'])
+            ->make();
+
+    }
+
+
+    public function ratesDatatable(Request $request, $id)
+    {
+        $data = Rate::where('provider_id', $id)->where('type', 'from_user')->orderBy('created_at', 'desc');
+        return DataTables::of($data)
+            ->addColumn('customer_name', function ($row) {
+                return $row->user ? ($row->user->name ? $row->user->phone : '') : '';
+            })
+            ->editColumn('created_at', function ($row) {
+                $content = $row->created_at ? $row->created_at->format('Y-m-d g:i a') : '';
+                return '<div class="badge badge-light-success">' . $content . '</div>';
+            })
+            ->addColumn('rate', $this->viewPath . 'parts.rate_stars')
+            ->rawColumns(['customer_name', 'created_at', 'rate'])
+            ->make();
+    }
+
+
+    public function rates($id)
+    {
+        $data = $this->objectName::findOrFail($id);
+        return view($this->viewPath . '.show.show', compact('data'));
+    }
+
+    public function offers($id)
+    {
+        $data = $this->objectName::findOrFail($id);
+        return view($this->viewPath . '.show.show', compact('data'));
     }
 
     /**

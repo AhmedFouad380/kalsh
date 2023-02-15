@@ -20,6 +20,8 @@ class NotificationResource extends JsonResource
             'notifiable_type' => $this->notifiable_type,
             'notifiable_id' => $this->notifiable_id,
             'order_id' => $this->order_id,
+            'offer_id' => $this->offer_id,
+            'offer' => $this->offer ? OfferResource::make($this->offer) : null,
             'title' => $this->title,
             'description' => $this->description
         ];

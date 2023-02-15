@@ -9,6 +9,7 @@ use App\Http\Resources\ServiceResource;
 use App\Http\Resources\SliderResource;
 use App\Models\Chat;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Provider;
@@ -37,8 +38,8 @@ class ReadyServiceOrderController extends Controller
     public function sendOffer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => ['required',Rule::exists('orders','id')->where(function($query){
-                $query->where('status_id',Status::PENDING_STATUS);
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::PENDING_STATUS);
             })],
             'description' => 'required|string|max:1000',
         ]);
@@ -47,9 +48,9 @@ class ReadyServiceOrderController extends Controller
         }
         // check if offer sent before
         $offerExists = Offer::where('order_id', $request->order_id)
-            ->where('provider_id',Auth::guard('provider')->id())
+            ->where('provider_id', Auth::guard('provider')->id())
             ->first();
-        if ($offerExists){
+        if ($offerExists) {
             return callback_data(error(), 'offer_sent_before');
         }
 
@@ -78,7 +79,7 @@ class ReadyServiceOrderController extends Controller
         ]);
 
         // create messages if not exists
-        if (!$chat->messages()->exists()){
+        if (!$chat->messages()->exists()) {
             // 1- order description
             Message::create([
                 'chat_id' => $chat->id,
@@ -97,6 +98,83 @@ class ReadyServiceOrderController extends Controller
             ]);
         }
         return callback_data(success(), 'offer_sent_successfully');
+    }
+
+    public function acceptOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => ['required',Rule::exists('orders','id')->where(function($query){
+                $query->where('status_id',Status::PENDING_STATUS);
+            })]
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+
+        $provider = Auth::guard('provider')->user();
+        $order = Order::findOrFail($request->order_id);
+        // get accepted offer
+        $offer = Offer::where('order_id',$order->id)
+            ->where('provider_id',$provider->id)
+            ->where('status_id',Status::ACCEPTED_STATUS)
+            ->first();
+
+        if (!$offer){
+            return callback_data(error(),'offer_not_found');
+        }
+
+        // accept offer
+        $order->status_id = Status::ACCEPTED_STATUS;
+        $order->provider_id = $provider->id;
+        $order->save();
+
+        // send notification to provider
+        $user = $order->user;
+
+        $title_ar = 'قبول الطلب';
+        $title_en = 'Order Accept';
+        $msg_ar = "تم قبول طلبك رقم #{$order->id}"."بواسطة مقدم الخدمة {$provider->name}";
+        $msg_en = "You order #{$order->id} has been accepted by provider {$provider->name}";
+        sendToProvider([$user->device_token],${'title_'.$user->lang},${'msg_'.$user->lang},Notification::ACCEPT_ORDER_TYPE,$order->id,$order->type);
+
+        Notification::create([
+            'type' => Notification::ACCEPT_ORDER_TYPE,
+            'notifiable_type' => User::class,
+            'notifiable_id' => $user->id,
+            'order_id' => $order->id,
+            'title_ar' => $title_ar,
+            'title_en' => $title_en,
+            'description_ar' => $msg_ar,
+            'description_en' => $msg_en,
+        ]);
+
+        return callback_data(success(),'order_accepted_successfully');
+    }
+
+    public function rejectOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::PENDING_STATUS);
+            })],
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        // check if offer sent before
+        $offerExists = Offer::where('order_id', $request->order_id)
+            ->where('provider_id', Auth::guard('provider')->id())
+            ->first();
+        if ($offerExists) {
+            return callback_data(error(), 'offer_sent_before');
+        }
+        //send reject offer
+        $offer = Offer::create([
+            'order_id' => $request->order_id,
+            'provider_id' => Auth::guard('provider')->id(),
+            'status_id' => Status::CANCELED_BY_PROVIDER_STATUS,
+        ])->refresh();
+        return callback_data(success(), 'order_rejected_successfully');
     }
 
 
