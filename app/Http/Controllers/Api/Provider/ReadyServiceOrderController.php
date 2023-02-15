@@ -13,6 +13,7 @@ use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Provider;
+use App\Models\ProviderService;
 use App\Models\Rate;
 use App\Models\Service;
 use App\Models\Slider;
@@ -30,11 +31,8 @@ class ReadyServiceOrderController extends Controller
     {
         //should get orders by service_id and ready_service_id
         $provider = Auth::guard('provider')->user();
-        $services = $provider->services;
-        $service_ids = null;
-        if (count($services) > 0) {
-            $service_ids = $services->pluck('id')->toArray();
-        }
+
+        $service_ids = ProviderService::where('provider_id',$provider->id)->pluck('service_id')->toArray();
 
         $data = OrderResource::collection(Order::whereNull('provider_id')
             ->whereIn('service_id', $service_ids)
