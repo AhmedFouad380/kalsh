@@ -194,7 +194,10 @@ return
                 'ar' => 'حدد موقعك أولاً',
                 'en' => 'Set your location first',
             ],
-
+        'offer_id_required'=> [
+            'ar' => 'رقم العرض  مطلوب',
+            'en' => 'Offer id required',
+        ],
 
 
 

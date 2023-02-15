@@ -61,8 +61,9 @@ class AuthController extends Controller
                     $message->to($user->email);
                     $message->subject('email verification');
                 });
+                return callback_data(code_sent(),'otp_sent_mail',$otp);
+
             }
-            return callback_data(code_sent(),'otp_sent_mail');
         }
     }
 

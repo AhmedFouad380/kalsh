@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Provider\ReadyServiceOrderController;
 use App\Http\Controllers\Api\Provider\AuthController;
 use App\Http\Controllers\Api\Provider\HomeController;
-
+use App\Http\Controllers\Api\Provider\ChatController;
 
 Route::prefix('provider')->group(function () {
 
@@ -28,8 +28,13 @@ Route::prefix('provider')->group(function () {
             Route::get('/profile', [AuthController::class, 'profile']);
             Route::post('/update-profile', [AuthController::class, 'updateProfile']);
         });
-
+        Route::prefix('chat')->group(function () {
+            Route::get('/', [ChatController::class, 'getChat']);
+            Route::post('/send', [ChatController::class, 'sendMessage']);
+        });
         Route::get('/services', [HomeController::class, 'services']);
+        Route::get('/cities', [HomeController::class, 'cities']);
+
         Route::get('/ready-service', [HomeController::class, 'readyService']);
         Route::post('/store-form', [HomeController::class, 'StoreForm']);
 

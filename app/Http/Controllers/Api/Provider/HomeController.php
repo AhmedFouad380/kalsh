@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CitiesResource;
 use App\Http\Resources\ReadyServiceResource;
 use App\Http\Resources\ServiceResource;
+use App\Models\City;
 use App\Models\Provider;
 use App\Models\ProviderForm;
 use App\Models\ProviderReadyService;
@@ -53,19 +55,23 @@ class HomeController extends Controller
             $data = ServiceResource::collection(Service::where('is_provider','!=',0)->active()->orderBy('sort')->get());
             return callback_data(success(),'success_response',$data);
     }
+    public function cities()
+    {
+        $readyServices = CitiesResource::collection(City::where('status','active')->get());
+        return callback_data(success(),'success_response',$readyServices);
+    }
     public function readyService()
     {
         $readyServices = ReadyServiceResource::collection(ReadyService::active()->orderBy('sort')->get());
         return callback_data(success(),'readyServices',$readyServices);
     }
-
     public function StoreForm(Request $request){
         $validator = Validator::make($request->all(), [
             'name'=>'required',
             'email'=>'required',
-            'city_id'=>'required|exists:cities',
-            'service_id'=>'required|exists:services',
-            'ready_service_id.*'=>'exists:ready_services',
+            'city_id'=>'required|exists:cities,id',
+            'service_id'=>'required|exists:services,id',
+            'ready_service_id.*'=>'exists:ready_services,id',
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return response()->json(['status' => error(),'msg' => $validator->errors()->first()]);
@@ -81,7 +87,7 @@ class HomeController extends Controller
         if(isset($request->ready_service_id) && is_array($request->ready_service_id)){
             foreach ($request->ready_service_id as $ready){
                 $ready_serivce = new ProviderReadyService;
-                $ready_serivce->service_id=$ready;
+                $ready_serivce->ready_service_id=$ready;
                 $ready_serivce->provider_id=Auth::guard('provider')->id();
                 $ready_serivce->save();
             }

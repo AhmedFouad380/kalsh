@@ -20,6 +20,10 @@ class Offer extends Model
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
+    public function chat()
+    {
+        return $this->HasOne(Chat::class, 'offer_id');
+    }
 
     public function status()
     {
