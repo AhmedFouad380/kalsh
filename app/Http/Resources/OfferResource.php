@@ -15,12 +15,12 @@ class OfferResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'order_id' => $this->order_id,
-            'status_id' => $this->status_id,
+            'id' => (int) $this->id,
+            'order_id' => (int) $this->order_id,
+            'status_id' => (int) $this->status_id,
             'order' => $this->order ? OrderResource::make($this->order) : null,
             'provider' => $this->provider ? ProviderResource::make($this->provider) : null,
-            'description' => $this->description,
+            'description' => (string) $this->description,
         ];
     }
 }

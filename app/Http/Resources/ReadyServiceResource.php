@@ -15,9 +15,9 @@ class ReadyServiceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'image' => $this->image,
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'image' => (string) $this->image,
             'is_checked' => $this->is_checked,
         ];
     }

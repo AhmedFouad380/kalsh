@@ -15,10 +15,10 @@ class NewsResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'image' => $this->image,
-            'url' => $this->url
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'image' => (string) $this->image,
+            'url' => (string) $this->url
         ];
     }
 }

@@ -15,15 +15,15 @@ class NotificationResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'type' => $this->type,
-            'notifiable_type' => $this->notifiable_type,
-            'notifiable_id' => $this->notifiable_id,
-            'order_id' => $this->order_id,
-            'offer_id' => $this->offer_id,
+            'id' => (int) $this->id,
+            'type' => (string) $this->type,
+            'notifiable_type' => (string) $this->notifiable_type,
+            'notifiable_id' => (int) $this->notifiable_id,
+            'order_id' => (int) $this->order_id,
+            'offer_id' => (int) $this->offer_id,
             'offer' => $this->offer ? OfferResource::make($this->offer) : null,
-            'title' => $this->title,
-            'description' => $this->description
+            'title' => (string) $this->title,
+            'description' => (string) $this->description
         ];
     }
 }

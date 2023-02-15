@@ -15,9 +15,9 @@ class ImportantNumberResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'number' => $this->number
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'number' => (string) $this->number
         ];
     }
 }

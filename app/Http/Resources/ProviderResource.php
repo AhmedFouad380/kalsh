@@ -15,12 +15,12 @@ class ProviderResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'phone' => $this->phone,
-            'email' => $this->email,
-            'image' => $this->image,
-            'rate' => $this->rate,
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'phone' => (string) $this->phone,
+            'email' => (string) $this->email,
+            'image' => (string) $this->image,
+            'rate' => (string) $this->rate,
             'online' => $this->online
         ];
     }

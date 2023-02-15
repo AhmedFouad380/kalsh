@@ -15,10 +15,10 @@ class ServiceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'image' => $this->image,
-            'price' => $this->price,
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'image' => (string) $this->image,
+            'price' => (string) $this->price,
         ];
     }
 }
