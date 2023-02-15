@@ -40,7 +40,7 @@ class SlidersController extends Controller
                 $name .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row->name . '</span>';
                 return $name;
             })
-            ->addColumn('is_active', $this->viewPath.'parts.active_btn')
+            ->addColumn('is_active', $this->viewPath . 'parts.active_btn')
             ->addColumn('actions', function ($row) {
                 $actions = ' <a href="' . url($this->route . "/edit/" . $row->id) . '" class="btn btn-active-light-info">' . trans('lang.edit') . '<i class="bi bi-pencil-fill"></i>  </a>';
                 return $actions;
@@ -49,7 +49,7 @@ class SlidersController extends Controller
                 $text = $row->type ? trans('lang.page_' . $row->type) : '';
                 return ' <span class="text-gray-800 text-hover-primary mb-1">' . $text . '</span>';
             })
-            ->rawColumns(['actions', 'checkbox', 'name', 'is_active', 'branch','type_trans'])
+            ->rawColumns(['actions', 'checkbox', 'name', 'is_active', 'branch', 'type_trans'])
             ->make();
 
     }
@@ -76,12 +76,12 @@ class SlidersController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(SliderRequest $request)
-    {
-        $data = $request->validated();
-        $this->objectName::create($data);
-        return redirect(route($this->route . '.index'))->with('message', trans('lang.added_s'));
-    }
+//    public function store(SliderRequest $request)
+//    {
+//        $data = $request->validated();
+//        $this->objectName::create($data);
+//        return redirect(route($this->route . '.index'))->with('message', trans('lang.added_s'));
+//    }
 
 
     /**
@@ -117,12 +117,12 @@ class SlidersController extends Controller
     public function update(SliderRequest $request)
     {
         $data = $request->validated();
-        if ($data['image'] == null) {
-            unset($data['image']);
-        }else{
+        if (isset($data['image'])) {
             $img_name = 'slider_' . time() . random_int(0000, 9999) . '.' . $data['image']->getClientOriginalExtension();
             $data['image']->move(public_path('/uploads/sliders/'), $img_name);
             $data['image'] = $img_name;
+        } else {
+            unset($data['image']);
         }
         $this->objectName::whereId($request->id)->update($data);
         return redirect(route($this->route . '.index'))->with('message', trans('lang.updated_s'));
