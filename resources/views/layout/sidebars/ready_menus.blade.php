@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a class="menu-link" href="{{route('ready_services.index')}}">
+                <a class="menu-link @if(request()->routeIs('ready_services.index')) active @endif " href="{{route('ready_services.index')}}">
 															<span class="menu-icon">
 																<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
 																<span class="svg-icon svg-icon-2">
@@ -34,7 +34,7 @@
                 </a>
             </div>
             <div class="menu-item">
-                <a class="menu-link" href="{{route('ready_orders.index')}}">
+                <a class="menu-link @if(request()->routeIs('ready_orders.index')) active @endif " href="{{route('ready_orders.index')}}">
                     <span class="menu-icon">
                         <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                         <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Shopping\Cart1.svg--><svg

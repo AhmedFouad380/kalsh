@@ -44,9 +44,12 @@ class SlidersController extends Controller
             ->addColumn('actions', function ($row) {
                 $actions = ' <a href="' . url($this->route . "/edit/" . $row->id) . '" class="btn btn-active-light-info">' . trans('lang.edit') . '<i class="bi bi-pencil-fill"></i>  </a>';
                 return $actions;
-
             })
-            ->rawColumns(['actions', 'checkbox', 'name', 'is_active', 'branch'])
+            ->addColumn('type_trans', function ($row) {
+                $text = $row->type ? trans('lang.page_' . $row->type) : '';
+                return ' <span class="text-gray-800 text-hover-primary mb-1">' . $text . '</span>';
+            })
+            ->rawColumns(['actions', 'checkbox', 'name', 'is_active', 'branch','type_trans'])
             ->make();
 
     }

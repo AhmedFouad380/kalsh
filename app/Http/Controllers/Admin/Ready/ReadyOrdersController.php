@@ -51,7 +51,7 @@ class ReadyOrdersController extends Controller
                 return $row->readyService ? $row->readyService->name : '';
             })
             ->addColumn('customer_name', function ($row) {
-                return $row->user ? $row->user->name : '';
+                return $row->user ? ($row->user->name? $row->user->phone : '') : '';
             })
             ->addColumn('provider_name', function ($row) {
                 return $row->provider ? $row->provider->name : '';

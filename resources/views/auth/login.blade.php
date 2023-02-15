@@ -19,7 +19,7 @@
                     @csrf
                     <div class="text-center mb-10">
                         <!--begin::Title-->
-                        <h1 class="text-dark mb-3">Sign In </h1>
+                        <h1 class="text-dark mb-3">{{trans('lang.login')}}</h1>
                         <!--end::Title-->
                         <!--begin::Link-->
                         <!--end::Link-->
@@ -30,7 +30,7 @@
                     <!--begin::Input group-->
                     <div class="fv-row mb-10">
                         <!--begin::Label-->
-                        <label class="form-label fs-6 fw-bolder text-dark">Email</label>
+                        <label class="form-label fs-6 fw-bolder text-dark">{{trans('lang.email')}}</label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input class="form-control form-control-lg form-control-solid" type="text" name="email" autocomplete="off" />
@@ -42,10 +42,10 @@
                         <!--begin::Wrapper-->
                         <div class="d-flex flex-stack mb-2">
                             <!--begin::Label-->
-                            <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
+                            <label class="form-label fw-bolder text-dark fs-6 mb-0">{{trans('lang.password')}}</label>
                             <!--end::Label-->
                             <!--begin::Link-->
-                            <a href="{{url('forget-password')}}" class="link-primary fs-6 fw-bolder">Forgot Password ?</a>
+                            <a href="{{url('forget-password')}}" class="link-primary fs-6 fw-bolder">{{trans('lang.forget_password')}} ?</a>
                             <!--end::Link-->
                         </div>
                         <!--end::Wrapper-->
@@ -58,8 +58,8 @@
                     <div class="text-center">
                         <!--begin::Submit button-->
                         <button type="submit"  class="btn btn-lg btn-primary w-100 mb-5">
-                            <span class="indicator-label">Login</span>
-                            <span class="indicator-progress">Please wait...
+                            <span class="indicator-label">{{trans('lang.login')}}</span>
+                            <span class="indicator-progress">{{trans('lang.please_wait')}}...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                         </button>
                         <!--end::Submit button-->

@@ -11,11 +11,11 @@
     <!--begin::Breadcrumb-->
     <ul class="breadcrumb fw-bold fs-base my-1">
         <li class="breadcrumb-item">
-            {{trans('lang.'.$route)}}
-        </li>
-        <li class="breadcrumb-item">
             <a href="{{url('/')}}" class="text-muted">
                 {{trans('lang.Dashboard')}} </a>
+        </li>
+        <li class="breadcrumb-item">
+            {{trans('lang.'.$route)}}
         </li>
     </ul>
     <!--end::Breadcrumb-->
