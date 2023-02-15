@@ -17,7 +17,7 @@ class PageController extends Controller
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(),$validator->errors()->first());
         }
-        $data = Page::where('type',$request->type)->firstOrFail();
+        $data = Page::where('type',$request->type)->first();
 
         return callback_data(success(),'success_response',$data);
 

@@ -62,7 +62,6 @@ Route::prefix('user')->group(function () {
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);
-        Route::get('page',[PageController::class,'Page']);
 
     });
 
@@ -73,3 +72,4 @@ Route::get('/stores', [StoresController::class, 'index']);
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/importantNumbers', [ImportantNumbersController::class, 'index']);
 Route::get('/readyServices', [ReadyServicesController::class, 'index']);
+Route::get('page',[PageController::class,'Page']);

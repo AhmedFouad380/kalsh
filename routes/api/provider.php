@@ -50,9 +50,9 @@ Route::prefix('provider')->group(function () {
             Route::post('/rate', [ReadyServiceOrderController::class, 'rateUser']);
         });
 
-        Route::get('page',[PageController::class,'Page']);
         Route::get('/notifications', [NotificationController::class, 'index']);
     });
 
 });
+Route::get('page',[PageController::class,'Page']);
 
