@@ -70,13 +70,15 @@ class AuthController extends Controller
         }
 
 
-        $count =  Provider::where('otp',$request->otp)->where('phone',$request->phone)->count();
+        $user =  Provider::where('otp',$request->otp)->where('phone',$request->phone)->first();
         $jwt_token = null;
-        if ($count == 0) {
-
+        if (!isset($user)) {
             return callback_data(success(),'invalid_otp');
 
-        } elseif (!$jwt_token = Auth('provider')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
+        } elseif($user->status  == 'inactive'){
+            return callback_data(not_accepted(),'inactive_user');
+
+        }elseif (!$jwt_token = Auth('provider')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
             return callback_data(success(),'invalid_otp');
 
         } else {

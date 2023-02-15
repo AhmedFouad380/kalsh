@@ -23,12 +23,14 @@ class ChatController extends Controller
             return callback_data(error(),$validator->errors()->first());
         }
         $chat  = Chat::where('order_id',$request->order_id)->where('user_id',Auth::guard('user')->id())->select('id','order_id','offer_id')->firstOrFail();
-
-        $messages = MessageResource::collection(Message::where('chat_id',$chat->id)->orderBy('id','desc')->paginate(20));
-        $data['chat']=$chat;
-        $data['message']=$messages;
-        return callback_data(success(),'success_response',$data);
-
+        if($chat){
+            $messages = MessageResource::collection(Message::where('chat_id',$chat->id)->orderBy('id','desc')->paginate(20));
+            $data['chat']=$chat;
+            $data['message']=$messages;
+            return callback_data(success(),'success_response',$data);
+        }else{
+            return callback_data(error(), 'errors');
+        }
     }
     public function sendMessage(Request $request){
         $validator = Validator::make($request->all(), [

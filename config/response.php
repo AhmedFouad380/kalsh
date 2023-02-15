@@ -270,4 +270,8 @@ return
                 'ar' => 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك',
                 'en' => 'You have a new order near you, hurry up and submit your offer',
             ],
+        'inactive_user'=>[
+            'ar'=>'تم ايقاف الحساب من قبل الادارة',
+            'en'=>'The account has been suspended by the administration',
+        ]
     ];
