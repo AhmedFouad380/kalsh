@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
@@ -41,6 +42,13 @@ class Order extends Model
     public function providerRating()
     {
         return $this->hasOne(Rate::class, 'order_id')->where('type','from_provider');
+    }
+
+    public function rejectedOffer()
+    {
+        return $this->hasOne(Offer::class, 'order_id')
+            ->where('status_id',Status::CANCELED_BY_PROVIDER_STATUS)
+            ->where('provider_id',Auth::guard('provider')->id());
     }
 
     public function readyService()

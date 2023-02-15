@@ -213,6 +213,11 @@ return
                 'ar' => 'تم قبول الطلب بنجاح',
                 'en' => 'Order accepted successfully',
             ],
+        'order_completed_successfully' =>
+            [
+                'ar' => 'تم أكتمال الطلب بنجاح',
+                'en' => 'Order completed successfully',
+            ],
         'order_not_found' =>
             [
                 'ar' => 'الطلب غير موجود',

@@ -15,12 +15,14 @@ class Notification extends Model
     const ACCEPT_OFFER_TYPE = 'accept_offer';
     const ACCEPT_ORDER_TYPE = 'accept_order';
     const REJECT_ORDER_TYPE = 'reject_order';
+    const COMPLETE_ORDER_TYPE = 'complete_order';
 
     protected $fillable = [
         'type',
         'notifiable_type',
         'notifiable_id',
         'order_id',
+        'offer_id',
         'title_ar',
         'title_en',
         'description_ar',
