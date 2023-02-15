@@ -13,6 +13,7 @@ use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Provider;
+use App\Models\ProviderReadyService;
 use App\Models\ProviderService;
 use App\Models\Rate;
 use App\Models\Service;
@@ -31,12 +32,18 @@ class ReadyServiceOrderController extends Controller
     {
         //should get orders by service_id and ready_service_id
         $provider = Auth::guard('provider')->user();
-
         $service_ids = ProviderService::where('provider_id',$provider->id)->pluck('service_id')->toArray();
+        $ready_service_ids = ProviderReadyService::where('provider_id',$provider->id)->pluck('ready_service_id')->toArray();
 
         $data = OrderResource::collection(Order::whereNull('provider_id')
-            ->whereIn('service_id', $service_ids)
             ->where('status_id', Status::PENDING_STATUS)
+            ->whereIn('service_id', $service_ids)
+            ->where(function ($query) use($ready_service_ids){
+                $query->whereHas('readyService',function ($query2) use($ready_service_ids){
+                    $query2->whereIn('ready_service_id', $ready_service_ids);
+                })
+                    ->orWhereDoesntHave('readyService');
+            })
             ->WhereDoesntHave('rejectedOrder')  //for remove orders that provider reject it
             ->orderBy('created_at', 'desc')
             ->get());
@@ -163,7 +170,9 @@ class ReadyServiceOrderController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
-                $query->where('status_id', Status::ACCEPTED_STATUS)->where('provider_id', Auth::guard('provider')->id());
+                $query->where('status_id', Status::ACCEPTED_STATUS)
+                    ->where('provider_id', Auth::guard('provider')
+                        ->id());
             })]
         ]);
         if (!is_array($validator) && $validator->fails()) {
