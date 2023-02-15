@@ -36,12 +36,13 @@ Route::prefix('provider')->group(function () {
         Route::get('/cities', [HomeController::class, 'cities']);
 
         Route::get('/ready-service', [HomeController::class, 'readyService']);
-        Route::post('/store-form', [HomeController::class, 'StoreForm']);
+        Route::post('/store-form', [HomeController::class, 'storeForm']);
 
         Route::prefix('offers')->group(function () {
             Route::post('/send', [ReadyServiceOrderController::class, 'sendOffer']);
         });
         Route::prefix('orders')->group(function () {
+            Route::get('/', [ReadyServiceOrderController::class, 'orders']);
             Route::get('/pending', [ReadyServiceOrderController::class, 'pendingOrders']);
             Route::post('/accept', [ReadyServiceOrderController::class, 'acceptOrder']);
             Route::post('/complete', [ReadyServiceOrderController::class, 'completeOrder']);

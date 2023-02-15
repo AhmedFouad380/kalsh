@@ -61,12 +61,6 @@ class ReadyServiceOrderController extends Controller
         return callback_data(success(),'ready_order_created_successfully');
     }
 
-    public function orders()
-    {
-        $orders = OrderResource::collection(Order::where('user_id',Auth::guard('user')->id())->orderBy('id','desc')->get());
-        return callback_data(success(),'my_orders',$orders);
-    }
-
     public function acceptOffer(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -150,6 +144,13 @@ class ReadyServiceOrderController extends Controller
         } else {
             return callback_data(error(), 'rate_send_before');
         }
+    }
+
+    public function orders()
+    {
+        $orders = OrderResource::collection(Order::where('user_id',Auth::guard('user')->id())
+            ->orderBy('id','desc')->get());
+        return callback_data(success(),'my_orders',$orders);
     }
 
 

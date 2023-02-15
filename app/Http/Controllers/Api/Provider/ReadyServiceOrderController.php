@@ -35,8 +35,16 @@ class ReadyServiceOrderController extends Controller
         $service_ids = ProviderService::where('provider_id',$provider->id)->pluck('service_id')->toArray();
         $ready_service_ids = ProviderReadyService::where('provider_id',$provider->id)->pluck('ready_service_id')->toArray();
 
-        $data = OrderResource::collection(Order::whereNull('provider_id')
-            ->where('status_id', Status::PENDING_STATUS)
+        $data = OrderResource::collection(Order::where(function ($query) use($provider){
+            $query->where(function ($query2){ // get pending order
+                $query2->whereNull('provider_id')
+                    ->where('status_id', Status::PENDING_STATUS);
+            })
+                ->orWhere(function ($query3) use($provider){ // get accepted orders for auth provider
+                    $query3->where('provider_id',$provider->id)
+                        ->where('status_id', Status::ACCEPTED_STATUS);
+                });
+        })
             ->whereIn('service_id', $service_ids)
             ->where(function ($query) use($ready_service_ids){
                 $query->whereHas('readyService',function ($query2) use($ready_service_ids){
@@ -264,5 +272,14 @@ class ReadyServiceOrderController extends Controller
         } else {
             return callback_data(error(), 'rate_send_before');
         }
+    }
+
+    public function orders()
+    {
+        $orders = OrderResource::collection(Order::where('provider_id',Auth::guard('provider')->id())
+            ->whereIn('status_id',[Status::CANCELED_BY_USER_STATUS,Status::COMPLETED_STATUS])
+            ->orderBy('id','desc')
+            ->get());
+        return callback_data(success(),'my_orders',$orders);
     }
 }

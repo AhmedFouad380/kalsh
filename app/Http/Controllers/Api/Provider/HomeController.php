@@ -65,51 +65,50 @@ class HomeController extends Controller
         $readyServices = ReadyServiceResource::collection(ReadyService::active()->orderBy('sort')->get());
         return callback_data(success(),'readyServices',$readyServices);
     }
-    public function StoreForm(Request $request){
+    public function storeForm(Request $request){
         $validator = Validator::make($request->all(), [
             'name'=>'required',
-            'email'=>'required',
+            'email'=>'required|email',
             'city_id'=>'required|exists:cities,id',
             'service_id'=>'required|exists:services,id',
-            'ready_service_id.*'=>'exists:ready_services,id',
-            'driving_license_image'=>'required_if:service_id,2|required_if:service_id,1',
-            'undermining_image'=>'required_if:service_id,2|required_if:service_id,1',
+            'ready_service_id'=>'required_if:service_id,4|array',
+            'ready_service_id.*'=>'required_if:service_id,4|exists:ready_services,id',
+            'driving_license_image'=>'required_if:service_id,1,2',
+            'undermining_image'=>'required_if:service_id,1,2',
             'insurance_image'=>'required_if:service_id,1'
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return response()->json(['status' => error(),'msg' => $validator->errors()->first()]);
         }
         // store provider service
-        $service  = new  ProviderService;
-        $service->provider_id=Auth::guard('provider')->id();
-        $service->service_id=$request->service_id;
+        $service = new ProviderService();
+        $service->provider_id = Auth::guard('provider')->id();
+        $service->service_id = $request->service_id;
         $service->save();
 
         // store ready provider service
-
-        if(isset($request->ready_service_id) && is_array($request->ready_service_id)){
-            foreach ($request->ready_service_id as $ready){
-                $ready_serivce = new ProviderReadyService;
-                $ready_serivce->ready_service_id=$ready;
-                $ready_serivce->provider_id=Auth::guard('provider')->id();
+        if(isset($request->ready_service_id)){
+            foreach ($request->ready_service_id as $readyService){
+                $ready_serivce = new ProviderReadyService();
+                $ready_serivce->ready_service_id = $readyService;
+                $ready_serivce->provider_id = Auth::guard('provider')->id();
                 $ready_serivce->save();
             }
         }
+
         // store form
-
-        $data = new ProviderForm;
-        $data->name=$request->name;
-        $data->email=$request->email;
-        $data->city_id=$request->city_id;
-        $data->image=$request->image;
-        $data->id_image=$request->id_image;
-        $data->driving_license_image=$request->driving_license_image;
-        $data->undermining_image=$request->undermining_image;
-        $data->insurance_image=$request->insurance_image;
-        $data->provider_id=Auth::guard('provider')->id();
-        $data->service_id=$request->service_id;
+        $data = new ProviderForm();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->city_id = $request->city_id;
+        $data->image = $request->image;
+        $data->id_image = $request->id_image;
+        $data->driving_license_image = $request->driving_license_image;
+        $data->undermining_image = $request->undermining_image;
+        $data->insurance_image = $request->insurance_image;
+        $data->provider_id = Auth::guard('provider')->id();
+        $data->service_id = $request->service_id;
         $data->save();
-
 
         return callback_data(success(),'save_success',$data);
 
