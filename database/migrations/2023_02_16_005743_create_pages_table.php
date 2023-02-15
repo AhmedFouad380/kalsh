@@ -17,8 +17,7 @@ class CreatePagesTable extends Migration
             $table->id();
             $table->longText('name_ar');
             $table->longText('name_en');
-            $table->enum('type', ['about', 'privacy', 'terms']);
-            $table->enum('application', ['user', 'provider']);
+            $table->enum('type', ['user_privacy', 'provider_privacy', 'user_terms', 'provider_terms']);
             $table->timestamps();
         });
     }

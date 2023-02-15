@@ -148,10 +148,12 @@ class AuthController extends Controller
             return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
         }
 
-        $count =  User::where('otp',$request->otp)->where('phone',$request->phone)->count();
+        $user =  User::where('otp',$request->otp)->where('phone',$request->phone)->count();
         $jwt_token = null;
-        if ($count == 0) {
+        if (!isset($user)) {
             return callback_data(error(),'invalid_otp');
+        } elseif($user->status  == 'inactive'){
+            return callback_data(not_accepted(),'inactive_user');
         } elseif (!$jwt_token = Auth('user')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp])) {
             return callback_data(error(),'invalid_otp');
 
