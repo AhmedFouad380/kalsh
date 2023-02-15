@@ -121,7 +121,7 @@
                                                 <div align="center" class="alignment" style="line-height:10px"><a
                                                         href="http://example.com" style="outline:none" tabindex="-1"
                                                         target="_blank"><img alt="Your Logo"
-                                                                             src="{{url('/')}}/mail/registeration_mail/99grmoep_400x400_low.png"
+                                                                             src="{{url('/')}}/mail/project_logo.png"
                                                                              style="display: block; height: auto; border: 0; width: 108px; max-width: 100%;"
                                                                              title="Your Logo" width="108"/></a></div>
                                             </td>
@@ -157,7 +157,7 @@
                                                 style="padding-left:20px;padding-right:20px;padding-top:10px;text-align:center;width:100%;">
                                                 <h1 style="margin: 0; color: #545ae8; direction: ltr; font-family: Nunito, Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 3px; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;">
                                                     <a href="[Unsubscribe]" rel="noopener" style="color: #8a3b8f;"
-                                                       target="_blank"> La Salle Palma</a></h1>
+                                                       target="_blank"> KLASH - كلش</a></h1>
                                             </td>
                                         </tr>
                                     </table>

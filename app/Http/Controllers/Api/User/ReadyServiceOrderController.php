@@ -102,6 +102,7 @@ class ReadyServiceOrderController extends Controller
             'notifiable_type' => Provider::class,
             'notifiable_id' => $provider->id,
             'order_id' => $offer->order_id,
+            'offer_id' => $offer->id,
             'title_ar' => $title_ar,
             'title_en' => $title_en,
             'description_ar' => $msg_ar,

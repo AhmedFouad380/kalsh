@@ -3,6 +3,8 @@
 return [
 
 
+    'provider_offers' => 'عروض مقدمي الخدمة',
+
     'delivery_service' => 'خدمات التوصيل',
     'cars_service' => 'خدمات السيارات',
     'limousine_service' => 'خدمة ليموزين',
@@ -33,7 +35,6 @@ return [
     'page_stores' => 'صفحة المتاجر',
     'users' => 'مستخدمين التطبيق',
     'provider_data' => 'بيانات مقدمي الخدمة',
-
     'login' => 'تسجيل الدخول',
     'update_password' => 'تحديث كلمة المرور',
     'new_password' => 'كلمة المرور الجديدة',

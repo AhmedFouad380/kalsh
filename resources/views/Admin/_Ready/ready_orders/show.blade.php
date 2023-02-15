@@ -44,61 +44,120 @@
             <div class="d-flex flex-column flex-lg-row">
                 <!--begin::Content-->
                 <div class="flex-lg-row-fluid me-lg-15 order-2 order-lg-1 mb-10 mb-lg-0">
-                        <!--begin::Customer-->
-                        <div class="card card-flush pt-3 mb-5 mb-lg-10">
-                            <!--begin::Card header-->
-                            <div class="card-header">
-                                <!--begin::Card title-->
-                                <div class="card-title">
-                                    <h2 class="fw-bolder">{{trans('lang.order')}}</h2>
-                                </div>
-                                <!--begin::Card title-->
+                    <!--begin::Customer-->
+                    <div class="card card-flush pt-3 mb-5 mb-lg-10">
+                        <!--begin::Card header-->
+                        <div class="card-header">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+                                <h2 class="fw-bolder">{{trans('lang.order')}}</h2>
                             </div>
-                            <!--end::Card header-->
-                            <!--begin::Card body-->
-                            <div class="card-body pt-0">
-                                <!--begin::Description-->
-                                <!--end::Description-->
-                                <!--begin::Selected customer-->
-                                <div class="mb-7">
-                                    <!--begin::Title-->
-                                    <h5 class="mb-3">{{trans('lang.message_voice')}}</h5>
-                                    <!--end::Title-->
-                                    <!--begin::Details-->
-                                    <div class="mb-0">
-                                        <audio controls>
-                                            <source src="{{$data->voice}}" type="audio/mpeg">
-                                            Your browser does not support the audio element.
-                                        </audio>
-                                    </div>
-                                    <!--end::Details-->
-                                </div>
-                                <div class="mb-7">
-                                    <!--begin::Title-->
-                                    <h5 class="mb-3">{{trans('lang.order_content')}}</h5>
-                                    <!--end::Title-->
-                                    <!--begin::Details-->
-                                    <div class="mb-0">
-                                        <p>
-                                            {{$data->description}}
-                                        </p>
-                                    </div>
-                                    <!--end::Details-->
-                                </div>
-                                <!--end::Selected customer-->
-                                <!--begin::Notice-->
-                                <!--end::Notice-->
-                            </div>
-                            <!--end::Card body-->
+                            <!--begin::Card title-->
                         </div>
-                        <!--end::Customer-->
-                        <!--begin::Pricing-->
+                        <!--end::Card header-->
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            <!--begin::Description-->
+                            <!--end::Description-->
+                            <!--begin::Selected customer-->
+                            <div class="mb-7">
+                                <!--begin::Title-->
+                                <h5 class="mb-3">{{trans('lang.message_voice')}}</h5>
+                                <!--end::Title-->
+                                <!--begin::Details-->
+                                <div class="mb-0">
+                                    <audio controls>
+                                        <source src="{{$data->voice}}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                                <!--end::Details-->
+                            </div>
+                            <div class="mb-7">
+                                <!--begin::Title-->
+                                <h5 class="mb-3">{{trans('lang.order_content')}}</h5>
+                                <!--end::Title-->
+                                <!--begin::Details-->
+                                <div class="mb-0">
+                                    <p>
+                                        {{$data->description}}
+                                    </p>
+                                </div>
+                                <!--end::Details-->
+                            </div>
+                            <!--end::Selected customer-->
+                            <!--begin::Notice-->
+                            <!--end::Notice-->
+                        </div>
+                        <!--end::Card body-->
+                    </div>
+                    <!--end::Customer-->
+                    <!--begin::Pricing-->
+                    <div class="card card-flush pt-3 mb-5 mb-lg-10">
+                        <!--begin::Card header-->
+                        <div class="card-header">
+                            <!--begin::Card title-->
+                            <div class="card-title">
+                                <h2 class="fw-bolder">{{trans('lang.order_info')}}</h2>
+                            </div>
+                            <!--begin::Card title-->
+                            <!--begin::Card toolbar-->
+                            <!--end::Card toolbar-->
+                        </div>
+                        <!--end::Card header-->
+                        <!--begin::Card body-->
+                        <div class="card-body pt-0">
+                            <!--begin::Table wrapper-->
+                            <div class="table-responsive">
+                                <!--begin::Table-->
+                                <table class="table align-middle table-row-dashed fs-6 fw-bold gy-4"
+                                       id="kt_subscription_products_table">
+                                    <!--begin::Table head-->
+                                    <!--end::Table head-->
+                                    <!--begin::Table body-->
+                                    <tbody class="text-gray-600">
+                                    <tr>
+                                        <td>{{trans('lang.order_status')}}</td>
+                                        <td>{{trans('lang.'.$data->status->name)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{trans('lang.order_category')}}</td>
+                                        <td>{{$data->readyService ? $data->readyService->name : '' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{trans('lang.radius')}}</td>
+                                        <td>{{$data->radius}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{trans('lang.payment_type')}}</td>
+                                        <td>{{trans('lang.'.$data->payment_type)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{trans('lang.payment_status')}}</td>
+                                        <td>{{trans('lang.'.$data->payment_status)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{trans('lang.order_date')}}</td>
+                                        <td>{{$data->created_at->format('Y-m-d g:i a')}}</td>
+                                    </tr>
+                                    </tbody>
+                                    <!--end::Table body-->
+                                </table>
+                                <!--end::Table-->
+                            </div>
+                            <!--end::Table wrapper-->
+                        </div>
+                        <!--end::Card body-->
+                    </div>
+                    <!--end::Pricing-->
+                    <!--begin::user rate-->
+                    @if($data->userRating)
                         <div class="card card-flush pt-3 mb-5 mb-lg-10">
                             <!--begin::Card header-->
                             <div class="card-header">
                                 <!--begin::Card title-->
                                 <div class="card-title">
-                                    <h2 class="fw-bolder">{{trans('lang.order_info')}}</h2>
+                                    <h2 class="fw-bolder">{{trans('lang.user_rate')}}</h2>
                                 </div>
                                 <!--begin::Card title-->
                                 <!--begin::Card toolbar-->
@@ -109,151 +168,101 @@
                             <div class="card-body pt-0">
                                 <!--begin::Table wrapper-->
                                 <div class="table-responsive">
-                                    <!--begin::Table-->
-                                    <table class="table align-middle table-row-dashed fs-6 fw-bold gy-4"
-                                           id="kt_subscription_products_table">
-                                        <!--begin::Table head-->
-                                        <!--end::Table head-->
-                                        <!--begin::Table body-->
-                                        <tbody class="text-gray-600">
-                                        <tr>
-                                            <td>{{trans('lang.order_status')}}</td>
-                                            <td>{{trans('lang.'.$data->status->name)}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{trans('lang.order_category')}}</td>
-                                            <td>{{$data->readyService ? $data->readyService->name : '' }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{trans('lang.radius')}}</td>
-                                            <td>{{$data->radius}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{trans('lang.payment_type')}}</td>
-                                            <td>{{trans('lang.'.$data->payment_type)}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{trans('lang.payment_status')}}</td>
-                                            <td>{{trans('lang.'.$data->payment_status)}}</td>
+                                    <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
+                                           id="kt_ecommerce_products_table">
+                                        <tbody class="fw-semibold text-gray-600">
+                                        <tr class="odd">
+                                            <td class="text-center">
+                                                <span class="fw-bold">{{$data->userRating->comment}}</span>
+                                            </td>
+                                            <td class="text-end pe-0" data-order="rating-4">
+                                                <div class="rating justify-content-end">
+                                                    <div
+                                                        class="rating-label @if($data->userRating->rate >= 1 ) checked @endif ">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
+                                                        <span class="svg-icon svg-icon-2"><svg width="24"
+                                                                                               height="24"
+                                                                                               viewBox="0 0 24 24"
+                                                                                               fill="none"
+                                                                                               xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
+        fill="currentColor"></path>
+</svg>
+</span>
+                                                        <!--end::Svg Icon-->                            </div>
+                                                    <div
+                                                        class="rating-label @if( $data->userRating->rate >= 2 ) checked @endif">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
+                                                        <span class="svg-icon svg-icon-2"><svg width="24"
+                                                                                               height="24"
+                                                                                               viewBox="0 0 24 24"
+                                                                                               fill="none"
+                                                                                               xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
+        fill="currentColor"></path>
+</svg>
+</span>
+                                                        <!--end::Svg Icon-->                            </div>
+                                                    <div
+                                                        class="rating-label @if($data->userRating->rate  >= 3  ) checked @endif ">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
+                                                        <span class="svg-icon svg-icon-2"><svg width="24"
+                                                                                               height="24"
+                                                                                               viewBox="0 0 24 24"
+                                                                                               fill="none"
+                                                                                               xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
+        fill="currentColor"></path>
+</svg>
+</span>
+                                                        <!--end::Svg Icon-->                            </div>
+                                                    <div
+                                                        class="rating-label @if($data->userRating->rate >= 4  ) checked @endif ">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
+                                                        <span class="svg-icon svg-icon-2"><svg width="24"
+                                                                                               height="24"
+                                                                                               viewBox="0 0 24 24"
+                                                                                               fill="none"
+                                                                                               xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
+        fill="currentColor"></path>
+</svg>
+</span>
+                                                        <!--end::Svg Icon-->                            </div>
+                                                    <div
+                                                        class="rating-label @if($data->userRating->rate >= 5 ) checked @endif ">
+                                                        <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
+                                                        <span class="svg-icon svg-icon-2"><svg width="24"
+                                                                                               height="24"
+                                                                                               viewBox="0 0 24 24"
+                                                                                               fill="none"
+                                                                                               xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
+        fill="currentColor"></path>
+</svg>
+</span>
+                                                        <!--end::Svg Icon-->                            </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-end pe-0" data-order="Published">
+                                                <div
+                                                    class="badge badge-light-success">{{$data->userRating->created_at->format('Y-m-d g:i a')}}</div>
+                                            </td>
                                         </tr>
                                         </tbody>
                                         <!--end::Table body-->
                                     </table>
-                                    <!--end::Table-->
                                 </div>
-                                <!--end::Table wrapper-->
                             </div>
                             <!--end::Card body-->
                         </div>
-                        <!--end::Pricing-->
-                        <!--begin::user rate-->
-                        @if($data->userRating)
-                            <div class="card card-flush pt-3 mb-5 mb-lg-10">
-                                <!--begin::Card header-->
-                                <div class="card-header">
-                                    <!--begin::Card title-->
-                                    <div class="card-title">
-                                        <h2 class="fw-bolder">{{trans('lang.user_rate')}}</h2>
-                                    </div>
-                                    <!--begin::Card title-->
-                                    <!--begin::Card toolbar-->
-                                    <!--end::Card toolbar-->
-                                </div>
-                                <!--end::Card header-->
-                                <!--begin::Card body-->
-                                <div class="card-body pt-0">
-                                    <!--begin::Table wrapper-->
-                                    <div class="table-responsive">
-                                        <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer"
-                                               id="kt_ecommerce_products_table">
-                                            <tbody class="fw-semibold text-gray-600">
-                                            <tr class="odd">
-                                                <td class="text-center">
-                                                    <span class="fw-bold">{{$data->userRating->comment}}</span>
-                                                </td>
-                                                <td class="text-end pe-0" data-order="rating-4">
-                                                    <div class="rating justify-content-end">
-                                                        <div class="rating-label @if($data->userRating->rate >= 1 ) checked @endif ">
-                                                            <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
-                                                            <span class="svg-icon svg-icon-2"><svg width="24"
-                                                                                                   height="24"
-                                                                                                   viewBox="0 0 24 24"
-                                                                                                   fill="none"
-                                                                                                   xmlns="http://www.w3.org/2000/svg">
-    <path
-        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
-        fill="currentColor"></path>
-</svg>
-</span>
-                                                            <!--end::Svg Icon-->                            </div>
-                                                        <div class="rating-label @if( $data->userRating->rate >= 2 ) checked @endif">
-                                                            <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
-                                                            <span class="svg-icon svg-icon-2"><svg width="24"
-                                                                                                   height="24"
-                                                                                                   viewBox="0 0 24 24"
-                                                                                                   fill="none"
-                                                                                                   xmlns="http://www.w3.org/2000/svg">
-    <path
-        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
-        fill="currentColor"></path>
-</svg>
-</span>
-                                                            <!--end::Svg Icon-->                            </div>
-                                                        <div class="rating-label @if($data->userRating->rate  >= 3  ) checked @endif ">
-                                                            <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
-                                                            <span class="svg-icon svg-icon-2"><svg width="24"
-                                                                                                   height="24"
-                                                                                                   viewBox="0 0 24 24"
-                                                                                                   fill="none"
-                                                                                                   xmlns="http://www.w3.org/2000/svg">
-    <path
-        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
-        fill="currentColor"></path>
-</svg>
-</span>
-                                                            <!--end::Svg Icon-->                            </div>
-                                                        <div class="rating-label @if($data->userRating->rate >= 4  ) checked @endif ">
-                                                            <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
-                                                            <span class="svg-icon svg-icon-2"><svg width="24"
-                                                                                                   height="24"
-                                                                                                   viewBox="0 0 24 24"
-                                                                                                   fill="none"
-                                                                                                   xmlns="http://www.w3.org/2000/svg">
-    <path
-        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
-        fill="currentColor"></path>
-</svg>
-</span>
-                                                            <!--end::Svg Icon-->                            </div>
-                                                        <div class="rating-label @if($data->userRating->rate >= 5 ) checked @endif ">
-                                                            <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
-                                                            <span class="svg-icon svg-icon-2"><svg width="24"
-                                                                                                   height="24"
-                                                                                                   viewBox="0 0 24 24"
-                                                                                                   fill="none"
-                                                                                                   xmlns="http://www.w3.org/2000/svg">
-    <path
-        d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z"
-        fill="currentColor"></path>
-</svg>
-</span>
-                                                            <!--end::Svg Icon-->                            </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-end pe-0" data-order="Published">
-                                                    <div
-                                                        class="badge badge-light-success">{{$data->userRating->created_at->format('Y-m-d g:i a')}}</div>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                            <!--end::Table body-->
-                                        </table>
-                                    </div>
-                                </div>
-                                <!--end::Card body-->
-                            </div>
-                            <!--end::user rate-->
-                        @endif
+                        <!--end::user rate-->
+                    @endif
 
                     @if($data->providerRating)
                         <div class="card card-flush pt-3 mb-5 mb-lg-10">
@@ -281,7 +290,8 @@
                                             </td>
                                             <td class="text-end pe-0" data-order="rating-4">
                                                 <div class="rating justify-content-end">
-                                                    <div class="rating-label @if($data->providerRating->rate >= 1 ) checked @endif ">
+                                                    <div
+                                                        class="rating-label @if($data->providerRating->rate >= 1 ) checked @endif ">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
                                                         <span class="svg-icon svg-icon-2"><svg width="24"
                                                                                                height="24"
@@ -294,7 +304,8 @@
 </svg>
 </span>
                                                         <!--end::Svg Icon-->                            </div>
-                                                    <div class="rating-label @if( $data->providerRating->rate >= 2 ) checked @endif">
+                                                    <div
+                                                        class="rating-label @if( $data->providerRating->rate >= 2 ) checked @endif">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
                                                         <span class="svg-icon svg-icon-2"><svg width="24"
                                                                                                height="24"
@@ -307,7 +318,8 @@
 </svg>
 </span>
                                                         <!--end::Svg Icon-->                            </div>
-                                                    <div class="rating-label @if($data->providerRating->rate  >= 3  ) checked @endif ">
+                                                    <div
+                                                        class="rating-label @if($data->providerRating->rate  >= 3  ) checked @endif ">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
                                                         <span class="svg-icon svg-icon-2"><svg width="24"
                                                                                                height="24"
@@ -320,7 +332,8 @@
 </svg>
 </span>
                                                         <!--end::Svg Icon-->                            </div>
-                                                    <div class="rating-label @if($data->providerRating->rate >= 4  ) checked @endif ">
+                                                    <div
+                                                        class="rating-label @if($data->providerRating->rate >= 4  ) checked @endif ">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
                                                         <span class="svg-icon svg-icon-2"><svg width="24"
                                                                                                height="24"
@@ -333,7 +346,8 @@
 </svg>
 </span>
                                                         <!--end::Svg Icon-->                            </div>
-                                                    <div class="rating-label @if($data->providerRating->rate >= 5 ) checked @endif ">
+                                                    <div
+                                                        class="rating-label @if($data->providerRating->rate >= 5 ) checked @endif ">
                                                         <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
                                                         <span class="svg-icon svg-icon-2"><svg width="24"
                                                                                                height="24"
@@ -362,7 +376,146 @@
                         </div>
                         <!--end::user rate-->
                 @endif
-                    <!--end::Form-->
+
+                    <div class="card card-flush pt-3 mb-5 mb-lg-10">
+                        <!--begin::Card-->
+                        <div class="card card-flush h-lg-100">
+                            <!--begin::Card header-->
+                            <div class="card-header mt-6">
+                                <!--begin::Card title-->
+                                <div class="card-title flex-column">
+                                    <h3 class="fw-bolder mb-1">{{trans('lang.provider_offers')}}</h3>
+                                    <div class="fs-6 text-gray-400">From total 482 Participants</div>
+                                </div>
+                                <!--end::Card title-->
+                                <!--begin::Card toolbar-->
+                                <div class="card-toolbar">
+                                    <a href="#" class="btn btn-bg-light btn-active-color-primary btn-sm">View All</a>
+                                </div>
+                                <!--end::Card toolbar-->
+                            </div>
+                            <!--end::Card toolbar-->
+                            <!--begin::Card body-->
+                            <div class="card-body d-flex flex-column p-9 pt-3 mb-9">
+                                <!--begin::Item-->
+                                <div class="d-flex align-items-center mb-5">
+                                    <!--begin::Avatar-->
+                                    <div class="me-5 position-relative">
+                                        <!--begin::Image-->
+                                        <div class="symbol symbol-35px symbol-circle">
+                                            <img alt="Pic" src="assets/media/avatars/150-1.jpg">
+                                        </div>
+                                        <!--end::Image-->
+                                    </div>
+                                    <!--end::Avatar-->
+                                    <!--begin::Details-->
+                                    <div class="fw-bold">
+                                        <a href="#" class="fs-5 fw-bolder text-gray-900 text-hover-primary">Emma Smith</a>
+                                        <div class="text-gray-400">8 Pending &amp; 97 Completed Tasks</div>
+                                    </div>
+                                    <!--end::Details-->
+                                    <!--begin::Badge-->
+                                    <div class="badge badge-light ms-auto">5</div>
+                                    <!--end::Badge-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="d-flex align-items-center mb-5">
+                                    <!--begin::Avatar-->
+                                    <div class="me-5 position-relative">
+                                        <!--begin::Image-->
+                                        <div class="symbol symbol-35px symbol-circle">
+                                            <span class="symbol-label bg-light-danger text-danger fw-bold">M</span>
+                                        </div>
+                                        <!--end::Image-->
+                                        <!--begin::Online-->
+                                        <div class="bg-success position-absolute h-8px w-8px rounded-circle translate-middle start-100 top-100 ms-n1 mt-n1"></div>
+                                        <!--end::Online-->
+                                    </div>
+                                    <!--end::Avatar-->
+                                    <!--begin::Details-->
+                                    <div class="fw-bold">
+                                        <a href="#" class="fs-5 fw-bolder text-gray-900 text-hover-primary">Melody Macy</a>
+                                        <div class="text-gray-400">5 Pending &amp; 84 Completed</div>
+                                    </div>
+                                    <!--end::Details-->
+                                    <!--begin::Badge-->
+                                    <div class="badge badge-light ms-auto">8</div>
+                                    <!--end::Badge-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="d-flex align-items-center mb-5">
+                                    <!--begin::Avatar-->
+                                    <div class="me-5 position-relative">
+                                        <!--begin::Image-->
+                                        <div class="symbol symbol-35px symbol-circle">
+                                            <img alt="Pic" src="assets/media/avatars/150-26.jpg">
+                                        </div>
+                                        <!--end::Image-->
+                                    </div>
+                                    <!--end::Avatar-->
+                                    <!--begin::Details-->
+                                    <div class="fw-bold">
+                                        <a href="#" class="fs-5 fw-bolder text-gray-900 text-hover-primary">Max Smith</a>
+                                        <div class="text-gray-400">9 Pending &amp; 103 Completed</div>
+                                    </div>
+                                    <!--end::Details-->
+                                    <!--begin::Badge-->
+                                    <div class="badge badge-light ms-auto">9</div>
+                                    <!--end::Badge-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="d-flex align-items-center mb-5">
+                                    <!--begin::Avatar-->
+                                    <div class="me-5 position-relative">
+                                        <!--begin::Image-->
+                                        <div class="symbol symbol-35px symbol-circle">
+                                            <img alt="Pic" src="assets/media/avatars/150-4.jpg">
+                                        </div>
+                                        <!--end::Image-->
+                                    </div>
+                                    <!--end::Avatar-->
+                                    <!--begin::Details-->
+                                    <div class="fw-bold">
+                                        <a href="#" class="fs-5 fw-bolder text-gray-900 text-hover-primary">Sean Bean</a>
+                                        <div class="text-gray-400">3 Pending &amp; 55 Completed</div>
+                                    </div>
+                                    <!--end::Details-->
+                                    <!--begin::Badge-->
+                                    <div class="badge badge-light ms-auto">3</div>
+                                    <!--end::Badge-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Avatar-->
+                                    <div class="me-5 position-relative">
+                                        <!--begin::Image-->
+                                        <div class="symbol symbol-35px symbol-circle">
+                                            <img alt="Pic" src="assets/media/avatars/150-15.jpg">
+                                        </div>
+                                        <!--end::Image-->
+                                    </div>
+                                    <!--end::Avatar-->
+                                    <!--begin::Details-->
+                                    <div class="fw-bold">
+                                        <a href="#" class="fs-5 fw-bolder text-gray-900 text-hover-primary">Brian Cox</a>
+                                        <div class="text-gray-400">4 Pending &amp; 115 Completed</div>
+                                    </div>
+                                    <!--end::Details-->
+                                    <!--begin::Badge-->
+                                    <div class="badge badge-light ms-auto">4</div>
+                                    <!--end::Badge-->
+                                </div>
+                                <!--end::Item-->
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                <!--end::Form-->
                 </div>
                 <!--end::Content-->
                 <!--begin::Sidebar-->

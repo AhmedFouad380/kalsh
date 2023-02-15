@@ -19,7 +19,7 @@ class OfferResource extends JsonResource
             'order_id' => $this->order_id,
             'status_id' => $this->status_id,
             'order' => $this->order ? OrderResource::make($this->order) : null,
-            'provider' => $this->provider,
+            'provider' => $this->provider ? ProviderResource::make($this->provider) : null,
             'description' => $this->description,
         ];
     }
