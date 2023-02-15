@@ -28,12 +28,18 @@ class ReadyServiceOrderController extends Controller
 
     public function pendingOrders()
     {
-//        TODO: should get orders by service_id and ready_service_id
+        //should get orders by service_id and ready_service_id
+        $provider = Auth::guard('provider')->user();
+        $services = $provider->services;
+        $service_ids = null;
+        if (count($services) > 0) {
+            $service_ids = $services->pluck('id')->toArray();
+        }
+
         $data = OrderResource::collection(Order::whereNull('provider_id')
-            ->orWhere('provider_id',Auth::guard('provider')->id())
+            ->whereIn('service_id', $service_ids)
             ->where('status_id', Status::PENDING_STATUS)
-            ->orWhere('status_id', Status::ACCEPTED_STATUS)
-            ->WhereDoesntHave('rejectedOffer')  //for remove orders that provider reject it
+            ->WhereDoesntHave('rejectedOrder')  //for remove orders that provider reject it
             ->orderBy('created_at', 'desc')
             ->get());
         return callback_data(success(), 'pending_orders', $data);
@@ -107,8 +113,8 @@ class ReadyServiceOrderController extends Controller
     public function acceptOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => ['required',Rule::exists('orders','id')->where(function($query){
-                $query->where('status_id',Status::PENDING_STATUS);
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::PENDING_STATUS);
             })]
         ]);
         if (!is_array($validator) && $validator->fails()) {
@@ -118,13 +124,13 @@ class ReadyServiceOrderController extends Controller
         $provider = Auth::guard('provider')->user();
         $order = Order::findOrFail($request->order_id);
         // get accepted offer
-        $offer = Offer::where('order_id',$order->id)
-            ->where('provider_id',$provider->id)
-            ->where('status_id',Status::ACCEPTED_STATUS)
+        $offer = Offer::where('order_id', $order->id)
+            ->where('provider_id', $provider->id)
+            ->where('status_id', Status::ACCEPTED_STATUS)
             ->first();
 
-        if (!$offer){
-            return callback_data(error(),'offer_not_found');
+        if (!$offer) {
+            return callback_data(error(), 'offer_not_found');
         }
 
         // accept offer
@@ -137,9 +143,9 @@ class ReadyServiceOrderController extends Controller
 
         $title_ar = 'قبول الطلب';
         $title_en = 'Order Accept';
-        $msg_ar = "تم قبول طلبك رقم #{$order->id}"."بواسطة مقدم الخدمة {$provider->name}";
+        $msg_ar = "تم قبول طلبك رقم #{$order->id}" . "بواسطة مقدم الخدمة {$provider->name}";
         $msg_en = "You order #{$order->id} has been accepted by provider {$provider->name}";
-        sendToProvider([$user->device_token],${'title_'.$user->lang},${'msg_'.$user->lang},Notification::ACCEPT_ORDER_TYPE,$order->id,$order->type);
+        sendToProvider([$user->device_token], ${'title_' . $user->lang}, ${'msg_' . $user->lang}, Notification::ACCEPT_ORDER_TYPE, $order->id, $order->type);
 
         Notification::create([
             'type' => Notification::ACCEPT_ORDER_TYPE,
@@ -152,14 +158,14 @@ class ReadyServiceOrderController extends Controller
             'description_en' => $msg_en,
         ]);
 
-        return callback_data(success(),'order_accepted_successfully');
+        return callback_data(success(), 'order_accepted_successfully');
     }
 
-   public function completeOrder(Request $request)
+    public function completeOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => ['required',Rule::exists('orders','id')->where(function($query){
-                $query->where('status_id',Status::ACCEPTED_STATUS)->where('provider_id',Auth::guard('provider')->id());
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::ACCEPTED_STATUS)->where('provider_id', Auth::guard('provider')->id());
             })]
         ]);
         if (!is_array($validator) && $validator->fails()) {
@@ -177,9 +183,9 @@ class ReadyServiceOrderController extends Controller
 
         $title_ar = 'الطلب أكتمل';
         $title_en = 'Order Completed';
-        $msg_ar = "تم أكتمال الطلب رقم #{$order->id}"."بواسطة مقدم الخدمة {$provider->name}";
+        $msg_ar = "تم أكتمال الطلب رقم #{$order->id}" . "بواسطة مقدم الخدمة {$provider->name}";
         $msg_en = "You order #{$order->id} has been completed by provider {$provider->name}";
-        sendToProvider([$user->device_token],${'title_'.$user->lang},${'msg_'.$user->lang},Notification::COMPLETE_ORDER_TYPE,$order->id,$order->type);
+        sendToProvider([$user->device_token], ${'title_' . $user->lang}, ${'msg_' . $user->lang}, Notification::COMPLETE_ORDER_TYPE, $order->id, $order->type);
 
         Notification::create([
             'type' => Notification::COMPLETE_ORDER_TYPE,
@@ -192,7 +198,7 @@ class ReadyServiceOrderController extends Controller
             'description_en' => $msg_en,
         ]);
 
-        return callback_data(success(),'order_completed_successfully');
+        return callback_data(success(), 'order_completed_successfully');
     }
 
     public function rejectOrder(Request $request)

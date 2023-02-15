@@ -30,7 +30,7 @@ class OrderResource extends JsonResource
             'provider_name' => @optional($this->provider)->name,
             'provider_image' => @optional($this->provider)->image,
             'service_id' => $this->service_id,
-            'ready_Service_id' => $this->ready_Service_id,
+            'ready_service_id' => $this->ready_service_id,
             'status_id' => $this->status_id,
             'radius' => $this->radius,
             'description' => $this->description,

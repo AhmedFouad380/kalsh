@@ -44,7 +44,7 @@ class Order extends Model
         return $this->hasOne(Rate::class, 'order_id')->where('type','from_provider');
     }
 
-    public function rejectedOffer()
+    public function rejectedOrder()
     {
         return $this->hasOne(Offer::class, 'order_id')
             ->where('status_id',Status::CANCELED_BY_PROVIDER_STATUS)

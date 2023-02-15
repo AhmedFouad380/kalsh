@@ -81,6 +81,7 @@ class Provider extends Authenticatable implements JWTSubject
         return $this->hasMany(Offer::class, 'provider_id');
     }
 
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
