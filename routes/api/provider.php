@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Provider\ReadyServiceOrderController;
 use App\Http\Controllers\Api\Provider\AuthController;
 use App\Http\Controllers\Api\Provider\HomeController;
 use App\Http\Controllers\Api\Provider\ChatController;
+use \App\Http\Controllers\Api\PageController;
 
 Route::prefix('provider')->group(function () {
 
@@ -50,9 +51,9 @@ Route::prefix('provider')->group(function () {
             Route::post('/rate', [ReadyServiceOrderController::class, 'rateUser']);
         });
 
-
         Route::get('/notifications', [NotificationController::class, 'index']);
     });
 
 });
+Route::get('page',[PageController::class,'Page']);
 

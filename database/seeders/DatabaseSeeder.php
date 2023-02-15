@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\Api\PageController;
+use App\Http\Resources\CitiesResource;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ScreenSeeder::class);
         $this->call(StatusesTableSeeder::class);
         $this->call(CitiesTableSeeder::class);
+        $this->call(PagesTableSeeder::class);
     }
 }
