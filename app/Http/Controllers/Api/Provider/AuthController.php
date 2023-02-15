@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Provider\providerLoginRequest;
 use App\Http\Requests\Provider\ProviderRegistrationRequest;
+use App\Http\Resources\ProviderResource;
 use App\Models\Provider;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -82,21 +83,12 @@ class AuthController extends Controller
             return callback_data(success(),'invalid_otp');
 
         } else {
-
-            $user = Auth::guard('provider')->user();
-            $user->device_token = $request->device_token;
-            $user->email_verified_at=\Carbon\Carbon::now();
-            $user->otp=null;
-            $user->save();
-
-            $user->token = $jwt_token;
-            if($user->name==null){
-                $user->is_complete=0;
-            }else{
-                $user->is_complete=1;
-
-            }
-            return callback_data(success(),'login_success', $user);
+            $provider = Auth::guard('provider')->user();
+            $provider->device_token = $request->device_token;
+            $provider->email_verified_at=\Carbon\Carbon::now();
+            $provider->otp=null;
+            $provider->save();
+            return callback_data(success(),'login_success', ProviderResource::make($provider)->token($jwt_token));
 
         }
 
@@ -104,18 +96,18 @@ class AuthController extends Controller
     }
     public function profile()
     {
-        $client = Provider::where('id',Auth::guard('provider')->id())->select('name','email','phone')->firstOrFail();
-        return callback_data(success(),'success_response', $client);
+        $provider = Provider::where('id',Auth::guard('provider')->id())->select('name','email','phone')->firstOrFail();
+        return callback_data(success(),'success_response', ProviderResource::make($provider));
     }
 
 
     public function updateProfile(Request $request){
-        $user = Provider::find(Auth::guard('provider')->id());
-        $user->name=$request->name;
-        $user->email=$request->email;
-        $user->save();
+        $provider = Auth::guard('provider')->user();
+        $provider->name=$request->name;
+        $provider->email=$request->email;
+        $provider->save();
 
-        return callback_data(success(),'save_success', $user);
+        return callback_data(success(),'save_success', ProviderResource::make($provider));
 
     }
 
