@@ -309,8 +309,8 @@
                     <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder">
                         <!--begin::Nav item-->
                         <li class="nav-item mt-2">
-                            <a class="nav-link text-active-primary ms-0 me-10 py-5 @if(request()->routeIs($route.'.show',$data->id) ) active @endif "
-                               href="{{route($route.'.show',$data->id)}}">{{trans('lang.overview')}}</a>
+                            <a class="nav-link text-active-primary ms-0 me-10 py-5 @if(request()->routeIs($route.'.show2',$data->id) ) active @endif "
+                               href="{{route($route.'.show2',$data->id)}}">{{trans('lang.overview')}}</a>
                         </li>
                         <!--end::Nav item-->
                         <!--begin::Nav item-->
@@ -334,7 +334,7 @@
                 </div>
             </div>
             <!--end::Navbar-->
-        @if(request()->routeIs($route.'.show',$data->id) )
+        @if(request()->routeIs($route.'.show2',$data->id) )
             @include('Admin.User.show.overview')
         @elseif(request()->routeIs($route.'.show.orders',$data->id) )
             @include('Admin.User.show.orders')

@@ -165,6 +165,9 @@
                 longitudeInput: $('#lng')
             }
         });
+        $('#us1').setOptions(
+            {draggable: false, zoomControl: false, scrollwheel: false, disableDoubleClickZoom: true}
+        )
     </script>
 @endpush
 
