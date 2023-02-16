@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Provider;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CitiesResource;
+use App\Http\Resources\ProviderResource;
 use App\Http\Resources\ReadyServiceResource;
 use App\Http\Resources\ServiceResource;
 use App\Models\City;
@@ -16,6 +17,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class HomeController extends Controller
 {
@@ -34,7 +36,7 @@ class HomeController extends Controller
         $provider->lat = $request->lat;
         $provider->lng = $request->lng;
         $provider->save();
-        return callback_data(success(),'save_success', $provider);
+        return callback_data(success(),'save_success', ProviderResource::make($provider));
     }
 
     public function updateLanguage(Request $request)
@@ -48,7 +50,7 @@ class HomeController extends Controller
         $provider = Auth::guard('provider')->user();
         $provider->lang = $request->lang;
         $provider->save();
-        return callback_data(success(),'save_success', $provider);
+        return callback_data(success(),'save_success',ProviderResource::make($provider));
     }
 
     public function services(Request $request){
@@ -70,7 +72,13 @@ class HomeController extends Controller
             'name'=>'required',
             'email'=>'required|email',
             'city_id'=>'required|exists:cities,id',
-            'service_id'=>'required|exists:services,id',
+            'service_id'=>[
+                'required',
+                'exists:services,id',
+                Rule::unique('provider_services')->where(function($query){
+                    $query->where('provider_id', Auth::guard('provider')->id()) ;
+                }), //assuming the request has platform information
+            ],
             'ready_service_id'=>'required_if:service_id,4|array',
             'ready_service_id.*'=>'required_if:service_id,4|exists:ready_services,id',
             'driving_license_image'=>'required_if:service_id,1,2',
@@ -110,7 +118,7 @@ class HomeController extends Controller
         $data->service_id = $request->service_id;
         $data->save();
 
-        return callback_data(success(),'save_success',$data);
+        return callback_data(success(),'save_success');
 
     }
 }

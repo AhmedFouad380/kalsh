@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PageRescource;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +20,7 @@ class PageController extends Controller
         }
         $data = Page::where('type',$request->type)->first();
 
-        return callback_data(success(),'success_response',$data);
+        return callback_data(success(),'success_response',PageRescource::make($data));
 
     }
 }

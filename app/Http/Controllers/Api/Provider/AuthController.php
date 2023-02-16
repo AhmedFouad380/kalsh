@@ -107,7 +107,7 @@ class AuthController extends Controller
         $provider->email=$request->email;
         $provider->save();
 
-        return callback_data(success(),'save_success', ProviderResource::make($provider));
+        return callback_data(success(),'save_success');
 
     }
 
