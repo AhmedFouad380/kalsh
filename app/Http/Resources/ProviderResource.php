@@ -30,7 +30,7 @@ class ProviderResource extends JsonResource
             'email' => (string) $this->email,
             'image' => (string) $this->image,
             'rate' => (string) $this->rate,
-            'online' => $this->online,
+            'online' => (int) $this->online,
             'lat' => (string) $this->lat,
             'lng' => (string) $this->lng,
             'device_token' => (string) $this->device_token,
