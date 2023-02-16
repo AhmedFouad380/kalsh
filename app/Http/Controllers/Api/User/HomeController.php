@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProviderResource;
 use App\Http\Resources\ReadyServiceResource;
 use App\Http\Resources\ServiceResource;
 use App\Http\Resources\SliderResource;
+use App\Http\Resources\UserResource;
 use App\Models\ReadyService;
 use App\Models\Service;
 use App\Models\Slider;
@@ -36,7 +38,7 @@ class HomeController extends Controller
         $user->lat = $request->lat;
         $user->lng = $request->lng;
         $user->save();
-        return callback_data(success(),'save_success', $user);
+        return callback_data(success(),'save_success',UserResource::make($user));
 
     }
 
@@ -51,7 +53,7 @@ class HomeController extends Controller
         $user = Auth::guard('user')->user();
         $user->lang = $request->lang;
         $user->save();
-        return callback_data(success(),'save_success', $user);
+        return callback_data(success(),'save_success', UserResource::make($user));
     }
 
 
