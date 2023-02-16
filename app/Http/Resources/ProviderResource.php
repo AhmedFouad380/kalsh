@@ -35,7 +35,7 @@ class ProviderResource extends JsonResource
             'lng' => (string) $this->lng,
             'device_token' => (string) $this->device_token,
             'is_complete' => $is_complete,
-            'token' => $this->token,
+            'token' => (string)$this->token,
         ];
     }
 }

@@ -31,7 +31,7 @@ class UserResource extends JsonResource
             'lang' => (string) $this->lang,
             'device_token' => (string) $this->device_token,
             'is_complete' => $is_complete,
-            'token' => $this->token,
+            'token' => (string)$this->token,
         ];
     }
 }
