@@ -102,6 +102,7 @@ class AuthController extends Controller
 
 
     public function updateProfile(Request $request){
+
         $provider = Auth::guard('provider')->user();
         $provider->name=$request->name;
         $provider->email=$request->email;
@@ -110,6 +111,18 @@ class AuthController extends Controller
         return callback_data(success(),'save_success');
 
     }
+    public function changeOnline(Request $request){
+        $validator = Validator::make($request->all(), [
+            'online' => 'required|in:0,1',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
+        }
+        $provider = Auth::guard('provider')->user();
+        $provider->online=$request->online;
+        $provider->save();
+        return callback_data(success(),'save_success');
 
+    }
 
 }

@@ -28,6 +28,7 @@ Route::prefix('provider')->group(function () {
             Route::post('/update-language', [HomeController::class, 'updateLanguage']);
             Route::get('/profile', [AuthController::class, 'profile']);
             Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+            Route::post('/change-online-status', [AuthController::class, 'changeOnline']);
         });
         Route::prefix('chat')->group(function () {
             Route::get('/', [ChatController::class, 'getChat']);
