@@ -69,6 +69,7 @@ Route::prefix('user')->group(function () {
 
 Route::get('/home', [HomeController::class, 'index']);
 Route::get('/stores', [StoresController::class, 'index']);
+Route::get('/pray-time/slider', [StoresController::class, 'pray_slider']);
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/importantNumbers', [ImportantNumbersController::class, 'index']);
 Route::get('/readyServices', [ReadyServicesController::class, 'index']);

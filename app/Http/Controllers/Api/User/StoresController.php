@@ -15,7 +15,14 @@ class StoresController extends Controller
 {
     public function index()
     {
-        $stores = StoreResource::collection(Store::active()->orderBy('sort')->get());
-        return callback_data(success(),'stores',$stores);
+        $data['slider'] = SliderResource::make(Slider::where('type', Slider::STORES_TYPE)->active()->first());
+        $data['stores'] = StoreResource::collection(Store::active()->orderBy('sort')->get());
+        return callback_data(success(), 'stores', $data);
+    }
+
+    public function pray_slider()
+    {
+        $slider = SliderResource::make(Slider::where('type', Slider::PRAY_TYPE)->active()->first());
+        return callback_data(success(), 'stores', $slider);
     }
 }
