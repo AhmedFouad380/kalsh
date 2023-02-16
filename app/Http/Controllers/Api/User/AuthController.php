@@ -180,7 +180,7 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $user = User::where('id',Auth::guard('user')->id())->firstOrFail();
+        $user = Auth::guard('user')->user();
         return callback_data(success(),'login_success', UserResource::make($user));
     }
 

@@ -96,7 +96,7 @@ class AuthController extends Controller
     }
     public function profile()
     {
-        $provider = Provider::where('id',Auth::guard('provider')->id())->select('name','email','phone')->firstOrFail();
+        $provider = Auth::guard('provider')->user();
         return callback_data(success(),'success_response', ProviderResource::make($provider));
     }
 
