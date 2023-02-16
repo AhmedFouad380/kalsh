@@ -9,6 +9,8 @@ class Page extends Model
 {
     use HasFactory;
 
+    const TYPES = ['user_privacy', 'provider_privacy', 'user_terms', 'provider_terms'];
+
     protected $appends = ['name'];
 
     public function getNameAttribute()

@@ -18,6 +18,7 @@ class SlidersTableSeeder extends Seeder
             'name_ar' => 'استمتع بمشاهدة الدوري السعودي والدوريات العالمية مجاناً',
             'name_en' => 'Enjoy watching the Saudi League and international leagues for free',
             'image' => '1.png',
+            'link' => 'https://dashboard.klsh.app/',
             'type' => Slider::HOME_TYPE,
         ]);
 
@@ -25,6 +26,7 @@ class SlidersTableSeeder extends Seeder
             'name_ar' => 'تخفيضات تصل إلي 50 %',
             'name_en' => 'Discounts up to 50%',
             'image' => '2.png',
+            'link' => 'https://dashboard.klsh.app/',
             'type' => Slider::STORES_TYPE,
         ]);
 
@@ -32,6 +34,7 @@ class SlidersTableSeeder extends Seeder
             'name_ar' => 'اللهم اغفر للمؤمنين والمؤمنات الاحياء منهم والاموات',
             'name_en' => 'Oh God, forgive the believers, men and women living and dead',
             'image' => '3.png',
+            'link' => 'https://dashboard.klsh.app/',
             'type' => Slider::PRAY_TYPE,
         ]);
 

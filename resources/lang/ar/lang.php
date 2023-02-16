@@ -2,7 +2,10 @@
 
 return [
 
-
+    'user_terms' => 'الشروط والاحكام للمستخدمين',
+    'user_privacy' => 'سياسة الخصوصية للمستخدمين',
+    'provider_terms' => 'الشروط والاحكام لمقدمين الخدمة',
+    'provider_privacy' => 'سياسة الخصوصية لمقدمين الخدمة',
     'link' => 'الرابط',
     'provider_offers' => 'عروض مقدمي الخدمة',
 
@@ -519,7 +522,6 @@ return [
     'Drop Us a Line' => 'تواصل معانا',
     'Send Message' => 'ارسال ',
     'Hours' => 'ساعات العمل',
-    'Pages' => 'الصفحات الرئيسية',
     'VipPages' => '  اهم الصفحات',
     'Account' => 'الحساب',
     'Secured Payment Gateways' => 'بوابات الدفع الآمنة',

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProvidersController;
 use App\Http\Controllers\Admin\SlidersController;
 use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\ScreensController;
+use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\Ready\ReadyServicesController;
 use App\Http\Controllers\Admin\Ready\ReadyOrdersController;
 
@@ -140,6 +141,11 @@ Route::group(['middleware' => ['admin']], function () {
         Route::get('delete', [StoresController::class, 'destroy'])->name('.delete');
         Route::post('/change_active', [StoresController::class, 'changeActive'])->name('.change_active');
         Route::get('/add-button', [StoresController::class, 'table_buttons'])->name('.table_buttons');
+    });
+
+    Route::group(['prefix' => 'pages', 'as' => 'pages'], function () {
+        Route::get('/edit/{type}', [PagesController::class, 'edit'])->name('.edit');
+        Route::post('/update/{id}', [PagesController::class, 'update'])->name('.update');
     });
 
     Route::group(['prefix' => 'important_numbers', 'as' => 'important_numbers'], function () {
