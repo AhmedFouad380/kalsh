@@ -54,7 +54,9 @@ class ReadyServiceOrderController extends Controller
                     ->orWhereDoesntHave('readyService');
             })
             ->whereHas('notifications',function ($query) use($provider){
-                $query->where('type',Notification::NEW_ORDER_TYPE)->where('provider_id',$provider->id);
+                $query->where('type',Notification::NEW_ORDER_TYPE)
+                    ->where('notifiable_type',Provider::class)
+                    ->where('notifiable_id',$provider->id);
             })
             ->WhereDoesntHave('rejectedOrder')  //for remove orders that provider reject it
             ->orderBy('created_at', 'desc')
