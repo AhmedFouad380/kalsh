@@ -113,6 +113,80 @@ class ReadyServiceOrderController extends Controller
         return callback_data(success(),'offer_accepted_successfully');
     }
 
+    public function rejectOffer(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'offer_id' => ['required',Rule::exists('offers','id')->where(function($query){
+                $query->where('status_id',Status::PENDING_STATUS);
+            })]
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+
+        $offer = Offer::findOrFail($request->offer_id);
+        $order = Order::where('id',$offer->order_id)->where('user_id',Auth::guard('user')->id())->first();
+        if (!$order){
+            return callback_data(error(),'order_not_found');
+        }
+
+        // cancel offer
+        $offer->status_id = Status::REJECTED_BY_USER_STATUS;
+        $offer->save();
+
+        // send notification to provider
+        $provider = $offer->provider;
+
+        $title_ar = 'رفض عرض';
+        $title_en = 'Offer Rejected';
+        $msg_ar = 'تم رفض عرضك المقدم علي طلب رقم '.'#'.$offer->order_id;
+        $msg_en = 'You offer has been rejected for order #'.$offer->order_id;
+        sendToProvider([$provider->device_token],${'title_'.$provider->lang},${'msg_'.$provider->lang},Notification::REJECT_ORDER_TYPE,$offer->order_id,@optional($offer->order)->type);
+
+        Notification::create([
+            'type' => Notification::REJECT_ORDER_TYPE,
+            'notifiable_type' => Provider::class,
+            'notifiable_id' => $provider->id,
+            'order_id' => $offer->order_id,
+            'offer_id' => $offer->id,
+            'title_ar' => $title_ar,
+            'title_en' => $title_en,
+            'description_ar' => $msg_ar,
+            'description_en' => $msg_en,
+        ]);
+
+        return callback_data(success(),'offer_rejected_successfully');
+    }
+
+    public function cancelOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => ['required',Rule::exists('orders','id')->where(function($query){
+                $query->where('status_id',Status::PENDING_STATUS);
+            })]
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+
+        $order = Order::where('id',$request->order_id)->where('user_id',Auth::guard('user')->id())->first();
+        if (!$order){
+            return callback_data(error(),'order_not_found');
+        }
+
+        // cancel order
+        $order->status_id = Status::CANCELED_BY_USER_STATUS;
+        $order->save();
+
+        // cancel offers if exists
+        Offer::where('order_id',$order->id)
+            ->update([
+                'status_id' => Status::CANCELED_BY_USER_STATUS
+            ]);
+
+        return callback_data(success(),'order_rejected_successfully');
+    }
+
 
 
     public function rateProvider(Request $request)

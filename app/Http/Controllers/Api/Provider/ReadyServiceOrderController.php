@@ -35,7 +35,8 @@ class ReadyServiceOrderController extends Controller
         $service_ids = ProviderService::where('provider_id',$provider->id)->pluck('service_id')->toArray();
         $ready_service_ids = ProviderReadyService::where('provider_id',$provider->id)->pluck('ready_service_id')->toArray();
 
-        $data = OrderResource::collection(Order::where(function ($query) use($provider){
+        // get orders
+        $orders = Order::where(function ($query) use($provider){
             $query->where(function ($query2){ // get pending order
                 $query2->whereNull('provider_id')
                     ->where('status_id', Status::PENDING_STATUS);
@@ -52,9 +53,14 @@ class ReadyServiceOrderController extends Controller
                 })
                     ->orWhereDoesntHave('readyService');
             })
+            ->whereHas('notifications',function ($query) use($provider){
+                $query->where('type',Notification::NEW_ORDER_TYPE)->where('provider_id',$provider->id);
+            })
             ->WhereDoesntHave('rejectedOrder')  //for remove orders that provider reject it
             ->orderBy('created_at', 'desc')
-            ->get());
+            ->get();
+
+        $data = OrderResource::collection($orders);
         return callback_data(success(), 'pending_orders', $data);
     }
 
@@ -174,6 +180,32 @@ class ReadyServiceOrderController extends Controller
         return callback_data(success(), 'order_accepted_successfully');
     }
 
+    public function rejectOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::PENDING_STATUS);
+            })],
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        // check if offer sent before
+        $offerExists = Offer::where('order_id', $request->order_id)
+            ->where('provider_id', Auth::guard('provider')->id())
+            ->first();
+        if ($offerExists) {
+            return callback_data(error(), 'offer_sent_before');
+        }
+        //send reject offer
+        Offer::create([
+            'order_id' => $request->order_id,
+            'provider_id' => Auth::guard('provider')->id(),
+            'status_id' => Status::REJECTED_BY_PROVIDER_STATUS,
+        ])->refresh();
+        return callback_data(success(), 'order_rejected_successfully');
+    }
+
     public function completeOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -214,32 +246,6 @@ class ReadyServiceOrderController extends Controller
         ]);
 
         return callback_data(success(), 'order_completed_successfully');
-    }
-
-    public function rejectOrder(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
-                $query->where('status_id', Status::PENDING_STATUS);
-            })],
-        ]);
-        if (!is_array($validator) && $validator->fails()) {
-            return callback_data(error(), $validator->errors()->first());
-        }
-        // check if offer sent before
-        $offerExists = Offer::where('order_id', $request->order_id)
-            ->where('provider_id', Auth::guard('provider')->id())
-            ->first();
-        if ($offerExists) {
-            return callback_data(error(), 'offer_sent_before');
-        }
-        //send reject offer
-        $offer = Offer::create([
-            'order_id' => $request->order_id,
-            'provider_id' => Auth::guard('provider')->id(),
-            'status_id' => Status::CANCELED_BY_PROVIDER_STATUS,
-        ])->refresh();
-        return callback_data(success(), 'order_rejected_successfully');
     }
 
 

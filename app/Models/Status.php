@@ -16,7 +16,8 @@ class Status extends Model
     const CANCELED_BY_PROVIDER_STATUS = 5;
     const COMPLETED_STATUS = 6;
     const UNKNOWN_STATUS = 7;
-    const REJECTED_STATUS = 8;
+    const REJECTED_BY_USER_STATUS = 8;
+    const REJECTED_BY_PROVIDER_STATUS = 9;
 
 
 
