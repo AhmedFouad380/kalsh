@@ -19,7 +19,7 @@ class ServicesTableSeeder extends Seeder
             'name_en' => 'Delivery Services',
             'image' => '1.png',
             'sort' => '1',
-            'is_provider' => '1',
+            'is_provider' => 1,
         ]);
 
         Service::create([
@@ -27,7 +27,7 @@ class ServicesTableSeeder extends Seeder
             'name_en' => 'Limousine',
             'image' => '2.png',
             'sort' => '2',
-            'is_provider' => '2',
+            'is_provider' => 1,
         ]);
 
         Service::create([
@@ -35,7 +35,7 @@ class ServicesTableSeeder extends Seeder
             'name_en' => 'Cars Services',
             'image' => '3.png',
             'sort' => '3',
-            'is_provider' => '3',
+            'is_provider' => 1,
         ]);
 
         Service::create([
@@ -43,7 +43,7 @@ class ServicesTableSeeder extends Seeder
             'name_en' => 'Ready',
             'image' => '4.png',
             'sort' => '4',
-            'is_provider' => '1',
+            'is_provider' => 1,
         ]);
 
         Service::create([
@@ -51,7 +51,7 @@ class ServicesTableSeeder extends Seeder
             'name_en' => 'Dreams Interpretation',
             'image' => '5.png',
             'sort' => '5',
-            'is_provider' => '1',
+            'is_provider' => 1,
             'price' => 30,
         ]);
 

@@ -37,7 +37,10 @@ class StatusesTableSeeder extends Seeder
                 'name' => 'un_known',
             ],
             [
-                'name' => 'rejected',
+                'name' => 'rejected_by_user',
+            ],
+            [
+                'name' => 'rejected_by_provider',
             ],
         ];
 
