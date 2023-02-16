@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -129,9 +130,8 @@ class AuthController extends Controller
             $user->email_verified_at=\Carbon\Carbon::now();
             $user->otp=null;
             $user->save();
-            $user->token = $jwt_token;
 
-            return callback_data(success(),'login_success', $user);
+            return callback_data(success(),'login_success', UserResource::make($user)->token($jwt_token));
 
         }
 
@@ -166,13 +166,8 @@ class AuthController extends Controller
             $user->save();
 
             $user->token = $jwt_token;
-            if($user->name==null){
-                $user->is_complete=0;
-            }else{
-                $user->is_complete=1;
 
-            }
-            return callback_data(success(),'login_success', $user);
+            return callback_data(success(),'login_success', UserResource::make($user)->token($jwt_token));
 
         }
 
@@ -185,8 +180,8 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $user = User::where('id',Auth::guard('user')->id())->select('name','email','phone')->firstOrFail();
-        return callback_data(success(),'success_response', $user);
+        $user = User::where('id',Auth::guard('user')->id())->firstOrFail();
+        return callback_data(success(),'login_success', UserResource::make($user));
     }
 
 
@@ -198,12 +193,12 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
         }
-        $user = User::find(Auth::guard('user')->id());
+        $user = Auth::guard('user')->user();
         $user->name=$request->name;
         $user->email=$request->email;
         $user->save();
 
-        return callback_data(success(),'save_success', $user);
+        return callback_data(success(),'login_success', UserResource::make($user));
 
     }
 }
