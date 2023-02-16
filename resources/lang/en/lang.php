@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'user_terms' => 'Users Terms and conditions',
+    'user_privacy' => 'Users privacy policy',
+     'provider_terms' => 'Provider terms and conditions',
+     'provider_privacy' => 'Provider privacy policy',
+     'link' => 'link',
+     'provider_offers' => 'provider offers',
+
     'delivery_service' => 'delivery services',
     'cars_service' => 'car services',
     'limousine_service' => 'limousine service',
