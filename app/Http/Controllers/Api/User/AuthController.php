@@ -148,7 +148,7 @@ class AuthController extends Controller
             return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
         }
 
-        $user =  User::where('otp',$request->otp)->where('phone',$request->phone)->count();
+        $user =  User::where('otp',$request->otp)->where('phone',$request->phone)->first();
         $jwt_token = null;
         if (!isset($user)) {
             return callback_data(error(),'invalid_otp');
