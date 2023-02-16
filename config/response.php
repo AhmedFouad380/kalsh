@@ -228,6 +228,21 @@ return
                 'ar' => 'العرض غير موجود او لم يتم قبوله بعد',
                 'en' => 'Offer not found or not accepted yet',
             ],
+        'offer_rejected_successfully' =>
+            [
+                'ar' => 'تم رفض العرض بنجاح',
+                'en' => 'Offer rejected successfully',
+            ],
+        '' =>
+            [
+                'ar' => '',
+                'en' => '',
+            ],
+        '' =>
+            [
+                'ar' => '',
+                'en' => '',
+            ],
 
 
 
