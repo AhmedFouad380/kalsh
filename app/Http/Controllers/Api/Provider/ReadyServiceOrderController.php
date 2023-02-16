@@ -35,7 +35,8 @@ class ReadyServiceOrderController extends Controller
         $service_ids = ProviderService::where('provider_id',$provider->id)->pluck('service_id')->toArray();
         $ready_service_ids = ProviderReadyService::where('provider_id',$provider->id)->pluck('ready_service_id')->toArray();
 
-        $data = OrderResource::collection(Order::where(function ($query) use($provider){
+        // get orders
+        $orders = Order::where(function ($query) use($provider){
             $query->where(function ($query2){ // get pending order
                 $query2->whereNull('provider_id')
                     ->where('status_id', Status::PENDING_STATUS);
@@ -52,9 +53,14 @@ class ReadyServiceOrderController extends Controller
                 })
                     ->orWhereDoesntHave('readyService');
             })
+            ->whereHas('notifications',function ($query) use($provider){
+                $query->where('type',Notification::NEW_ORDER_TYPE)->where('provider_id',$provider->id);
+            })
             ->WhereDoesntHave('rejectedOrder')  //for remove orders that provider reject it
             ->orderBy('created_at', 'desc')
-            ->get());
+            ->get();
+
+        $data = OrderResource::collection($orders);
         return callback_data(success(), 'pending_orders', $data);
     }
 

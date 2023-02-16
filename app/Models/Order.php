@@ -82,6 +82,11 @@ class Order extends Model
         }
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class,'order_id');
+    }
+
     public static function statusList()
     {
         return [
