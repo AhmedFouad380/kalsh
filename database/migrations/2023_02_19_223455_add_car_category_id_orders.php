@@ -14,7 +14,7 @@ class AddCarCategoryIdOrders extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('car_category_id')->nullable()->constrained('car_categories')->onDelete('restrict');
+            $table->foreignId('car_service_id')->after('ready_service_id')->nullable()->constrained('car_services')->onDelete('restrict');
             $table->text('from_address')->after('from_lng')->nullable();
         });
     }

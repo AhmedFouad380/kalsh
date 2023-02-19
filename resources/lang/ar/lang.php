@@ -2,13 +2,15 @@
 
 return [
 
+    'car_categories' => 'خدمات السيارات',
+
+
     'user_terms' => 'الشروط والاحكام للمستخدمين',
     'user_privacy' => 'سياسة الخصوصية للمستخدمين',
     'provider_terms' => 'الشروط والاحكام لمقدمين الخدمة',
     'provider_privacy' => 'سياسة الخصوصية لمقدمين الخدمة',
     'link' => 'الرابط',
     'provider_offers' => 'عروض مقدمي الخدمة',
-
     'delivery_service' => 'خدمات التوصيل',
     'cars_service' => 'خدمات السيارات',
     'limousine_service' => 'خدمة ليموزين',
