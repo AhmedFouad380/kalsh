@@ -84,10 +84,8 @@ class CarServicesController extends Controller
         $this->objectName::create($data);
         if (isset($data['parent_id'])) {
             return redirect(route($this->route . '.show', $data['parent_id']))->with('message', trans('lang.added_s'));
-
         } else {
             return redirect(route($this->route . '.index'))->with('message', trans('lang.added_s'));
-
         }
     }
 
@@ -156,6 +154,13 @@ class CarServicesController extends Controller
     {
         $data = $request->validated();
         $this->objectName::whereId($request->id)->update($data);
+        $target = $this->objectName::whereId($request->id)->first();
+
+        if (isset($target->parent_id)) {
+            return redirect(route($this->route . '.show', $target->parent_id))->with('message', trans('lang.updated_s'));
+        } else {
+            return redirect(route($this->route . '.index'))->with('message', trans('lang.updated_s'));
+        }
         return redirect(route($this->route . '.index'))->with('message', trans('lang.updated_s'));
     }
 

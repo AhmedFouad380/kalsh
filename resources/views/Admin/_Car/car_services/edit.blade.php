@@ -27,6 +27,12 @@
             <a href="{{route($route.'.index')}}" class="text-muted">
                 {{trans('lang.'.$route)}} </a>
         </li>
+        @if($data->parent_id)
+            <li class="breadcrumb-item">
+                <a href="{{route($route.'.show',$data->parent_id)}}" class="text-muted">
+                    {{trans('lang.sub_services')}} </a>
+            </li>
+        @endif
         <li class="breadcrumb-item">
             {{trans('lang.edit')}}
         </li>
@@ -58,7 +64,7 @@
                     <!--begin::Form-->
                     <form id="kt_account_profile_details_form" action="{{route($route.'.update',$data->id)}}"
                           class="form"
-                          method="post"  enctype="multipart/form-data" >
+                          method="post" enctype="multipart/form-data">
                     @csrf
                     <!--begin::Card body-->
                         <div class="card-body border-top p-9">
