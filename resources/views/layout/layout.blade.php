@@ -106,7 +106,7 @@ License: For each use you must have a valid license purchased only from above li
                             <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                 data-bs-placement="right" data-bs-dismiss="click" title="{{trans('lang.basic_menus')}}">
                                 <!--begin::Nav link-->
-                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) != 'ready') active @endif "
+                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) != 'ready' && request()->segment(1) != 'cars') active @endif "
                                    data-bs-toggle="tab" href="#kt_aside_nav_tab_menu">
                                     <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                     <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Home\Home.svg--><svg

@@ -41,10 +41,8 @@
                                            data-kt-check-target="#users_table .form-check-input" value="1"/>
                                 </div>
                             </th>
-                            <th class="min-w-125px">{{__('lang.image')}}</th>
                             <th class="min-w-125px">{{__('lang.name_ar')}}</th>
                             <th class="min-w-125px">{{__('lang.name_en')}}</th>
-                            <th class="min-w-125px">{{__('lang.is_checked')}}</th>
                             <th class="min-w-125px">{{__('lang.Users_active')}}</th>
                             <th class="min-w-125px">{{__('lang.Actions')}}</th>
                         </tr>
@@ -104,15 +102,9 @@
                 },
                 columns: [
                     {data: 'checkbox', name: 'checkbox', "searchable": false, "orderable": false},
-                    {
-                        data: 'image', name: 'image', "searchable": false, "orderable": false,
-                        render: function (data) {
-                            return "<img src=\"" + data + "\" height=\"50\"/>";
-                        }
-                    },
+
                     {data: 'name_ar', name: 'name_ar', "searchable": true, "orderable": true},
                     {data: 'name_en', name: 'name_en', "searchable": true, "orderable": true},
-                    {data: 'is_checked', name: 'is_checked', "searchable": true, "orderable": true},
                     {data: 'is_active', name: 'is_active', "searchable": true, "orderable": true},
                     {data: 'actions', name: 'actions', "searchable": false, "orderable": false},
                 ]

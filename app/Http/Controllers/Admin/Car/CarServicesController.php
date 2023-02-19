@@ -40,13 +40,12 @@ class CarServicesController extends Controller
                 $name .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row->name . '</span>';
                 return $name;
             })
-            ->addColumn('is_checked', $this->viewPath . 'parts.is_checked_btn')
             ->addColumn('is_active', $this->viewPath . 'parts.active_btn')
             ->addColumn('actions', function ($row) {
                 $actions = ' <a href="' . route($this->route . ".edit", ['id' => $row->id]) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
                 return $actions;
             })
-            ->rawColumns(['actions', 'checkbox', 'name', 'is_active', 'branch','is_checked'])
+            ->rawColumns(['actions', 'checkbox', 'name', 'is_active'])
             ->make();
 
     }
