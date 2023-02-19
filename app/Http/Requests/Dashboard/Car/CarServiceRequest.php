@@ -26,6 +26,7 @@ class CarServiceRequest extends FormRequest
         return [
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
+            'parent_id' => 'nullable|exists:car_services,id',
         ];
     }
 }

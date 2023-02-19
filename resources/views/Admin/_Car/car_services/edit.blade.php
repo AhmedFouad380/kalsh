@@ -56,14 +56,14 @@
                 <!--begin::Content-->
                 <div id="kt_account_settings_profile_details" class="collapse show">
                     <!--begin::Form-->
-                    <form id="kt_account_profile_details_form" action="{{url($route.'/update/'.$data->id)}}"
+                    <form id="kt_account_profile_details_form" action="{{route($route.'.update',$data->id)}}"
                           class="form"
                           method="post"  enctype="multipart/form-data" >
                     @csrf
                     <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
-                            @include('Admin._Ready.'.$route.'.form')
+                            @include('Admin._Car.'.$route.'.form')
                         </div>
                         <!--end::Scroll-->
                         <!--begin::Actions-->

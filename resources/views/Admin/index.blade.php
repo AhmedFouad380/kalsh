@@ -532,28 +532,5 @@
                 markers: { strokeColor: o, strokeWidth: 3 },
             }).render();
         })()
-
-
     </script>
-
-    <!--begin::Page scripts(used by this page) -->
-    <?php
-    $message = session()->get("message");
-    ?>
-
-    @if( session()->has("message"))
-        @if( $message == "Success")
-            <script>
-                Swal.fire({
-                    icon: 'success',
-                    title: "{{__('lang.Success')}}",
-                    text: "{{__('lang.Success_text')}}",
-                    type: "success",
-                    timer: 1000,
-                    showConfirmButton: false
-                });
-
-            </script>
-        @endif
-    @endif
 @endsection

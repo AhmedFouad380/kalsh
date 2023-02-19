@@ -2,6 +2,7 @@
 
 return [
 
+    'sub_services' => 'الخدمات الداخلية',
     'car_services' => 'خدمات السيارات',
 
 

@@ -43,6 +43,7 @@
                             </th>
                             <th class="min-w-125px">{{__('lang.name_ar')}}</th>
                             <th class="min-w-125px">{{__('lang.name_en')}}</th>
+                            <th class="min-w-125px">{{__('lang.sub_services')}}</th>
                             <th class="min-w-125px">{{__('lang.Users_active')}}</th>
                             <th class="min-w-125px">{{__('lang.Actions')}}</th>
                         </tr>
@@ -105,6 +106,7 @@
 
                     {data: 'name_ar', name: 'name_ar', "searchable": true, "orderable": true},
                     {data: 'name_en', name: 'name_en', "searchable": true, "orderable": true},
+                    {data: 'subService', name: 'subService', "searchable": false, "orderable": false},
                     {data: 'is_active', name: 'is_active', "searchable": true, "orderable": true},
                     {data: 'actions', name: 'actions', "searchable": false, "orderable": false},
                 ]
@@ -118,32 +120,6 @@
             });
         });
     </script>
-    <?php
-    $message = session()->get("message");
-    ?>
-    @if( session()->has("message"))
-        <script>
-            toastr.options = {
-                "closeButton": true,
-                "debug": false,
-                "newestOnTop": true,
-                "progressBar": true,
-                "positionClass": "toast-bottom-right",
-                "preventDuplicates": false,
-                "showDuration": "300",
-                "hideDuration": "1000",
-                "timeOut": "5000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            };
-            toastr.success("نجاح", "{{$message}}");
-        </script>
 
-
-
-    @endif
 @endsection
 

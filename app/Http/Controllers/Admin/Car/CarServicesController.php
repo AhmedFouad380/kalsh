@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Car;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dashboard\Ready\ReadyServiceRequest;
+use App\Http\Requests\Dashboard\Car\CarServiceRequest;
 use App\Models\CarService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -26,7 +26,7 @@ class CarServicesController extends Controller
 
     public function datatable(Request $request)
     {
-        $data = $this->objectName::orderBy('sort', 'asc');
+        $data = $this->objectName::where('parent_id', null)->orderBy('sort', 'asc');
         return DataTables::of($data)
             ->addColumn('checkbox', function ($row) {
                 $checkbox = '';
@@ -45,14 +45,21 @@ class CarServicesController extends Controller
                 $actions = ' <a href="' . route($this->route . ".edit", ['id' => $row->id]) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
                 return $actions;
             })
-            ->rawColumns(['actions', 'checkbox', 'name', 'is_active'])
+            ->addColumn('subService', function ($row) {
+                $actions = ' <a href="' . route($this->route . ".show", ['id' => $row->id]) . '" class="btn btn-light-info">' . $row->children->count() . ' <i class="bi bi-eye-fill"></i>  </a>';
+                return $actions;
+            })
+            ->rawColumns(['actions', 'checkbox', 'name', 'is_active', 'subService'])
             ->make();
 
     }
+
+
     public function table_buttons()
     {
         return view($this->viewPath . '.button');
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -75,8 +82,15 @@ class CarServicesController extends Controller
     {
         $data = $request->validated();
         $this->objectName::create($data);
-        return redirect(route($this->route . '.index'))->with('message', trans('lang.added_s'));
+        if (isset($data['parent_id'])) {
+            return redirect(route($this->route . '.show', $data['parent_id']))->with('message', trans('lang.added_s'));
+
+        } else {
+            return redirect(route($this->route . '.index'))->with('message', trans('lang.added_s'));
+
+        }
     }
+
     /**
      * Display the specified resource.
      *
@@ -85,7 +99,38 @@ class CarServicesController extends Controller
      */
     public function show($id)
     {
-        //
+        return view($this->viewPath . '.sub_services.index', compact('id'));
+    }
+
+    public function subServicesTableButtons($id)
+    {
+        return view($this->viewPath . '.sub_services.button', compact('id'));
+    }
+
+    public function subServicesDatatable(Request $request)
+    {
+        $data = $this->objectName::where('parent_id', $request->id)->orderBy('sort', 'asc');
+        return DataTables::of($data)
+            ->addColumn('checkbox', function ($row) {
+                $checkbox = '';
+                $checkbox .= '<div class="form-check form-check-sm form-check-custom form-check-solid">
+                                    <input class="form-check-input selector" type="checkbox" value="' . $row->id . '" />
+                                </div>';
+                return $checkbox;
+            })
+            ->editColumn('name', function ($row) {
+                $name = '';
+                $name .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row->name . '</span>';
+                return $name;
+            })
+            ->addColumn('is_active', $this->viewPath . 'parts.active_btn')
+            ->addColumn('actions', function ($row) {
+                $actions = ' <a href="' . route($this->route . ".edit", ['id' => $row->id]) . '" class="btn btn-active-light-info">' . trans('lang.edit') . ' <i class="bi bi-pencil-fill"></i>  </a>';
+                return $actions;
+            })
+            ->rawColumns(['actions', 'checkbox', 'name', 'is_active'])
+            ->make();
+
     }
 
     /**
@@ -110,13 +155,6 @@ class CarServicesController extends Controller
     public function update(CarServiceRequest $request)
     {
         $data = $request->validated();
-        if ($data['image'] == null) {
-            unset($data['image']);
-        } else {
-            $img_name = 'service_' . time() . random_int(0000, 9999) . '.' . $data['image']->getClientOriginalExtension();
-            $data['image']->move(public_path('/uploads/services/'), $img_name);
-            $data['image'] = $img_name;
-        }
         $this->objectName::whereId($request->id)->update($data);
         return redirect(route($this->route . '.index'))->with('message', trans('lang.updated_s'));
     }

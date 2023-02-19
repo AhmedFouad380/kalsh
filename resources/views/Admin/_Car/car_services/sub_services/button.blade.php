@@ -53,8 +53,9 @@
                     <!--begin::Form-->
                     <form id="" class="form" method="post" action="{{route($route.'.store')}}"
                           enctype="multipart/form-data">
-                    @csrf
-                    <!--begin::Scroll-->
+                        @csrf
+                        <input type="hidden" name="parent_id" value="{{$id}}">
+                        <!--begin::Scroll-->
                         <div class="d-flex flex-column scroll-y me-n7 pe-7"
                              id="kt_modal_add_user_scroll" data-kt-scroll="true"
                              data-kt-scroll-activate="{default: false, lg: true}"

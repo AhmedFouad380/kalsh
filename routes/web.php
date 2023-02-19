@@ -226,14 +226,17 @@ Route::group(['middleware' => ['admin']], function () {
         Route::group(['prefix' => 'car_services', 'as' => 'car_services'], function () {
             Route::get('/', [CarServicesController::class, 'index'])->name('.index');
             Route::get('/datatable', [CarServicesController::class, 'datatable'])->name('.datatable');
+            Route::get('/sub_services/datatable', [CarServicesController::class, 'subServicesDatatable'])->name('.sub_services.datatable');
             Route::get('/create', [CarServicesController::class, 'create'])->name('.create');
             Route::post('/store', [CarServicesController::class, 'store'])->name('.store');
+            Route::get('/show/{id}', [CarServicesController::class, 'show'])->name('.show');
             Route::get('/edit/{id}', [CarServicesController::class, 'edit'])->name('.edit');
             Route::post('/update/{id}', [CarServicesController::class, 'update'])->name('.update');
             Route::get('delete', [CarServicesController::class, 'destroy'])->name('.delete');
             Route::post('/change_active', [CarServicesController::class, 'changeActive'])->name('.change_active');
             Route::post('/change_is_checked', [CarServicesController::class, 'changeIsChecked'])->name('.change_is_checked');
             Route::get('/add-button', [CarServicesController::class, 'table_buttons'])->name('.table_buttons');
+            Route::get('/sub_services/add-button/{id}', [CarServicesController::class, 'subServicesTableButtons'])->name('.sub_services.table_buttons');
         });
     });
 
