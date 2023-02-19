@@ -2,7 +2,7 @@
 
 return [
 
-    'car_categories' => 'خدمات السيارات',
+    'car_services' => 'خدمات السيارات',
 
 
     'user_terms' => 'الشروط والاحكام للمستخدمين',

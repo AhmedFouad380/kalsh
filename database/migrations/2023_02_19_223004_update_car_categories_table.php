@@ -14,7 +14,7 @@ class UpdateCarCategoriesTable extends Migration
     public function up()
     {
         Schema::table('car_services', function (Blueprint $table) {
-            $table->foreignId('parent_id')->nullable()->constrained('car_services')->onDelete('cascade');
+            $table->foreignId('parent_id')->after('name_en')->nullable()->constrained('car_services')->onDelete('cascade');
         });
     }
 

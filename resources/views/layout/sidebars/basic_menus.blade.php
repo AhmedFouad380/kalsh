@@ -1,4 +1,4 @@
-<div class="tab-pane fade @if(request()->segment(1) != 'ready') active show @endif " id="kt_aside_nav_tab_menu"
+<div class="tab-pane fade @if(request()->segment(1) != 'ready' && request()->segment(1) != 'cars') active show @endif " id="kt_aside_nav_tab_menu"
      role="tabpanel">
     <div
         class="menu menu-column menu-fit menu-rounded menu-title-gray-600 menu-icon-gray-400 menu-state-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500 fw-bold fs-5 px-6 my-5 my-lg-0"

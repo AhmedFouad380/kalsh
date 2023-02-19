@@ -12,8 +12,8 @@
                 </div>
             </div>
             <div class="menu-item">
-                <a class="menu-link @if(request()->routeIs('car_categories.*')) active @endif "
-                   href="">
+                <a class="menu-link @if(request()->routeIs('car_services.*')) active @endif "
+                   href="{{route('car_services.index')}}">
                                                             <span class="menu-icon">
                                                                 <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                           <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Map\Marker1.svg--><svg
@@ -28,7 +28,7 @@
 </svg><!--end::Svg Icon--></span>
                                                                 <!--end::Svg Icon-->
                                                             </span>
-                    <span class="menu-title">{{__('lang.car_categories')}}</span>
+                    <span class="menu-title">{{__('lang.car_services')}}</span>
                 </a>
             </div>
 
