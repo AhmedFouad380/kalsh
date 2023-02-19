@@ -58,10 +58,10 @@ class AuthController extends Controller
                 return callback_data(complete_register(),'complete_register');
             }else{
                 User::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>'123456']);
-                Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($user) {
-                    $message->to($user->email);
-                    $message->subject('email verification');
-                });
+                //   Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($user) {
+                //      $message->to($user->email);
+                //      $message->subject('email verification');
+                // });
                 return callback_data(code_sent(),'otp_sent_mail',$otp);
 
             }
@@ -98,10 +98,10 @@ class AuthController extends Controller
         ]);
 
         // send mail
-        Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($request){
-            $message->to($request->email);
-            $message->subject('email verification');
-        });
+        //   Mail::send('mail.register_code_mail', ['otp_code' => $otp], function ($message) use ($request){
+        //    $message->to($request->email);
+        //     $message->subject('email verification');
+        // });
         return callback_data(code_sent(),'otp_sent_mail',$otp);
 
     }
