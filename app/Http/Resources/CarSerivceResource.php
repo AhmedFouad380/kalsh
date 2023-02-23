@@ -17,7 +17,7 @@ class CarSerivceResource extends JsonResource
         return [
             'id'=>$this->id,
             'name'=>$this->name,
-            'children'=>$this->children,
+            'children'=>CarSerivceResource::collection($this->children),
         ];
     }
 }

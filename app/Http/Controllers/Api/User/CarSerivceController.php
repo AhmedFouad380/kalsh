@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Validator;
 class CarSerivceController extends Controller
 {
     public function index(){
-        $data = CarSerivceResource::collection(CarService::active()->orderBy('sort')->with('children')->get());
+        $data = CarSerivceResource::collection(CarService::whereNull('parent_id')->active()->orderBy('sort')->with('children')->get());
         return callback_data(success(),'success_response',$data);
     }
 
