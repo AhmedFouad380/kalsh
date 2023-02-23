@@ -2,6 +2,12 @@
 
 return [
 
+    'price_ber_kelo' => 'التكلفة بالكيلو متر',
+    'increase_price_ber_kelo' => 'يتم زيادة ريال مع كل كيلو في الطلب',
+    'road_type_in_service' => 'نوع الطريق في الخدمة',
+    'service_with_two' => 'خدمة طريقين',
+    'service_with_one' => 'خدمة طريق واحد',
+    'begin_price' => 'تكلفة الخدمة من البداية',
     'sub_services' => 'الخدمات الداخلية',
     'car_services' => 'خدمات السيارات',
 

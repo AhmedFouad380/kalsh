@@ -9,7 +9,12 @@ class CarService extends Model
 {
     use HasFactory;
 
+
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    const TYPE = ['one_way','two_ways'];
+    const TYPEONE = 'one_way';
+    const TYPETWO = 'two_ways';
 
     protected $appends = ['name'];
 

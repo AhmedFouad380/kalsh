@@ -120,7 +120,7 @@
                 dataType: 'html'
             });
         });
-        
+
     </script>
 
 @endsection

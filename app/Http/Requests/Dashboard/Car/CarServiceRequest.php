@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Dashboard\Car;
 
+use App\Models\CarService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CarServiceRequest extends FormRequest
 {
@@ -27,6 +29,9 @@ class CarServiceRequest extends FormRequest
             'name_ar' => 'required|string|max:255',
             'name_en' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:car_services,id',
+            'cost' => 'required|numeric|min:0',
+            'distance_cost' => 'required|numeric|min:0',
+            'type' => ['required', Rule::in(CarService::TYPE)],
         ];
     }
 }
