@@ -114,6 +114,16 @@ return
                 'ar' => 'الخدمة التي قمت بإختيارها غير موجودة',
                 'en' => 'The service you chosen is not found',
             ],
+        'car_service_required' =>
+            [
+                'ar' => 'اختر خدمة السيارات',
+                'en' => 'Please select car service',
+            ],
+        'car_service_unique' =>
+            [
+                'ar' => 'الخدمة التي قمت بإختيارها غير موجودة',
+                'en' => 'The service you chosen is not found',
+            ],
         'radius_required' =>
             [
                 'ar' => 'من فضلك اختر نطاق البحث',

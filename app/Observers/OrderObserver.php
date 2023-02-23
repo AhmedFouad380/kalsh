@@ -39,7 +39,7 @@ class OrderObserver
                 $query->where('service_id',$order->service_id);
             })
             ->when(!empty($order->ready_service_id),function ($query) use ($order){
-                $query->whereHas('providerReadyServices',function ($query2) use ($order){
+                    $query->whereHas('providerReadyServices',function ($query2) use ($order){
                     $query2->where('ready_service_id',$order->ready_service_id);
                 });
             })

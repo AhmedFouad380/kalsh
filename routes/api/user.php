@@ -17,6 +17,7 @@ use \App\Http\Controllers\Api\User\NewsController;
 use \App\Http\Controllers\Api\User\ImportantNumbersController;
 use \App\Http\Controllers\Api\User\ChatController;
 use \App\Http\Controllers\Api\PageController;
+use \App\Http\Controllers\Api\User\CarSerivceController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,7 +65,13 @@ Route::prefix('user')->group(function () {
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);
-
+        Route::prefix('car-services')->group(function () {
+            Route::post('/create-order', [CarSerivceController::class, 'createOrder']);
+            Route::get('/order', [CarSerivceController::class, 'order']);
+            Route::post('/accept-offer', [CarSerivceController::class, 'acceptOffer']);
+            Route::post('/reject-offer', [CarSerivceController::class, 'rejectOffer']);
+            Route::post('/cancel-order', [CarSerivceController::class, 'cancelOrder']);
+        });
     });
 
 });
@@ -75,4 +82,5 @@ Route::get('/pray-time/slider', [StoresController::class, 'pray_slider']);
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/importantNumbers', [ImportantNumbersController::class, 'index']);
 Route::get('/readyServices', [ReadyServicesController::class, 'index']);
+Route::get('/carServices', [CarSerivceController::class, 'index']);
 Route::get('page',[PageController::class,'Page']);

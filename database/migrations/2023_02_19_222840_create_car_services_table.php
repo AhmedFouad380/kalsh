@@ -18,6 +18,9 @@ class CreateCarServicesTable extends Migration
             $table->string('name_ar');
             $table->string('name_en');
             $table->integer('sort')->nullable();
+            $table->double('cost')->default(0);
+            $table->double('distance_cost')->default(0);
+            $table->enum('type',['one_way','two_ways'])->default('one_way');
             $table->enum('status',['active','inactive'])->default('active');
             $table->softDeletes();
             $table->timestamps();

@@ -42,6 +42,9 @@ class StatusesTableSeeder extends Seeder
             [
                 'name' => 'rejected_by_provider',
             ],
+            [
+                'name' => 'start',
+            ],
         ];
 
         foreach ($data as $get) {
