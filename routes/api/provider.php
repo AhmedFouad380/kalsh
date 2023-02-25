@@ -51,6 +51,13 @@ Route::prefix('provider')->group(function () {
             Route::post('/rate', [ReadyServiceOrderController::class, 'rateUser']);
         });
 
+
+        // todo:: accept/reject order
+
+
+
+
+
         Route::get('/notifications', [NotificationController::class, 'index']);
     });
 

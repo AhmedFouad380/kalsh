@@ -243,6 +243,36 @@ return
                 'ar' => 'تم رفض العرض بنجاح',
                 'en' => 'Offer rejected successfully',
             ],
+        'provider_id_required' =>
+            [
+                'ar' => 'اختر مقدم الخدمة',
+                'en' => 'Choose Provider',
+            ],
+        'provider_id_unique' =>
+            [
+                'ar' => 'مقدم الخدمة غير موجود',
+                'en' => 'Provider Not Found',
+            ],
+        'nearest_providers' =>
+            [
+                'ar' => 'مقدمي الخدمات',
+                'en' => 'Nearest Providers',
+            ],
+        'dream_order_created_successfully' =>
+            [
+                'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار رد الشيخ',
+                'en' => 'Your order created successfully and waiting for sheikh response',
+            ],
+        '' =>
+            [
+                'ar' => '',
+                'en' => '',
+            ],
+        '' =>
+            [
+                'ar' => '',
+                'en' => '',
+            ],
         '' =>
             [
                 'ar' => '',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\User\DreamServiceOrderController;
 use App\Http\Controllers\Api\User\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -56,12 +57,21 @@ Route::prefix('user')->group(function () {
             Route::get('/', [ChatController::class, 'getChat']);
             Route::post('/send', [ChatController::class, 'sendMessage']);
         });
+
+        // ready services
         Route::prefix('ready-services')->group(function () {
             Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
             Route::get('/orders', [ReadyServiceOrderController::class, 'orders']);
             Route::post('/accept-offer', [ReadyServiceOrderController::class, 'acceptOffer']);
             Route::post('/reject-offer', [ReadyServiceOrderController::class, 'rejectOffer']);
             Route::post('/cancel-order', [ReadyServiceOrderController::class, 'cancelOrder']);
+        });
+
+        // dream services
+        Route::prefix('dream-services')->group(function () {
+            Route::get('/getNearestProviders', [DreamServiceOrderController::class, 'getNearestProviders']);
+            Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
+            // todo:: pay for service
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);

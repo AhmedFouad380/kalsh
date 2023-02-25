@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\ProviderResource;
 use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Order;
@@ -16,21 +17,27 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class ReadyServiceOrderController extends Controller
+class DreamServiceOrderController extends Controller
 {
-
+    public function getNearestProviders()
+    {
+        $user = Auth::guard('user')->user();
+        if(empty($user->lat) ||  empty($user->lng) ){
+            return callback_data(not_accepted(),'set_location_first');
+        }
+        // get providers in radius
+        $providers = $this->nearestProviders($user->lat,$user->lng,nearest_radius());
+        return callback_data(success(),'nearest_providers',ProviderResource::collection($providers));
+    }
     public function createOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'ready_service_id' => 'required|exists:ready_services,id',
-            'radius' => 'required|between:1,100',
+            'provider_id' => 'required|exists:providers,id',
             'description' => 'required_without:voice|min:10',
             'voice' => 'required_without:description|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
         ], [
-            'ready_service_id.required' => 'ready_service_required',
-            'ready_service_id.exists' => 'ready_service_unique',
-            'radius.required' => 'radius_required',
-            'radius.between' => 'radius_between',
+            'provider_id.required' => 'provider_id_required',
+            'provider_id.exists' => 'provider_id_unique',
             'description.required_without' => 'description_required_without_voice',
             'description.min' => 'description_min_10',
             'voice.required_without' => 'voice_required_without_description',
@@ -39,26 +46,24 @@ class ReadyServiceOrderController extends Controller
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(),$validator->errors()->first());
         }
-        $user = Auth::guard('user')->user() ;
+        $user = Auth::guard('user')->user();
         if(empty($user->lat) ||  empty($user->lng) ){
             return callback_data(not_accepted(),'set_location_first');
-
         }
 
         Order::create([
             'user_id' => Auth::guard('user')->id(),
-            'type' => 'ready',
-            'service_id' => 4,
-            'ready_service_id' => $request->ready_service_id,
-            'radius' => $request->radius,
+            'provider_id' => $request->provider_id,
+            'type' => 'dream',
+            'service_id' => 5,  // dream service
+            'radius' => nearest_radius(),
             'from_lat' => $user->lat,
             'from_lng' => $user->lng,
             'description' => $request->description,
             'voice' => $request->voice,
             'status_id' => Status::PENDING_STATUS,
         ]);
-
-        return callback_data(success(),'ready_order_created_successfully');
+        return callback_data(success(),'dream_order_created_successfully');
     }
 
     public function acceptOffer(Request $request)
