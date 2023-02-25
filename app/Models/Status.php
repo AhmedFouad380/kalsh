@@ -18,6 +18,7 @@ class Status extends Model
     const UNKNOWN_STATUS = 7;
     const REJECTED_BY_USER_STATUS = 8;
     const REJECTED_BY_PROVIDER_STATUS = 9;
+    const START_STATUS = 10;
 
 
 

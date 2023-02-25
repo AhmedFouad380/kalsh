@@ -1,11 +1,11 @@
 @extends('layout.layout')
 @php
-    $route = 'important_numbers';
+    $route = 'car_services';
 @endphp
 @section('title',__('lang.Users'))
 @section('header')
     <!--begin::Heading-->
-    <h1 class="text-dark fw-bolder my-0 fs-2">{{trans('lang.'.$route)}} </h1>
+    <h1 class="text-dark fw-bolder my-0 fs-2">  {{trans('lang.'.$route)}} </h1>
     <!--end::Heading-->
     <!--begin::Breadcrumb-->
     <ul class="breadcrumb fw-bold fs-base my-1">
@@ -16,8 +16,8 @@
         <li class="breadcrumb-item">
             {{trans('lang.'.$route)}}
         </li>
+
     </ul>
-    <!--end::Breadcrumb-->
 @endsection
 
 @section('content')
@@ -34,6 +34,7 @@
                         <!--begin::Table head-->
                         <thead>
                         <!--begin::Table row-->
+
                         <tr class="text-start text-muted fw-bolder fs-5 text-uppercase gs-0">
                             <th class="w-10px pe-2">
                                 <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
@@ -43,7 +44,8 @@
                             </th>
                             <th class="min-w-125px">{{__('lang.name_ar')}}</th>
                             <th class="min-w-125px">{{__('lang.name_en')}}</th>
-                            <th class="min-w-125px">{{__('lang.number')}}</th>
+                            <th class="min-w-125px">{{__('lang.begin_price')}}</th>
+                            <th class="min-w-125px">{{__('lang.sub_services')}}</th>
                             <th class="min-w-125px">{{__('lang.Users_active')}}</th>
                             <th class="min-w-125px">{{__('lang.Actions')}}</th>
                         </tr>
@@ -103,15 +105,17 @@
                 },
                 columns: [
                     {data: 'checkbox', name: 'checkbox', "searchable": false, "orderable": false},
+
                     {data: 'name_ar', name: 'name_ar', "searchable": true, "orderable": true},
                     {data: 'name_en', name: 'name_en', "searchable": true, "orderable": true},
-                    {data: 'number', name: 'number', "searchable": true, "orderable": true},
+                    {data: 'cost', name: 'cost', "searchable": true, "orderable": true},
+                    {data: 'subService', name: 'subService', "searchable": false, "orderable": false},
                     {data: 'is_active', name: 'is_active', "searchable": true, "orderable": true},
                     {data: 'actions', name: 'actions', "searchable": false, "orderable": false},
                 ]
             });
             $.ajax({
-                url: "{{ URL::to($route.'/add-button')}}",
+                url: "{{ route($route.'.table_buttons') }}",
                 success: function (data) {
                     $('.add_button').append(data);
                 },
@@ -119,5 +123,6 @@
             });
         });
     </script>
+
 @endsection
 
