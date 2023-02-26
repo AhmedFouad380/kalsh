@@ -47,7 +47,7 @@ class ReadyServiceOrderController extends Controller
                 });
         })
             ->whereIn('service_id', $service_ids)
-            ->when(!empty($ready_service_ids),function ($query) use($ready_service_ids){
+            ->where(function ($query) use($ready_service_ids){
                 $query->whereHas('readyService',function ($query2) use($ready_service_ids){
                     $query2->whereIn('ready_service_id', $ready_service_ids);
                 })
