@@ -69,8 +69,8 @@ Route::prefix('user')->group(function () {
 
         // dream services
         Route::prefix('dream-services')->group(function () {
-            Route::get('/getNearestProviders', [DreamServiceOrderController::class, 'getNearestProviders']);
-            Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
+            Route::get('/get-nearest-providers', [DreamServiceOrderController::class, 'getNearestProviders']);
+            Route::post('/create-order', [DreamServiceOrderController::class, 'createOrder']);
             // todo:: pay for service
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
