@@ -20,13 +20,23 @@ trait ResearchProvidersTrait
         }
     }
 
+    public function CarServiceProviders($order)
+    {
+        // get providers in order radius
+        $providers = $this->nearestProviders($order->from_lat,$order->from_lng,$order->radius,$order);
+
+        if (!$providers->isEmpty()){
+            foreach ($providers as $provider){
+                $this->sendProviderNotification($order,$provider);
+            }
+        }
+    }
     public function dreamServiceProvider($order)
     {
         if ($order->provider){
             $this->sendProviderNotification($order,$order->provider);
         }
     }
-
 
     public function nearestProviders($lat, $lng, $radius, $order=null)
     {
