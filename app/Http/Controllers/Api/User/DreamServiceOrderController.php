@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use App\Helpers\ResearchProvidersTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProviderResource;
@@ -19,6 +20,8 @@ use Illuminate\Validation\Rule;
 
 class DreamServiceOrderController extends Controller
 {
+    use ResearchProvidersTrait;
+
     public function getNearestProviders()
     {
         $user = Auth::guard('user')->user();
