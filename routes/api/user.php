@@ -94,3 +94,9 @@ Route::get('/importantNumbers', [ImportantNumbersController::class, 'index']);
 Route::get('/readyServices', [ReadyServicesController::class, 'index']);
 Route::get('/carServices', [CarSerivceController::class, 'index']);
 Route::get('page',[PageController::class,'Page']);
+
+Route::get('/optimize', function () {
+
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    return ' sent';
+});
