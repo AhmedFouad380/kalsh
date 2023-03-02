@@ -124,5 +124,12 @@ class AuthController extends Controller
         return callback_data(success(),'save_success');
 
     }
+    public function logout(Request $request){
+
+        Auth::guard('provider')->logout();
+
+        return callback_data(success(),'Unauthenticated');
+
+    }
 
 }

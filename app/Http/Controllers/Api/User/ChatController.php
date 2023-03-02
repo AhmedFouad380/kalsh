@@ -53,6 +53,7 @@ class ChatController extends Controller
             'voice' => $request->voice,
         ]);
 
+        $data->created_at=\Carbon\Carbon::parse($data->created_at)->format('Y-m-d H:i');
         $options = array(
             'cluster' => env('PUSHER_APP_CLUSTER'),
             'encrypted' => true

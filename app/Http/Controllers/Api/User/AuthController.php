@@ -201,4 +201,12 @@ class AuthController extends Controller
         return callback_data(success(),'login_success', UserResource::make($user));
 
     }
+    public function logout(Request $request){
+
+       Auth::guard('user')->logout();
+
+        return callback_data(success(),'Unauthenticated');
+
+    }
+
 }

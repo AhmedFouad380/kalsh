@@ -52,6 +52,7 @@ Route::prefix('user')->group(function () {
             Route::post('/update-language', [HomeController::class, 'updateLanguage']);
             Route::get('/profile', [AuthController::class, 'profile']);
             Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+            Route::get('/logout', [AuthController::class, 'logout']);
         });
         Route::prefix('chat')->group(function () {
             Route::get('/', [ChatController::class, 'getChat']);

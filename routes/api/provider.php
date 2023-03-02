@@ -24,6 +24,7 @@ Route::prefix('provider')->group(function () {
     //routes should authenticated
     Route::middleware('provider')->group(function () {
         Route::prefix('auth')->group(function () {
+            Route::get('/logout', [AuthController::class, 'logout']);
             Route::post('/update-location', [HomeController::class, 'updateLocation']);
             Route::post('/update-language', [HomeController::class, 'updateLanguage']);
             Route::get('/profile', [AuthController::class, 'profile']);
