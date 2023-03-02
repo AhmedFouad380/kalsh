@@ -205,7 +205,7 @@ class AuthController extends Controller
 
        Auth::guard('user')->logout();
 
-        return callback_data(success(),'Unauthenticated');
+        return callback_data(success(),'logout_success');
 
     }
 

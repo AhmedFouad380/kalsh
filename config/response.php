@@ -44,6 +44,11 @@ return
                 'ar' => 'تم  التسجيل بنجاح',
                 'en' => 'login Successfully ',
             ],
+        'logout_success' =>
+            [
+                'ar' => 'تم  التسجيل الخروج بنجاح',
+                'en' => 'logout Successfully ',
+            ],
         'phone_required' =>
             [
                 'ar' => 'من فضلك ادخل رقم الجوال.',
