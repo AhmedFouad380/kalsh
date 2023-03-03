@@ -59,7 +59,7 @@ function not_accepted()
 
 function nearest_radius()
 {
-    return 100; // 30km
+    return 100; // 100km
 }
 
 function google_api_key()
