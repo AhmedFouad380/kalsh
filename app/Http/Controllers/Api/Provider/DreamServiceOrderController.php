@@ -23,7 +23,6 @@ class DreamServiceOrderController extends Controller
 {
     use ResearchProvidersTrait;
 
-
     public function acceptOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -34,17 +33,13 @@ class DreamServiceOrderController extends Controller
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
         }
-
         $order = Order::findOrFail($request->order_id);
-
         if (!$order) {
             return callback_data(error(), 'order_not_found');
         }
-
         // accept offer
         $order->status_id = Status::ACCEPTED_STATUS;
         $order->save();
-
         // send notification to provider
         $user = $order->user;
 
@@ -64,9 +59,6 @@ class DreamServiceOrderController extends Controller
             'description_ar' => $msg_ar,
             'description_en' => $msg_en,
         ]);
-
-        // reject other offers
-
 
         return callback_data(success(), 'order_accepted_successfully');
     }
@@ -108,10 +100,8 @@ class DreamServiceOrderController extends Controller
 
         $order->save();
 
-        // send notification to provider
+        // send notification to user
         $user = $order->user;
-
-
         sendToUser([$user->device_token], ${'title_' . $user->lang}, ${'msg_' . $user->lang}, Notification::REJECT_ORDER_TYPE, $order->id, @optional($order)->type);
 
         Notification::create([
@@ -147,13 +137,12 @@ class DreamServiceOrderController extends Controller
             return callback_data(error(), 'order_not_found');
         }
 
-        // accept offer
+        // accept order
         $order->status_id = Status::COMPLETED_STATUS;
         $order->save();
 
         // send notification to provider
         $user = $order->user;
-
         $title_ar = 'انتهاء الطلب';
         $title_en = 'Order complete';
         $msg_ar = 'تم انتهاء طلبك رقم ' . '#' . $order->id;
@@ -170,7 +159,6 @@ class DreamServiceOrderController extends Controller
             'description_ar' => $msg_ar,
             'description_en' => $msg_en,
         ]);
-
 
         return callback_data(success(), 'order_completed_successfully');
     }
