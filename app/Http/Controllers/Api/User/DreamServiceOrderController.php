@@ -6,6 +6,8 @@ use App\Helpers\ResearchProvidersTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProviderResource;
+use App\Models\Chat;
+use App\Models\Message;
 use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Order;
@@ -13,6 +15,7 @@ use App\Models\Provider;
 use App\Models\Rate;
 use App\Models\Service;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -70,10 +73,7 @@ class DreamServiceOrderController extends Controller
         return callback_data(success(), 'dream_order_created_successfully');
     }
 
-
-    //TODO::start here bezra
-    //one status for accept
-    public function acceptOrder(Request $request)
+    public function acceptOffer(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'offer_id' => ['required', Rule::exists('offers', 'id')->where(function ($query) {
@@ -125,8 +125,7 @@ class DreamServiceOrderController extends Controller
         return callback_data(success(), 'offer_accepted_successfully');
     }
 
-    //two status of un_known and reject
-    public function rejectOrder(Request $request)
+    public function rejectOffer(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'offer_id' => ['required', Rule::exists('offers', 'id')->where(function ($query) {
@@ -169,6 +168,87 @@ class DreamServiceOrderController extends Controller
         ]);
 
         return callback_data(success(), 'offer_rejected_successfully');
+    }
+
+    public function cancelOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::PENDING_STATUS);
+            })]
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+
+        $order = Order::where('id', $request->order_id)->where('user_id', Auth::guard('user')->id())->first();
+        if (!$order) {
+            return callback_data(error(), 'order_not_found');
+        }
+
+        // cancel order
+        $order->status_id = Status::CANCELED_BY_USER_STATUS;
+        $order->save();
+
+        // cancel offers if exists
+        Offer::where('order_id', $order->id)
+            ->update([
+                'status_id' => Status::CANCELED_BY_USER_STATUS
+            ]);
+
+        return callback_data(success(), 'order_rejected_successfully');
+    }
+
+
+    public function payOrder(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::ACCEPTED_STATUS);
+            })]
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+
+        $order = Order::where('id', $request->order_id)->where('user_id', Auth::guard('user')->id())->first();
+        if (!$order) {
+            return callback_data(error(), 'order_not_found');
+        }
+
+        // cancel order
+        $order->payment_status = Order::PAYMENT_STATUS[1];
+        $order->save();
+
+
+        // create chat
+        $chat = Chat::firstOrCreate([
+            'order_id' => $order->id,
+            'user_id' => $order->user_id,
+            'provider_id' => $order->provider_id,
+
+        ], [
+            'order_id' => $order->id,
+            'user_id' => $order->user_id,
+            'provider_id' => $order->provider_id,
+            'type' => 'from_user'
+        ]);
+
+        // create messages if not exists
+        if (!$chat->messages()->exists()) {
+            // 1- order description
+            Message::create([
+                'chat_id' => $chat->id,
+                'sender_type' => User::class,
+                'sender_id' => $order->user_id,
+                'message' => $order->description,
+                'voice' => $order->voice,
+            ]);
+
+        }
+
+
+        return callback_data(success(), 'order_paid_successfully');
     }
 
 

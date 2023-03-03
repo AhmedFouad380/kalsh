@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Provider\DreamServiceOrderController;
 use App\Http\Controllers\Api\Provider\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -53,14 +54,19 @@ Route::prefix('provider')->group(function () {
 
 
         // todo:: accept/reject order
-
-
-
+        // dream services
+        Route::prefix('dream-services')->group(function () {
+            Route::prefix('orders')->group(function () {
+                Route::get('/reject-unknown', [DreamServiceOrderController::class, 'rejectOrder']);
+                Route::get('/accept', [DreamServiceOrderController::class, 'acceptOrder']);
+                Route::get('/complete', [DreamServiceOrderController::class, 'completeOrder']);
+            });
+        });
 
 
         Route::get('/notifications', [NotificationController::class, 'index']);
     });
 
 });
-Route::get('page',[PageController::class,'Page']);
+Route::get('page', [PageController::class, 'Page']);
 

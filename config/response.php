@@ -263,15 +263,15 @@ return
                 'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار رد الشيخ',
                 'en' => 'Your order created successfully and waiting for sheikh response',
             ],
-        '' =>
+        'order_unknown_successfully' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'تم تغيير حالة الطلب الى لا أعلم ',
+                'en' => 'Order status changed to unknown successfully ',
             ],
-        '' =>
+        'order_paid_successfully' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'تم دفع قيمة الطلب بنجاح',
+                'en' => 'Order paid successfully',
             ],
         '' =>
             [
