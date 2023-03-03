@@ -149,6 +149,7 @@ class DreamServiceOrderController extends Controller
         $msg_en = 'Your order #' . $order->id . ' has been completed';
         sendToProvider([$user->device_token], ${'title_' . $user->lang}, ${'msg_' . $user->lang}, Notification::COMPLETE_ORDER_TYPE, $order->id, @optional($order)->type);
 
+
         Notification::create([
             'type' => Notification::COMPLETE_ORDER_TYPE,
             'notifiable_type' => User::class,
