@@ -74,8 +74,8 @@ trait ResearchProvidersTrait
     {
         $title_ar = 'طلب جديد';
         $title_en = 'New Order';
-        $msg_ar = 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك.';
-        $msg_en = 'You have a new order near you, hurry up and submit your offer.';
+        $msg_ar = 'لديك طلب جديد بالقرب منك.';
+        $msg_en = 'You have a new order near you.';
         sendToProvider([$provider->device_token],${'title_'.$provider->lang},${'msg_'.$provider->lang},Notification::NEW_ORDER_TYPE,$order->id,$order->type);
 
         Notification::create([
