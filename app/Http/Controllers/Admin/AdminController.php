@@ -140,7 +140,9 @@ class AdminController extends Controller
         $user = Admin::whereId($request->id)->first();
         $user->name=$request->name;
         $user->email=$request->email;
-        $user->is_active=$request->is_active;
+        if($request->is_active){
+            $user->is_active=$request->is_active;
+        }
         if(isset($user->password)){
             $user->password=Hash::make($request->password);
         }

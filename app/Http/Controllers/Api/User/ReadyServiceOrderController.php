@@ -21,11 +21,12 @@ class ReadyServiceOrderController extends Controller
 
     public function createOrder(Request $request)
     {
+//        |mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav
         $validator = Validator::make($request->all(), [
             'ready_service_id' => 'required|exists:ready_services,id',
             'radius' => 'required|between:1,100',
             'description' => 'required_without:voice|min:10',
-            'voice' => 'required_without:description|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
+            'voice' => 'required_without:description',
         ], [
             'ready_service_id.required' => 'ready_service_required',
             'ready_service_id.exists' => 'ready_service_unique',
@@ -34,7 +35,7 @@ class ReadyServiceOrderController extends Controller
             'description.required_without' => 'description_required_without_voice',
             'description.min' => 'description_min_10',
             'voice.required_without' => 'voice_required_without_description',
-            'voice.mimes' => 'voice_mimes_mp3',
+//            'voice.mimes' => 'voice_mimes_mp3',
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(),$validator->errors()->first());

@@ -30,7 +30,7 @@ class OrderObserver
             //send to chosen provider
             $this->dreamServiceProvider($order);
         }
-        if ($order->service_id == 3){ // dreams interpretation
+        if ($order->service_id == 3){ // car service
             //send to chosen provider
             $this->CarServiceProviders($order);
         }

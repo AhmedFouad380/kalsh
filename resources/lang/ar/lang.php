@@ -2,6 +2,10 @@
 
 return [
 
+    'cars_orders' => 'طلبات خدمة السيارات',
+    'dream_orders' => 'طلبات تعبير الرؤى',
+    'other_pages' => 'الصفحات الاخرى',
+    'settings' => 'الاعدادت',
     'price_ber_kelo' => 'التكلفة بالكيلو متر',
     'increase_price_ber_kelo' => 'يتم زيادة ريال مع كل كيلو في الطلب',
     'road_type_in_service' => 'نوع الطريق في الخدمة',
@@ -82,7 +86,7 @@ return [
     'provider' => 'مقدم الخدمة',
     'category' => 'القسم',
     'order_number' => 'رقم الطلب',
-    'ready_orders' => 'الطلبات',
+    'ready_orders' => 'طلبات مستعد',
     'body_ar' => 'المحتوى بالعربية',
     'body_en' => 'المحتوى بالانجليزية',
     'providers' => 'مقدمي الخدمة',
@@ -138,7 +142,7 @@ return [
     'Suppliers' => ' المورديين ',
     'admins' => ' المديرين',
     'name' => 'الاسم',
-    'email' => 'الايميل',
+    'email' => 'البريد الغلكتروني',
     'phone' => 'رقم الجوال',
     'address' => 'العنوان',
     'Projects' => 'المشاريع',

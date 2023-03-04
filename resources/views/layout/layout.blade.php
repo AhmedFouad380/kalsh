@@ -106,7 +106,8 @@ License: For each use you must have a valid license purchased only from above li
                             <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                 data-bs-placement="right" data-bs-dismiss="click" title="{{trans('lang.basic_menus')}}">
                                 <!--begin::Nav link-->
-                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) != 'ready' && request()->segment(1) != 'cars') active @endif "
+{{--                                @if(request()->segment(1) != 'ready' && request()->segment(1) != 'cars') active @endif--}}
+                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light active "
                                    data-bs-toggle="tab" href="#kt_aside_nav_tab_menu">
                                     <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
                                     <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\themes\metronic\theme\html\demo1\dist/../src/media/svg/icons\Home\Home.svg--><svg
@@ -127,82 +128,82 @@ License: For each use you must have a valid license purchased only from above li
                                 <!--end::Nav link-->
                             </li>
 
-                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                data-bs-placement="right" data-bs-dismiss="click"
-                                title="{{trans('lang.ready_service')}}">
-                                <!--begin::Nav link-->
-                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'ready') active @endif "
-                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_ready">
-                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
-                                    <span class="svg-icon svg-icon-2x">
-												 <img style="width: 22px;"
-                                                      src="{{url('/')}}\assets\media\svg\ready_logo.svg">
-											</span>
-                                    <!--end::Svg Icon-->
-                                </a>
-                                <!--end::Nav link-->
-                            </li>
-                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                data-bs-placement="right" data-bs-dismiss="click"
-                                title="{{trans('lang.dream_service')}}">
-                                <!--begin::Nav link-->
-                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'dream') active @endif "
-                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_dream">
-                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
-                                    <span class="svg-icon svg-icon-2x">
-												 <img style="width: 25px;"
-                                                      src="{{url('/')}}\assets\media\svg\dream_service_logo.svg">
-											</span>
-                                    <!--end::Svg Icon-->
-                                </a>
-                                <!--end::Nav link-->
-                            </li>
-                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                data-bs-placement="right" data-bs-dismiss="click"
-                                title="{{trans('lang.limousine_service')}}">
-                                <!--begin::Nav link-->
-                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'limousine') active @endif "
-                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_limousine">
-                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
-                                    <span class="svg-icon svg-icon-2x">
-												 <img style="width: 33px;"
-                                                      src="{{url('/')}}\assets\media\svg\limousine_service_logo.svg">
-											</span>
-                                    <!--end::Svg Icon-->
-                                </a>
-                                <!--end::Nav link-->
-                            </li>
+{{--                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"--}}
+{{--                                data-bs-placement="right" data-bs-dismiss="click"--}}
+{{--                                title="{{trans('lang.ready_service')}}">--}}
+{{--                                <!--begin::Nav link-->--}}
+{{--                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'ready') active @endif "--}}
+{{--                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_ready">--}}
+{{--                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->--}}
+{{--                                    <span class="svg-icon svg-icon-2x">--}}
+{{--												 <img style="width: 22px;"--}}
+{{--                                                      src="{{url('/')}}\assets\media\svg\ready_logo.svg">--}}
+{{--											</span>--}}
+{{--                                    <!--end::Svg Icon-->--}}
+{{--                                </a>--}}
+{{--                                <!--end::Nav link-->--}}
+{{--                            </li>--}}
+{{--                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"--}}
+{{--                                data-bs-placement="right" data-bs-dismiss="click"--}}
+{{--                                title="{{trans('lang.dream_service')}}">--}}
+{{--                                <!--begin::Nav link-->--}}
+{{--                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'dream') active @endif "--}}
+{{--                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_dream">--}}
+{{--                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->--}}
+{{--                                    <span class="svg-icon svg-icon-2x">--}}
+{{--												 <img style="width: 25px;"--}}
+{{--                                                      src="{{url('/')}}\assets\media\svg\dream_service_logo.svg">--}}
+{{--											</span>--}}
+{{--                                    <!--end::Svg Icon-->--}}
+{{--                                </a>--}}
+{{--                                <!--end::Nav link-->--}}
+{{--                            </li>--}}
+{{--                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"--}}
+{{--                                data-bs-placement="right" data-bs-dismiss="click"--}}
+{{--                                title="{{trans('lang.limousine_service')}}">--}}
+{{--                                <!--begin::Nav link-->--}}
+{{--                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'limousine') active @endif "--}}
+{{--                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_limousine">--}}
+{{--                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->--}}
+{{--                                    <span class="svg-icon svg-icon-2x">--}}
+{{--												 <img style="width: 33px;"--}}
+{{--                                                      src="{{url('/')}}\assets\media\svg\limousine_service_logo.svg">--}}
+{{--											</span>--}}
+{{--                                    <!--end::Svg Icon-->--}}
+{{--                                </a>--}}
+{{--                                <!--end::Nav link-->--}}
+{{--                            </li>--}}
 
-                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                data-bs-placement="right" data-bs-dismiss="click"
-                                title="{{trans('lang.cars_service')}}">
-                                <!--begin::Nav link-->
-                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'cars') active @endif "
-                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_cars">
-                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
-                                    <span class="svg-icon svg-icon-2x">
-												 <img style="width: 33px;"
-                                                      src="{{url('/')}}\assets\media\svg\car_service_logo.svg">
-											</span>
-                                    <!--end::Svg Icon-->
-                                </a>
-                                <!--end::Nav link-->
-                            </li>
-                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                data-bs-placement="right" data-bs-dismiss="click"
-                                title="{{trans('lang.delivery_service')}}">
-                                <!--begin::Nav link-->
-                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'delivery') active @endif "
-                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_delivery">
-                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->
-                                    <span class="svg-icon svg-icon-2x">
-												 <img style="width: 33px;"
-                                                      src="{{url('/')}}\assets\media\svg\delivery_service_logo.svg">
-											</span>
-                                    <!--end::Svg Icon-->
-                                </a>
-                                <!--end::Nav link-->
-                            </li>
+{{--                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"--}}
+{{--                                data-bs-placement="right" data-bs-dismiss="click"--}}
+{{--                                title="{{trans('lang.cars_service')}}">--}}
+{{--                                <!--begin::Nav link-->--}}
+{{--                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'cars') active @endif "--}}
+{{--                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_cars">--}}
+{{--                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->--}}
+{{--                                    <span class="svg-icon svg-icon-2x">--}}
+{{--												 <img style="width: 33px;"--}}
+{{--                                                      src="{{url('/')}}\assets\media\svg\car_service_logo.svg">--}}
+{{--											</span>--}}
+{{--                                    <!--end::Svg Icon-->--}}
+{{--                                </a>--}}
+{{--                                <!--end::Nav link-->--}}
+{{--                            </li>--}}
+{{--                            <li class="nav-item mb-2" data-bs-toggle="tooltip" data-bs-trigger="hover"--}}
+{{--                                data-bs-placement="right" data-bs-dismiss="click"--}}
+{{--                                title="{{trans('lang.delivery_service')}}">--}}
+{{--                                <!--begin::Nav link-->--}}
+{{--                                <a class="nav-link btn btn-icon btn-active-color-primary btn-color-gray-400 btn-active-light @if(request()->segment(1) == 'delivery') active @endif "--}}
+{{--                                   data-bs-toggle="tab" href="#kt_aside_nav_tab_delivery">--}}
+{{--                                    <!--begin::Svg Icon | path: icons/duotune/finance/fin006.svg-->--}}
+{{--                                    <span class="svg-icon svg-icon-2x">--}}
+{{--												 <img style="width: 33px;"--}}
+{{--                                                      src="{{url('/')}}\assets\media\svg\delivery_service_logo.svg">--}}
+{{--											</span>--}}
+{{--                                    <!--end::Svg Icon-->--}}
+{{--                                </a>--}}
+{{--                                <!--end::Nav link-->--}}
+{{--                            </li>--}}
                             <!--end::Nav item-->
                             <!--begin::Nav item-->
                             <!--end::Nav item-->
@@ -232,11 +233,11 @@ License: For each use you must have a valid license purchased only from above li
 
                                 <!--begin::Menu-->
                             @include('layout.sidebars.basic_menus')
-                            @include('layout.sidebars.ready_menus')
-                            @include('layout.sidebars.dream_menus')
-                            @include('layout.sidebars.limousine_menus')
-                            @include('layout.sidebars.cars_menus')
-                            @include('layout.sidebars.delivery_menus')
+{{--                            @include('layout.sidebars.ready_menus')--}}
+{{--                            @include('layout.sidebars.dream_menus')--}}
+{{--                            @include('layout.sidebars.limousine_menus')--}}
+{{--                            @include('layout.sidebars.cars_menus')--}}
+{{--                            @include('layout.sidebars.delivery_menus')--}}
                             <!--end::Menu-->
 
                                 <!--end::Tab pane-->

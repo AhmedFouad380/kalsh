@@ -27,7 +27,7 @@ use Illuminate\Validation\Rule;
 
 class ReadyServiceOrderController extends Controller
 {
-
+    // home page for provider app
     public function pendingOrders()
     {
         //should get orders by service_id and ready_service_id
@@ -43,7 +43,8 @@ class ReadyServiceOrderController extends Controller
             })
                 ->orWhere(function ($query3) use($provider){ // get accepted orders for auth provider
                     $query3->where('provider_id',$provider->id)
-                        ->where('status_id', Status::ACCEPTED_STATUS);
+                        ->whereIn('status_id', [Status::PENDING_STATUS,Status::ACCEPTED_STATUS])
+                    ;
                 });
         })
             ->whereIn('service_id', $service_ids)
@@ -59,7 +60,7 @@ class ReadyServiceOrderController extends Controller
                     ->where('notifiable_id',$provider->id);
             })
             ->WhereDoesntHave('rejectedOrder')  //for remove orders that provider reject it
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
 
         $data = OrderResource::collection($orders);

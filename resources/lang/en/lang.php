@@ -1,8 +1,18 @@
 <?php
 
 return [
-
-
+    'cars_orders' => 'Car Service Orders',
+    'dream_orders' => 'Dream orders',
+    'other_pages' => 'other pages',
+    'settings' => 'settings',
+    'price_ber_kelo' => 'Cost per kilometer',
+    'increase_price_ber_kelo' => 'The riyal is increased with every kilo in the order',
+    'road_type_in_service' => 'Road type in service',
+    'service_with_two' => 'Two way service',
+    'service_with_one' => 'One way service',
+    'begin_price' => 'start-up cost',
+    'sub_services' => 'internal services',
+    'car_services' => 'car services',
     'user_terms' => 'Users Terms and conditions',
     'user_privacy' => 'Users privacy policy',
     'provider_terms' => 'Provider terms and conditions',
