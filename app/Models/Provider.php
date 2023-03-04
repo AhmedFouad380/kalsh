@@ -53,7 +53,7 @@ class Provider extends Authenticatable implements JWTSubject
 
     public function readyServices()
     {
-        return $this->belongsToMany(ReadyService::class, 'ProviderReadyService', 'provider_id', 'ready_service_id');
+        return $this->belongsToMany(ReadyService::class, 'provider_ready_services', 'provider_id', 'ready_service_id');
     }
 
     public function providerServices()

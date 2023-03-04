@@ -38,10 +38,11 @@ class DreamServiceOrderController extends Controller
 
     public function createOrder(Request $request)
     {
+//        |mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav
         $validator = Validator::make($request->all(), [
             'provider_id' => 'required|exists:providers,id',
             'description' => 'required_without:voice|min:10',
-            'voice' => 'required_without:description|mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav',
+            'voice' => 'required_without:description',
         ], [
             'provider_id.required' => 'provider_id_required',
             'provider_id.exists' => 'provider_id_unique',
