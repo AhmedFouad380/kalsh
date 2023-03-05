@@ -69,6 +69,7 @@ class HomeController extends Controller
     }
     public function storeForm(Request $request){
         $validator = Validator::make($request->all(), [
+            'image'=>'nullable|image',
             'name'=>'required',
             'email'=>'required|email',
             'city_id'=>'required|exists:cities,id',
