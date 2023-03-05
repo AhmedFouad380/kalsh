@@ -81,6 +81,7 @@ class HomeController extends Controller
             ],
             'ready_service_id'=>'required_if:service_id,4|array',
             'ready_service_id.*'=>'required_if:service_id,4|exists:ready_services,id',
+            'id_image'=>'required_if:service_id,1,2',
             'driving_license_image'=>'required_if:service_id,1,2',
             'undermining_image'=>'required_if:service_id,1,2',
             'insurance_image'=>'required_if:service_id,1'
