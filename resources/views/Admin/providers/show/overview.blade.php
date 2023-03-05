@@ -174,16 +174,16 @@
                                             @endif
                                         </div>
                                     @else
-                                        <div class="d-flex flex-column w-100 me-2">
-                                            <div class="d-flex flex-stack mb-2">
-                                                <span class="text-muted me-2 fs-7 fw-bold">70%</span>
-                                            </div>
-                                            <div class="progress h-6px w-100">
-                                                <div class="progress-bar bg-primary" role="progressbar"
-                                                     style="width: 70%" aria-valuenow="70" aria-valuemin="0"
-                                                     aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
+{{--                                        <div class="d-flex flex-column w-100 me-2">--}}
+{{--                                            <div class="d-flex flex-stack mb-2">--}}
+{{--                                                <span class="text-muted me-2 fs-7 fw-bold">70%</span>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="progress h-6px w-100">--}}
+{{--                                                <div class="progress-bar bg-primary" role="progressbar"--}}
+{{--                                                     style="width: 70%" aria-valuenow="70" aria-valuemin="0"--}}
+{{--                                                     aria-valuemax="100"></div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                     @endif
                                 </td>
                             </tr>

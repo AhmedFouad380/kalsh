@@ -1,24 +1,20 @@
 <?php
 
-use App\Http\Controllers\Api\User\DreamServiceOrderController;
-use App\Http\Controllers\Api\User\NotificationController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Api\Provider\ReadyServiceOrderController as ProviderOrders;
-use App\Http\Controllers\Api\Provider\AuthController as ProviderAuth;
-use App\Http\Controllers\Api\Provider\HomeController as ProviderHome;
-
+use \App\Http\Controllers\Api\User\DeliveryServiceOrderController;
 use App\Http\Controllers\Api\User\ReadyServiceOrderController;
+use \App\Http\Controllers\Api\User\ImportantNumbersController;
+use App\Http\Controllers\Api\User\DreamServiceOrderController;
 use App\Http\Controllers\Api\User\ReadyServicesController;
-use App\Http\Controllers\Api\User\AuthController;
-use App\Http\Controllers\Api\User\HomeController;
+use App\Http\Controllers\Api\User\NotificationController;
+use \App\Http\Controllers\Api\User\CarSerivceController;
 use \App\Http\Controllers\Api\User\StoresController;
 use \App\Http\Controllers\Api\User\NewsController;
-use \App\Http\Controllers\Api\User\ImportantNumbersController;
 use \App\Http\Controllers\Api\User\ChatController;
+use App\Http\Controllers\Api\User\HomeController;
+use App\Http\Controllers\Api\User\AuthController;
 use \App\Http\Controllers\Api\PageController;
-use \App\Http\Controllers\Api\User\CarSerivceController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -74,6 +70,12 @@ Route::prefix('user')->group(function () {
             Route::post('/create-order', [DreamServiceOrderController::class, 'createOrder']);
             // todo:: pay for service
             Route::get('/pay-order', [DreamServiceOrderController::class, 'payOrder']);
+        });
+        // delivery services
+        Route::prefix('delivery-services')->group(function () {
+//            Route::get('/get-nearest-providers', [DreamServiceOrderController::class, 'getNearestProviders']);
+            Route::post('/create-order', [DeliveryServiceOrderController::class, 'createOrder']);
+//            Route::get('/pay-order', [DreamServiceOrderController::class, 'payOrder']);
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);

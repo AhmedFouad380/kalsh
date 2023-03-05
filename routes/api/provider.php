@@ -36,6 +36,7 @@ Route::prefix('provider')->group(function () {
             Route::get('/', [ChatController::class, 'getChat']);
             Route::post('/send', [ChatController::class, 'sendMessage']);
         });
+        Route::get('/registered_service', [HomeController::class, 'registered_service']);
         Route::get('/services', [HomeController::class, 'services']);
         Route::get('/cities', [HomeController::class, 'cities']);
 
