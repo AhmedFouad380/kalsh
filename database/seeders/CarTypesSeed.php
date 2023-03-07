@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CarType;
+use App\Models\CarTypePrice;
 use Illuminate\Database\Seeder;
 
 class CarTypesSeed extends Seeder
@@ -52,6 +53,7 @@ class CarTypesSeed extends Seeder
             ['car_type_id' => 3, 'from' => 13, 'to' => 60.99, "price_per_km" => 1.7],
             ['car_type_id' => 3, 'from' => 61, 'to' => 1000000, "price_per_km" => 1.5],
         ];
+        CarTypePrice::insert($carTypePrices);
 
 
     }
