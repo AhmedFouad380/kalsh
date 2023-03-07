@@ -15,13 +15,14 @@ use Pusher\Pusher;
 
 class ChatController extends Controller
 {
-    public function getChat(Request $request){
+    public function getChat(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'order_id' => 'required|exists:orders,id',
             'provider_id' => 'required|exists:providers,id',
         ]);
         if (!is_array($validator) && $validator->fails()) {
-            return callback_data(error(),$validator->errors()->first());
+            return callback_data(error(), $validator->errors()->first());
         }
         $chat  = Chat::where('order_id',$request->order_id)->where('provider_id',$request->provider_id)->where('user_id',Auth::guard('user')->id())->select('id','order_id','offer_id')->firstOrFail();
         if($chat){
@@ -30,47 +31,44 @@ class ChatController extends Controller
             $data['message']=$messages;
             return callback_data(success(),'success_response',$data);
         }else{
+
             return callback_data(error(), 'errors');
         }
     }
-    public function sendMessage(Request $request){
+
+    public function sendMessage(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'chat_id' => 'required|exists:chats,id',
-            'message'=>'required_without:voice',
-            'voice'=>'required_without:message'
-
+            'message' => 'required_without:voice',
+            'voice' => 'required_without:message'
         ], [
             'chat_id.required' => 'chat_id_required',
         ]);
         if (!is_array($validator) && $validator->fails()) {
-            return callback_data(error(),$validator->errors()->first());
+            return callback_data(error(), $validator->errors()->first());
         }
-
-     $data = Message::create([
+        $data = Message::create([
             'chat_id' => $request->chat_id,
             'sender_type' => User::class,
             'sender_id' => Auth::guard('user')->id(),
             'message' => $request->message,
             'voice' => $request->voice,
         ]);
-
-        $data->created_at=\Carbon\Carbon::parse($data->created_at)->format('Y-m-d H:i');
+        $data->created_at = \Carbon\Carbon::parse($data->created_at)->format('Y-m-d H:i');
         $options = array(
             'cluster' => env('PUSHER_APP_CLUSTER'),
             'encrypted' => true
         );
-
         $pusher = new Pusher(
             env('PUSHER_APP_KEY'),
             env('PUSHER_APP_SECRET'),
             env('PUSHER_APP_ID'),
             $options
         );
-
-
-        $pusher->trigger('MessageSent-channel-'.$request->chat_id, 'App\Events\chatEvent', $data);
-
-        return callback_data(success(),'save_success',$data);
+        $pusher->trigger('MessageSent-channel-' . $request->chat_id, 'App\Events\chatEvent', $data);
+        $data = (new MessageResource($data));
+        return callback_data(success(), 'save_success', $data);
 
     }
 }

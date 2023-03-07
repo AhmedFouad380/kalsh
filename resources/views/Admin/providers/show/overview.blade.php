@@ -49,9 +49,9 @@
             <div class="col-lg-8 d-flex align-items-center">
                 <span class="fw-bolder fs-6 text-gray-800 me-2">{{$data->phone}}</span>
                 @if($data->email_verified_at)
-                    <span  class="badge badge-success">{{trans('lang.verified')}}</span>
+                    <span class="badge badge-success">{{trans('lang.verified')}}</span>
                 @else
-                    <span  class="badge badge-danger">{{trans('lang.un_verified')}}</span>
+                    <span class="badge badge-danger">{{trans('lang.un_verified')}}</span>
                 @endif
             </div>
             <!--end::Col-->
@@ -161,16 +161,30 @@
                                     <span class="text-muted fw-bold d-block fs-7"></span>
                                 </td>
                                 <td>
-                                    <div class="d-flex flex-column w-100 me-2">
-                                        <div class="d-flex flex-stack mb-2">
-                                            <span class="text-muted me-2 fs-7 fw-bold">70%</span>
+                                    @if($service->id == 4)
+                                        <div class="symbol-group symbol-hover">
+                                            @if(count($data->readyServices) > 0)
+                                                @foreach($data->readyServices as $row)
+                                                    <div class="symbol symbol-35px symbol-circle"
+                                                         data-bs-toggle="tooltip"
+                                                         title="" data-bs-original-title="{{$row->name}}">
+                                                        <img alt="Pic" src="{{$row->image}}">
+                                                    </div>
+                                                @endforeach
+                                            @endif
                                         </div>
-                                        <div class="progress h-6px w-100">
-                                            <div class="progress-bar bg-primary" role="progressbar"
-                                                 style="width: 70%" aria-valuenow="70" aria-valuemin="0"
-                                                 aria-valuemax="100"></div>
+                                    @else
+                                        <div class="d-flex flex-column w-100 me-2">
+                                            <div class="d-flex flex-stack mb-2">
+                                                <span class="text-muted me-2 fs-7 fw-bold">70%</span>
+                                            </div>
+                                            <div class="progress h-6px w-100">
+                                                <div class="progress-bar bg-primary" role="progressbar"
+                                                     style="width: 70%" aria-valuenow="70" aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

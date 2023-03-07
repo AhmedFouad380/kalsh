@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\ScreensController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\Ready\ReadyServicesController;
 use App\Http\Controllers\Admin\Ready\ReadyOrdersController;
+use App\Http\Controllers\Admin\Dream\DreamOrdersController;
+use App\Http\Controllers\Admin\Car\CarsOrdersController;
 use App\Http\Controllers\Admin\Car\CarServicesController;
 
 /*
@@ -219,6 +221,32 @@ Route::group(['middleware' => ['admin']], function () {
             Route::post('/change_active', [ReadyOrdersController::class, 'changeActive'])->name('.change_active');
             Route::post('/change_is_checked', [ReadyOrdersController::class, 'changeIsChecked'])->name('.change_is_checked');
             Route::get('/add-button', [ReadyOrdersController::class, 'table_buttons'])->name('.table_buttons');
+        });
+
+        Route::group(['prefix' => 'dream_orders', 'as' => 'dream_orders'], function () {
+            Route::get('/', [DreamOrdersController::class, 'index'])->name('.index');
+            Route::get('/datatable', [DreamOrdersController::class, 'datatable'])->name('.datatable');
+            Route::get('/create', [DreamOrdersController::class, 'create'])->name('.create');
+            Route::post('/store', [DreamOrdersController::class, 'store'])->name('.store');
+            Route::get('/show/{id}', [DreamOrdersController::class, 'show'])->name('.show');
+            Route::post('/update/{id}', [DreamOrdersController::class, 'update'])->name('.update');
+            Route::get('delete', [DreamOrdersController::class, 'destroy'])->name('.delete');
+            Route::post('/change_active', [DreamOrdersController::class, 'changeActive'])->name('.change_active');
+            Route::post('/change_is_checked', [DreamOrdersController::class, 'changeIsChecked'])->name('.change_is_checked');
+            Route::get('/add-button', [DreamOrdersController::class, 'table_buttons'])->name('.table_buttons');
+        });
+
+        Route::group(['prefix' => 'cars_orders', 'as' => 'cars_orders'], function () {
+            Route::get('/', [CarsOrdersController::class, 'index'])->name('.index');
+            Route::get('/datatable', [CarsOrdersController::class, 'datatable'])->name('.datatable');
+            Route::get('/create', [CarsOrdersController::class, 'create'])->name('.create');
+            Route::post('/store', [CarsOrdersController::class, 'store'])->name('.store');
+            Route::get('/show/{id}', [CarsOrdersController::class, 'show'])->name('.show');
+            Route::post('/update/{id}', [CarsOrdersController::class, 'update'])->name('.update');
+            Route::get('delete', [CarsOrdersController::class, 'destroy'])->name('.delete');
+            Route::post('/change_active', [CarsOrdersController::class, 'changeActive'])->name('.change_active');
+            Route::post('/change_is_checked', [CarsOrdersController::class, 'changeIsChecked'])->name('.change_is_checked');
+            Route::get('/add-button', [CarsOrdersController::class, 'table_buttons'])->name('.table_buttons');
         });
     });
 
