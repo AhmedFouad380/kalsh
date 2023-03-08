@@ -66,10 +66,8 @@ Route::prefix('user')->group(function () {
         });
         // delivery services
         Route::prefix('delivery-services')->group(function () {
-//            Route::get('/get-nearest-providers', [DreamServiceOrderController::class, 'getNearestProviders']);
             Route::post('/create-order', [DeliveryServiceOrderController::class, 'createOrder']);
-            Route::post('/who_pay', [DeliveryServiceOrderController::class, 'who_pay']);
-//            Route::get('/pay-order', [DreamServiceOrderController::class, 'payOrder']);
+            Route::post('/who-pay', [DeliveryServiceOrderController::class, 'whoPay']);
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);

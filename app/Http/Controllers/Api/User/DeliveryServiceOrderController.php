@@ -331,11 +331,14 @@ class DeliveryServiceOrderController extends Controller
         $validator = Validator::make($data, [
             'order_id' => 'required|exists:orders,id,user_id,' . Auth::guard('user')->id(),
             'who_pay' => 'required|in:sender,receiver',
-            'rate' => 'required|integer|between:1,5',
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
         }
+
+        Order::where('id',$request->order_id)->update(['who_pay'=>$request->who_pay]);
+        return callback_data(success(), 'save_success');
+
     }
 
 }
