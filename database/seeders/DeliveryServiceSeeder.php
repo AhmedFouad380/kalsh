@@ -43,7 +43,7 @@ class DeliveryServiceSeeder extends Seeder
                 'range_provider_to_shop' => 10,
                 'type' => 'package',
                 'status' => 'active',
-                'image' => 'delivery.png',
+                'image' => 'packages.png',
             ],
         ];
         foreach ($data as $get) {

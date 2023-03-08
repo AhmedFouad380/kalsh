@@ -90,6 +90,7 @@ Route::get('/news', [NewsController::class, 'index']);
 Route::get('/importantNumbers', [ImportantNumbersController::class, 'index']);
 Route::get('/readyServices', [ReadyServicesController::class, 'index']);
 Route::get('/carServices', [CarSerivceController::class, 'index']);
+Route::get('/delivery-services', [DeliveryServiceOrderController::class, 'deliveryServices']);
 Route::get('page',[PageController::class,'Page']);
 
 Route::get('/optimize', function () {
