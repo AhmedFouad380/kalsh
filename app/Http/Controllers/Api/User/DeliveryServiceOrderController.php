@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProviderResource;
 use App\Models\Chat;
+use App\Models\DeliveryService;
 use App\Models\Message;
 use App\Models\Notification;
 use App\Models\Offer;
@@ -40,37 +41,49 @@ class DeliveryServiceOrderController extends Controller
     {
 //        |mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav
         $validator = Validator::make($request->all(), [
-            'provider_id' => 'required|exists:providers,id|reqq',
-            'description' => 'required_without:voice|min:10',
-            'voice' => 'required_without:description',
-        ], [
-            'provider_id.required' => 'provider_id_required',
-            'provider_id.exists' => 'provider_id_unique',
-            'description.required_without' => 'description_required_without_voice',
-            'description.min' => 'description_min_10',
-            'voice.required_without' => 'voice_required_without_description',
-            'voice.mimes' => 'voice_mimes_mp3',
+            'delivery_service_id' => 'required|exists:delivery_services,id',
+            'from_lat' => 'required_if:delivery_service_id,2',
+            'from_lng' => 'required_if:delivery_service_id,2',
+            'from_address' => 'required_if:delivery_service_id,2',
+            'to_lat' => 'required',
+            'to_lng' => 'required',
+            'to_address' => 'required',
+
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
         }
-        $user = Auth::guard('user')->user();
-        if (empty($user->lat) || empty($user->lng)) {
-            return callback_data(not_accepted(), 'set_location_first');
+        $service = DeliveryService::find($request->delivery_service_id);
+
+        if($request->delivery_service_id==2){
+            $type = 'delivery';
+            $user = Auth::guard('user')->user();
+            if (empty($user->lat) || empty($user->lng)) {
+                return callback_data(not_accepted(), 'set_location_first');
+            }
+            Order::create([
+                'user_id' => Auth::guard('user')->id(),
+                'type' => $type,
+                'service_id' => 1,  // dream service
+                'radius' => $service->raduis,
+                'from_lat' => $user->lat,
+                'from_lng' => $user->lng,
+                'description' => $request->description,
+                'voice' => $request->voice,
+                'status_id' => Status::PENDING_STATUS,
+            ]);
+        }elseif($request->delivery_service_id==1) {
+            $type = 'package_delivery';
+        }
+        if($service->type == 'delivery'){
+
+
+
+
+        }elseif($service->type == 'package_delivery'){
+
         }
 
-        Order::create([
-            'user_id' => Auth::guard('user')->id(),
-            'provider_id' => $request->provider_id,
-            'type' => 'dream',
-            'service_id' => 5,  // dream service
-            'radius' => nearest_radius(),
-            'from_lat' => $user->lat,
-            'from_lng' => $user->lng,
-            'description' => $request->description,
-            'voice' => $request->voice,
-            'status_id' => Status::PENDING_STATUS,
-        ]);
         return callback_data(success(), 'dream_order_created_successfully');
     }
 

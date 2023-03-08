@@ -55,14 +55,7 @@ Route::prefix('user')->group(function () {
             Route::post('/send', [ChatController::class, 'sendMessage']);
         });
 
-        // ready services
-        Route::prefix('ready-services')->group(function () {
-            Route::post('/create-order', [ReadyServiceOrderController::class, 'createOrder']);
-            Route::get('/orders', [ReadyServiceOrderController::class, 'orders']);
-            Route::post('/accept-offer', [ReadyServiceOrderController::class, 'acceptOffer']);
-            Route::post('/reject-offer', [ReadyServiceOrderController::class, 'rejectOffer']);
-            Route::post('/cancel-order', [ReadyServiceOrderController::class, 'cancelOrder']);
-        });
+
 
         // dream services
         Route::prefix('dream-services')->group(function () {
