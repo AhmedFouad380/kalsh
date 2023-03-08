@@ -17,10 +17,10 @@ class CreateDeliveryServicesTable extends Migration
             $table->id();
             $table->string('name_ar');
             $table->string('name_en');
+            $table->double('commission')->default(0)->comment('by percentage %');
             $table->double('min_cost')->default(0);
             $table->double('kilo_cost')->default(0);
-            $table->double('min_distance_cost')->default(0);
-            $table->double('distance_cost')->default(0);
+            $table->double('min_distance')->default(0)->comment('by kilo');
             $table->integer('range_shop')->default(0);
             $table->integer('range_provider')->default(0);
             $table->integer('range_provider_to_shop')->default(0);
