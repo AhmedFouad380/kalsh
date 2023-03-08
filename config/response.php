@@ -293,6 +293,11 @@ return
                 'ar' => 'جاري البحث عن مندوب ',
                 'en' => 'Searching for a representative',
             ],
+        'order_rejected_before' =>
+            [
+                'ar' => 'تم رفض الطلب من قبل',
+                'en' => 'order rejected before',
+            ],
 
 
 
