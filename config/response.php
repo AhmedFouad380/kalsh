@@ -288,7 +288,11 @@ return
                 'ar' => 'هذا الطلب ليس لك ',
                 'en' => 'this order not for you',
             ],
-
+        'delivery_order_created_successfully' =>
+            [
+                'ar' => 'جاري البحث عن مندوب ',
+                'en' => 'Searching for a representative',
+            ],
 
 
 

@@ -26,20 +26,9 @@ class DeliveryServiceOrderController extends Controller
 {
     use ResearchProvidersTrait;
 
-    public function getNearestProviders()
-    {
-        $user = Auth::guard('user')->user();
-        if (empty($user->lat) || empty($user->lng)) {
-            return callback_data(not_accepted(), 'set_location_first');
-        }
-        // get providers in radius
-        $providers = $this->nearestProviders($user->lat, $user->lng, nearest_radius());
-        return callback_data(success(), 'nearest_providers', ProviderResource::collection($providers));
-    }
 
     public function createOrder(Request $request)
     {
-//        |mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav
         $validator = Validator::make($request->all(), [
             'delivery_service_id' => 'required|exists:delivery_services,id',
             'from_lat' => 'required_if:delivery_service_id,2',
@@ -78,7 +67,7 @@ class DeliveryServiceOrderController extends Controller
             ]);
 
 
-        }elseif($service->type == 'package_delivery'){
+        }elseif($service->type == 'package'){
             $type = 'package_delivery';
             Order::create([
                 'user_id' => Auth::guard('user')->id(),
@@ -95,7 +84,7 @@ class DeliveryServiceOrderController extends Controller
             ]);
         }
 
-        return callback_data(success(), 'dream_order_created_successfully');
+        return callback_data(success(), 'delivery_order_created_successfully');
     }
 
     public function acceptOffer(Request $request)
@@ -271,7 +260,6 @@ class DeliveryServiceOrderController extends Controller
             ]);
 
         }
-
 
         return callback_data(success(), 'order_paid_successfully');
     }
