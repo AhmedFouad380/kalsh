@@ -222,6 +222,7 @@ return [
         'rate' => 'التقييم',
         'order_id' => 'الطلب',
         'status' => 'الحالة',
+        'service_id' => 'الخدمة',
 
 
 

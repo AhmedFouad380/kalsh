@@ -28,14 +28,18 @@ class ChatController extends Controller
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(),$validator->errors()->first());
         }
+<<<<<<< HEAD
         $chat  = Chat::where('order_id',$request->order_id)->where('user_id',$request->user_id)->where('provider_id',Auth::guard('provider')->id())->select('id','order_id','offer_id')->firstOrFail();
+=======
+        $chat  = Chat::where('order_id',$request->order_id)->where('provider_id',Auth::guard('provider')->id())->select('id','order_id','offer_id')->first();
+>>>>>>> 2cf48f8857a0dacfcba1bb591b375b46a7ae6ca9
       if($chat){
            $messages = MessageResource::collection(Message::where('chat_id',$chat->id)->orderBy('id','desc')->paginate(20));
            $data['chat']=$chat;
            $data['message']=$messages;
         return callback_data(success(), 'success_response', $data);
       }else{
-          return callback_data(error(), 'errors');
+          return callback_data(error(), 'this_order_not_for_you');
       }
 
     }

@@ -10,9 +10,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Provider extends Authenticatable implements JWTSubject
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
+
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    protected $hidden = ['password','created_at','updated_at'];
+    protected $hidden = ['password', 'created_at', 'updated_at'];
 
     public function setPasswordAttribute($password)
     {
@@ -28,6 +29,7 @@ class Provider extends Authenticatable implements JWTSubject
         }
         return asset('defaults/user_default.png');
     }
+
     public function setImageAttribute($image)
     {
         if (is_file($image)) {
@@ -36,10 +38,12 @@ class Provider extends Authenticatable implements JWTSubject
             $this->attributes['image'] = $img_name;
         }
     }
+
     public function scopeActive($query): void
     {
         $query->where('status', 'active');
     }
+
     public function scopeOnline($query): void
     {
         $query->where('online', 1);
@@ -58,12 +62,17 @@ class Provider extends Authenticatable implements JWTSubject
 
     public function providerServices()
     {
-        return $this->hasMany(ProviderService::class,'provider_id');
+        return $this->hasMany(ProviderService::class, 'provider_id');
     }
 
     public function providerReadyServices()
     {
-        return $this->hasMany(ProviderReadyService::class,'provider_id');
+        return $this->hasMany(ProviderReadyService::class, 'provider_id');
+    }
+
+    public function providerForms()
+    {
+        return $this->hasMany(ProviderForm::class, 'provider_id');
     }
 
     public function orders()
@@ -73,17 +82,17 @@ class Provider extends Authenticatable implements JWTSubject
 
     public function ordersCompleated()
     {
-        return $this->hasMany(Order::class, 'provider_id')->where('status_id',Status::COMPLETED_STATUS);
+        return $this->hasMany(Order::class, 'provider_id')->where('status_id', Status::COMPLETED_STATUS);
     }
 
     public function ordersNotCompleated()
     {
-        return $this->hasMany(Order::class, 'provider_id')->where('status_id','!=',Status::COMPLETED_STATUS);
+        return $this->hasMany(Order::class, 'provider_id')->where('status_id', '!=', Status::COMPLETED_STATUS);
     }
 
     public function userRates()
     {
-        return $this->hasMany(Rate::class, 'provider_id')->where('type','from_user');
+        return $this->hasMany(Rate::class, 'provider_id')->where('type', 'from_user');
     }
 
     public function offers()
