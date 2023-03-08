@@ -70,6 +70,7 @@ Route::prefix('provider')->group(function () {
             Route::post('/accept-order', [DeliveryServiceController::class, 'acceptOrder']);
             Route::post('/reject-order', [DeliveryServiceController::class, 'rejectOrder']);
             Route::post('/complete-order', [DeliveryServiceController::class, 'completeOrder']);
+            Route::post('/update-cost', [DeliveryServiceController::class, 'updateCost']);
         });
 
 

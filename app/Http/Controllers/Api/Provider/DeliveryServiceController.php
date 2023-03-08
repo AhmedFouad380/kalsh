@@ -151,13 +151,38 @@ class DeliveryServiceController extends Controller
             ->where('provider_id', Auth::guard('provider')->id())
             ->first();
         if ($offerExists) {
-            return callback_data(error(), 'offer_rejected_before');
+            return callback_data(error(), 'order_rejected_before');
         }
         //send reject offer
         Offer::create([
             'order_id' => $request->order_id,
             'provider_id' => Auth::guard('provider')->id(),
-            'status_id' => Status::REJECTED_BY_PROVIDER_STATUS,
+            'status_id' => Status::CANCELED_BY_PROVIDER_STATUS,
+        ])->refresh();
+        return callback_data(success(), 'order_rejected_successfully');
+    }
+
+    public function updateCost(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
+                $query->where('status_id', Status::ACCEPTED_STATUS);
+            })],
+            'order_cost' => 'required|numeric|min:0'
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        // add price to order  ...
+        $order = Order::findOrFail($request->order_id);
+        $order->order_cost = $request->order_cost;
+        $order->total_price = $order->price + $request->order_cost;
+        $order->save();
+        //send reject offer
+        Offer::create([
+            'order_id' => $request->order_id,
+            'provider_id' => Auth::guard('provider')->id(),
+            'status_id' => Status::CANCELED_BY_PROVIDER_STATUS,
         ])->refresh();
         return callback_data(success(), 'order_rejected_successfully');
     }
