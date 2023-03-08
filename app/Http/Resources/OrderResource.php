@@ -26,6 +26,7 @@ class OrderResource extends JsonResource
             'user_id' => (int) $this->user_id,
             'user_name' => (string) @optional($this->user)->name,
             'user_image' => (string) @optional($this->user)->image,
+            'user_phone' => (string) @optional($this->user)->phone,
             'provider_id' => (int) $this->provider_id,
             'provider_name' => (string) @optional($this->provider)->name,
             'provider_image' => (string) @optional($this->provider)->image,

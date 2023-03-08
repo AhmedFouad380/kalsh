@@ -298,6 +298,11 @@ return
                 'ar' => 'تم رفض الطلب من قبل',
                 'en' => 'order rejected before',
             ],
+        'order_price_updated_successfully' =>
+            [
+                'ar' => 'تم تحديث سعر الطلب بنجاح',
+                'en' => 'order price updated successfully',
+            ],
 
 
 

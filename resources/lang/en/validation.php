@@ -148,6 +148,8 @@ return [
 
     'attributes' => [
         'service_id' => 'service',
+        'order_cost' => 'order cost',
+
     ],
 
 ];

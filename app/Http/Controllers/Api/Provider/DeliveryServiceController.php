@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Provider;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
 use App\Models\CarService;
 use App\Models\Chat;
 use App\Models\Message;
@@ -173,18 +174,34 @@ class DeliveryServiceController extends Controller
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
         }
+        $provider = Auth::guard('provider')->user();
+
         // add price to order  ...
         $order = Order::findOrFail($request->order_id);
         $order->order_cost = $request->order_cost;
         $order->total_price = $order->price + $request->order_cost;
         $order->save();
-        //send reject offer
-        Offer::create([
-            'order_id' => $request->order_id,
-            'provider_id' => Auth::guard('provider')->id(),
-            'status_id' => Status::CANCELED_BY_PROVIDER_STATUS,
-        ])->refresh();
-        return callback_data(success(), 'order_rejected_successfully');
+
+        //send notification to user ...
+        // send notification to user
+        $user = $order->user;
+        $title_ar = 'تحديث سعر الطلب';
+        $title_en = 'Update Order Price';
+        $msg_ar = "تم تحديث سعر  الطلبك رقم #{$order->id}" . "بواسطة مقدم الخدمة {$provider->name}";
+        $msg_en = "You order #{$order->id} the price has been updated by provider {$provider->name}";
+        sendToProvider([$user->device_token], ${'title_' . $user->lang}, ${'msg_' . $user->lang}, Notification::ORDER_UPDATE_PRICE, $order->id, $order->type);
+
+        Notification::create([
+            'type' => Notification::ORDER_UPDATE_PRICE,
+            'notifiable_type' => User::class,
+            'notifiable_id' => $user->id,
+            'order_id' => $order->id,
+            'title_ar' => $title_ar,
+            'title_en' => $title_en,
+            'description_ar' => $msg_ar,
+            'description_en' => $msg_en,
+        ]);
+        return callback_data(success(), 'order_price_updated_successfully');
     }
 
     public function completeOrder(Request $request)
@@ -225,7 +242,6 @@ class DeliveryServiceController extends Controller
             'description_ar' => $msg_ar,
             'description_en' => $msg_en,
         ]);
-
         return callback_data(success(), 'order_completed_successfully');
     }
 

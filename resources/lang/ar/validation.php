@@ -223,6 +223,7 @@ return [
         'order_id' => 'الطلب',
         'status' => 'الحالة',
         'service_id' => 'الخدمة',
+        'order_cost' => 'سعر الطلب',
 
 
 
