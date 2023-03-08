@@ -19,20 +19,15 @@ class ChatController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'order_id' => 'required|exists:orders,id',
-            'user_id' => 'required|exists:users,id',
 
         ], [
             'order_id.required' => 'order_id_required',
-            'user_id.required' => 'user_id_required',
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(),$validator->errors()->first());
         }
-<<<<<<< HEAD
-        $chat  = Chat::where('order_id',$request->order_id)->where('user_id',$request->user_id)->where('provider_id',Auth::guard('provider')->id())->select('id','order_id','offer_id')->firstOrFail();
-=======
+
         $chat  = Chat::where('order_id',$request->order_id)->where('provider_id',Auth::guard('provider')->id())->select('id','order_id','offer_id')->first();
->>>>>>> 2cf48f8857a0dacfcba1bb591b375b46a7ae6ca9
       if($chat){
            $messages = MessageResource::collection(Message::where('chat_id',$chat->id)->orderBy('id','desc')->paginate(20));
            $data['chat']=$chat;

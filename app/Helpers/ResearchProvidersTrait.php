@@ -31,6 +31,18 @@ trait ResearchProvidersTrait
             }
         }
     }
+    public function DeliveryServiceProviders($order)
+    {
+        // get providers in order radius
+        $providers = $this->nearestProviders($order->from_lat,$order->from_lng,$order->range_provider,$order);
+
+        if (!$providers->isEmpty()){
+            foreach ($providers as $provider){
+                $this->sendProviderNotification($order,$provider);
+            }
+        }
+    }
+
     public function dreamServiceProvider($order)
     {
         if ($order->provider){

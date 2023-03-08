@@ -55,7 +55,9 @@ class DeliveryServiceOrderController extends Controller
         }
         $service = DeliveryService::find($request->delivery_service_id);
 
-        if($request->delivery_service_id==2){
+
+        if($service->type == 'delivery'){
+
             $type = 'delivery';
             $user = Auth::guard('user')->user();
             if (empty($user->lat) || empty($user->lng)) {
@@ -65,23 +67,32 @@ class DeliveryServiceOrderController extends Controller
                 'user_id' => Auth::guard('user')->id(),
                 'type' => $type,
                 'service_id' => 1,  // dream service
-                'radius' => $service->raduis,
+                'radius' => $service->range_shop,
+                'range_provider' => $service->range_provider,
+                'range_provider_to_shop' => $service->range_provider_to_shop,
                 'from_lat' => $user->lat,
                 'from_lng' => $user->lng,
-                'description' => $request->description,
-                'voice' => $request->voice,
+                'to_lat' => $request->to_lat,
+                'to_lng' => $request->to_lng,
                 'status_id' => Status::PENDING_STATUS,
             ]);
-        }elseif($request->delivery_service_id==1) {
-            $type = 'package_delivery';
-        }
-        if($service->type == 'delivery'){
-
-
 
 
         }elseif($service->type == 'package_delivery'){
-
+            $type = 'package_delivery';
+            Order::create([
+                'user_id' => Auth::guard('user')->id(),
+                'type' => $type,
+                'service_id' => 1,  // delivery service
+                'radius' => $service->range_shop,
+                'range_provider' => $service->range_provider,
+                'range_provider_to_shop' => $service->range_provider_to_shop,
+                'from_lat' => $request->from_lat,
+                'from_lng' => $request->from_lng,
+                'to_lat' => $request->to_lat,
+                'to_lng' => $request->to_lng,
+                'status_id' => Status::PENDING_STATUS,
+            ]);
         }
 
         return callback_data(success(), 'dream_order_created_successfully');
