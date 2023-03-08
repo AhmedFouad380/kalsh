@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Helpers\ResearchProvidersTrait;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CarSerivceResource;
+use App\Http\Resources\DeliverySerivceResource;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProviderResource;
+use App\Models\CarService;
 use App\Models\Chat;
 use App\Models\DeliveryService;
 use App\Models\Message;
@@ -26,6 +29,22 @@ class DeliveryServiceOrderController extends Controller
 {
     use ResearchProvidersTrait;
 
+
+    public function deliveryServices(){
+        $data = DeliverySerivceResource::collection(DeliveryService::active()->get());
+        return callback_data(success(),'success_response',$data);
+    }
+
+    public function getNearestProviders()
+    {
+        $user = Auth::guard('user')->user();
+        if (empty($user->lat) || empty($user->lng)) {
+            return callback_data(not_accepted(), 'set_location_first');
+        }
+        // get providers in radius
+        $providers = $this->nearestProviders($user->lat, $user->lng, nearest_radius());
+        return callback_data(success(), 'nearest_providers', ProviderResource::collection($providers));
+    }
 
     public function createOrder(Request $request)
     {
