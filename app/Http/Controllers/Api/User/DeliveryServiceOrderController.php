@@ -56,6 +56,8 @@ class DeliveryServiceOrderController extends Controller
             'to_lat' => 'required',
             'to_lng' => 'required',
             'to_address' => 'required',
+            'description' => 'required_without:voice',
+            'voice' => 'required_without:description',
 
         ]);
         if (!is_array($validator) && $validator->fails()) {
@@ -65,11 +67,18 @@ class DeliveryServiceOrderController extends Controller
 
 
         if($service->type == 'delivery'){
-
             $type = 'delivery';
             $user = Auth::guard('user')->user();
             if (empty($user->lat) || empty($user->lng)) {
                 return callback_data(not_accepted(), 'set_location_first');
+            }
+            $distance =  distance($user->lat,$user->lng,$request->to_lat,$request->to_lng);
+            if($distance > $service->min_distance){
+                $overdistance = $distance - $service->min_distance;
+                $overCost = $service->kilo_cost * round($overdistance,2);
+                $price = $service->min_cost + $overCost;
+            }else{
+                $price=$service->min_cost;
             }
             Order::create([
                 'user_id' => Auth::guard('user')->id(),
@@ -82,11 +91,22 @@ class DeliveryServiceOrderController extends Controller
                 'from_lng' => $user->lng,
                 'to_lat' => $request->to_lat,
                 'to_lng' => $request->to_lng,
+                'description' => $request->description,
+                'voice' => $request->voice,
+                'price'=>$price,
                 'status_id' => Status::PENDING_STATUS,
             ]);
 
 
         }elseif($service->type == 'package'){
+          $distance =  distance($request->from_lat,$request->from_lng,$request->to_lat,$request->to_lng);
+          if($distance > $service->min_distance){
+                $overdistance = $distance - $service->min_distance;
+                $overCost = $service->kilo_cost * round($overdistance,2);
+                $price = $service->min_cost + $overCost;
+          }else{
+              $price=$service->min_cost;
+          }
             $type = 'package_delivery';
             Order::create([
                 'user_id' => Auth::guard('user')->id(),
@@ -99,6 +119,9 @@ class DeliveryServiceOrderController extends Controller
                 'from_lng' => $request->from_lng,
                 'to_lat' => $request->to_lat,
                 'to_lng' => $request->to_lng,
+                'description' => $request->description,
+                'voice' => $request->voice,
+                'price' => $price,
                 'status_id' => Status::PENDING_STATUS,
             ]);
         }
@@ -322,5 +345,16 @@ class DeliveryServiceOrderController extends Controller
         return callback_data(success(), 'my_orders', $orders);
     }
 
+    public function whoPay(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'order_id' => 'required|exists:orders,id,user_id,' . Auth::guard('user')->id(),
+            'who_pay' => 'required|in:sender,receiver',
+            'rate' => 'required|integer|between:1,5',
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+    }
 
 }
