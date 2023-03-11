@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\User\DreamServiceOrderController;
+use App\Http\Controllers\Api\User\LimousineServiceOrderController;
 use App\Http\Controllers\Api\User\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ use \App\Http\Controllers\Api\User\ImportantNumbersController;
 use \App\Http\Controllers\Api\User\ChatController;
 use \App\Http\Controllers\Api\PageController;
 use \App\Http\Controllers\Api\User\CarSerivceController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -83,6 +85,13 @@ Route::prefix('user')->group(function () {
             Route::post('/reject-offer', [CarSerivceController::class, 'rejectOffer']);
             Route::post('/cancel-order', [CarSerivceController::class, 'cancelOrder']);
         });
+
+
+        Route::prefix('limousine-services')->group(function () {
+            Route::get('/get-car-types/{distance}', [LimousineServiceOrderController::class, 'getCarTypes']);
+            Route::post('/get-nearest-providers', [LimousineServiceOrderController::class, 'getNearestProviders']);
+
+        });
     });
 
 });
@@ -94,4 +103,4 @@ Route::get('/news', [NewsController::class, 'index']);
 Route::get('/importantNumbers', [ImportantNumbersController::class, 'index']);
 Route::get('/readyServices', [ReadyServicesController::class, 'index']);
 Route::get('/carServices', [CarSerivceController::class, 'index']);
-Route::get('page',[PageController::class,'Page']);
+Route::get('page', [PageController::class, 'Page']);

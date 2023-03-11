@@ -61,6 +61,11 @@ class Provider extends Authenticatable implements JWTSubject
         return $this->hasMany(ProviderService::class,'provider_id');
     }
 
+    public function carType()
+    {
+        return $this->belongsTo(CarType::class,'car_type_id');
+    }
+
     public function providerReadyServices()
     {
         return $this->hasMany(ProviderReadyService::class,'provider_id');

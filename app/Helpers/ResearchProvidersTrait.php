@@ -66,9 +66,15 @@ trait ResearchProvidersTrait
                         });
                     });
             })->when($service && $service == "dream", function ($query4) {
-                $query4->whereHas('providerReadyServices', function ($query5) {
+                $query4->whereHas('providerServices', function ($query5) {
                     $query5->where('service_id', 5);
                 });
+            })
+            ->when($service && $service == "limousine", function ($query4) {
+                $query4->where('car_type_id', request()->car_type_id)
+                    ->whereHas('providerServices', function ($query5) {
+                        $query5->where('service_id', 2);
+                    });
             })
             ->orderBy("distance", 'asc')
             ->get();
