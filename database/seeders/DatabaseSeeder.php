@@ -32,5 +32,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PagesTableSeeder::class);
         $this->call(CarServiceSeeder::class);
         $this->call(DeliveryServiceSeeder::class);
+        $this->call(CarTypesSeed::class);
     }
 }
