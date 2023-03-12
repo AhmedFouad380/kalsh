@@ -29,6 +29,16 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function carType()
+    {
+        return $this->belongsTo(CarType::class, 'car_type_id');
+    }
+
+    public function paymentCard()
+    {
+        return $this->belongsTo(PaymentCard::class, 'payment_card_id');
+    }
+
     public function service()
     {
         return $this->belongsTo(Service::class, 'service_id');
@@ -84,7 +94,7 @@ class Order extends Model
 
     public function notifications()
     {
-        return $this->hasMany(Notification::class,'order_id');
+        return $this->hasMany(Notification::class, 'order_id');
     }
 
     public static function statusList()

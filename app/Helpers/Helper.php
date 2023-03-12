@@ -62,6 +62,12 @@ function nearest_radius()
     return 100; // 100km
 }
 
+function limousine_first_radius()
+{
+    return 3; // 3km
+}
+
+
 function google_api_key()
 {
     return "AIzaSyAGlTpZIZ49RVV5VX8KhzafRqjzaTRbnn0";

@@ -9,13 +9,17 @@ use App\Http\Resources\PaymentCardResource;
 use App\Http\Resources\ProviderResource;
 use App\Models\CarType;
 use App\Models\CarTypePrice;
+use App\Models\Chat;
+use App\Models\Message;
 use App\Models\Order;
 use App\Models\PaymentCard;
 use App\Models\Status;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class LimousineServiceOrderController extends Controller
 {
@@ -68,7 +72,7 @@ class LimousineServiceOrderController extends Controller
             'placeholder_name' => 'required',
             'card_number' => 'required|unique:payment_cards',
             'expired_month' => 'required|digits:2|date_format:m',
-            'expired_year' => 'required|digits:2|date_format:y|gte:'.date('y'),
+            'expired_year' => 'required|digits:2|date_format:y|gte:' . date('y'),
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
@@ -86,7 +90,7 @@ class LimousineServiceOrderController extends Controller
     public function getPaymentCards()
     {
         $cards = PaymentCard::where('user_id', Auth::guard('user')->id())->active()->get();
-        return callback_data(success(), 'payment_cards',PaymentCardResource::collection($cards));
+        return callback_data(success(), 'payment_cards', PaymentCardResource::collection($cards));
     }
 
 
@@ -99,15 +103,16 @@ class LimousineServiceOrderController extends Controller
             'from_lng' => 'required',
             'to_lat' => 'required',
             'to_lng' => 'required',
-            'distance' => 'required',
+            'distance' => 'required|numeric',
             'payment_type' => 'required|in:visa,cash,wallet',
-            'payment_card_id ' => 'required_if:payment_type,visa',
+            'payment_card_id' => ['required_if:payment_type,visa', 'exists:payment_cards,id'],
 
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
         }
         $user = Auth::guard('user')->user();
+        $price = $this->carTypeTotalPrice($request->car_type_id, $request->distance);
 
 
         Order::create([
@@ -115,7 +120,8 @@ class LimousineServiceOrderController extends Controller
             'type' => 'limousine',
             'service_id' => 2,
             'car_type_id' => $request->car_type_id,
-            'radius' => nearest_radius(),
+            'distance' => $request->distance,
+            'radius' => limousine_first_radius(),
             'from_lat' => $request->from_lat,
             'from_lng' => $request->from_lng,
             'to_lat' => $request->to_lat,
@@ -123,9 +129,94 @@ class LimousineServiceOrderController extends Controller
             'payment_type' => $request->payment_type,
             'payment_card_id' => $request->payment_card_id,
             'status_id' => Status::PENDING_STATUS,
+            'price' => $price,
         ]);
 
         return callback_data(success(), 'ready_order_created_successfully');
     }
+
+    public function resendOrder($order_id)
+    {
+        $order = Order::whereId($order_id)
+            ->where('status_id', Status::PENDING_STATUS)
+            ->where('user_id', Auth::guard('user')->id())
+            ->where('service_id', 2)
+            ->whereNull('provider_id')
+            ->first();
+        if ($order) {
+            $radius = $order->radius;
+
+            if ($radius == 10) {
+                // i didn`t call $this->cancelOrder to make status canceled by system not by user
+                $order->status_id = Status::CANCELED_BY_SYSTEM_STATUS;
+                $order->save();
+                return callback_data(error(), 'order_canceled');
+            }
+            $radius = $radius + 3 < 10 ? $radius + 3 : 10;
+            //update order radius
+            $order->radius = $radius;
+            $order->save();
+            //search for provider in new radius
+            $this->LimousineServiceProviders($order);
+            return callback_data(success(), 'searching_for_providers');
+        } else {
+            return callback_data(error(), 'order_not_found');
+        }
+    }
+
+    public function cancelOrder($order_id)
+    {
+        $order = Order::whereId($order_id)
+            ->where('status_id', Status::PENDING_STATUS)
+            ->where('user_id', Auth::guard('user')->id())
+            ->where('service_id', 2)
+            ->whereNull('provider_id')
+            ->first();
+
+        $order->status_id = Status::CANCELED_BY_USER_STATUS;
+        $order->save();
+
+        return callback_data(success(), 'order_cancelled_successfully');
+    }
+
+    public function payOrder($order_id)
+    {
+
+        $order = Order::whereId($order_id)
+            ->where('status_id', Status::ACCEPTED_STATUS)
+            ->where('user_id', Auth::guard('user')->id())
+            ->where('service_id', 2)
+            ->first();
+        if (!$order) {
+            return callback_data(error(), 'order_not_found');
+        }
+        // cancel order
+        $order->payment_status = Order::PAYMENT_STATUS[1];
+        $order->save();
+        // create chat
+        $chat = Chat::firstOrCreate([
+            'order_id' => $order->id,
+            'user_id' => $order->user_id,
+            'provider_id' => $order->provider_id,
+        ], [
+            'order_id' => $order->id,
+            'user_id' => $order->user_id,
+            'provider_id' => $order->provider_id,
+            'type' => 'from_user'
+        ]);
+        // create messages if not exists
+        if (!$chat->messages()->exists()) {
+            // 1- order description
+            Message::create([
+                'chat_id' => $chat->id,
+                'sender_type' => User::class,
+                'sender_id' => $order->user_id,
+                'message' => $order->description,
+                'voice' => $order->voice,
+            ]);
+        }
+        return callback_data(success(), 'order_paid_successfully');
+    }
+
 
 }

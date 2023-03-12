@@ -204,7 +204,7 @@ return
                 'ar' => 'حدد موقعك أولاً',
                 'en' => 'Set your location first',
             ],
-        'offer_id_required'=> [
+        'offer_id_required' => [
             'ar' => 'رقم العرض  مطلوب',
             'en' => 'Offer id required',
         ],
@@ -273,44 +273,21 @@ return
                 'ar' => 'تم دفع قيمة الطلب بنجاح',
                 'en' => 'Order paid successfully',
             ],
-        '' =>
+        'order_cancelled_successfully' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'تم الغاء الطلب بنجاح',
+                'en' => 'Order cancelled successfully',
             ],
-        '' =>
+        'order_canceled' =>
             [
-                'ar' => '',
-                'en' => '',
+                'ar' => 'لا يوجد مندوب بالقرب منك، من فضلك حاول مرة أخرى في وقت لاحق',
+                'en' => 'There is no representative near you, please try again later',
             ],
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        'searching_for_providers' =>
+            [
+                'ar' => 'جاري البحث  ',
+                'en' => 'Searching ',
+            ],
 
 
         /////////// notifications msgs
@@ -325,8 +302,8 @@ return
                 'ar' => 'لديك طلب جديد بالقرب منك، سارع بتقديم عرضك',
                 'en' => 'You have a new order near you, hurry up and submit your offer',
             ],
-        'inactive_user'=>[
-            'ar'=>'تم ايقاف الحساب من قبل الادارة',
-            'en'=>'The account has been suspended by the administration',
+        'inactive_user' => [
+            'ar' => 'تم ايقاف الحساب من قبل الادارة',
+            'en' => 'The account has been suspended by the administration',
         ]
     ];

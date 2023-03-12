@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\CarType;
+use App\Models\CarTypePrice;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Provider;
@@ -113,5 +115,18 @@ trait ResearchProvidersTrait
         ]);
     }
 
+    public function carTypeTotalPrice($car_type_id ,$distance){
+        $car_type = CarType::whereId($car_type_id)->first();
+        $total = $car_type->start_price;
+        $row = CarTypePrice::where('car_type_id', $car_type->id)
+            ->where('from', '<=', $distance)
+            ->where('to', '>=', $distance)
+            ->first();
+        if ($row) {
+            $total += $row->price_per_km * $distance;
+        }
+
+        return $total;
+    }
 
 }

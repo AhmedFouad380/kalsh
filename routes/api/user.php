@@ -92,6 +92,11 @@ Route::prefix('user')->group(function () {
             Route::post('/get-nearest-providers', [LimousineServiceOrderController::class, 'getNearestProviders']);
             Route::post('/store-payment-card', [LimousineServiceOrderController::class, 'storePaymentCard']);
             Route::get('/get-payment-cards', [LimousineServiceOrderController::class, 'getPaymentCards']);
+            Route::post('/create-order', [LimousineServiceOrderController::class, 'createOrder']);
+            Route::get('/resend-order/{order_id}', [LimousineServiceOrderController::class, 'resendOrder']);
+            Route::get('/cancel-order/{order_id}', [LimousineServiceOrderController::class, 'cancelOrder']);
+            Route::get('/pay-order/{order_id}', [LimousineServiceOrderController::class, 'payOrder']);
+
 
         });
     });
