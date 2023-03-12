@@ -34,6 +34,11 @@ class OrderObserver
             //send to chosen provider
             $this->CarServiceProviders($order);
         }
+
+        if ($order->service_id == 2){ // car service
+            //send to chosen provider
+            $this->LimousineServiceProviders($order);
+        }
     }
 
     /**
