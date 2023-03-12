@@ -32,7 +32,7 @@ class DreamServiceOrderController extends Controller
             return callback_data(not_accepted(), 'set_location_first');
         }
         // get providers in radius
-        $providers = $this->nearestProviders($user->lat, $user->lng, nearest_radius());
+        $providers = $this->nearestProviders($user->lat, $user->lng, nearest_radius() ,null , "dream");
         return callback_data(success(), 'nearest_providers', ProviderResource::collection($providers));
     }
 
@@ -84,30 +84,24 @@ class DreamServiceOrderController extends Controller
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
         }
-
         $order = Order::where('id', $request->order_id)->where('user_id', Auth::guard('user')->id())->first();
         if (!$order) {
             return callback_data(error(), 'order_not_found');
         }
-
         // cancel order
         $order->payment_status = Order::PAYMENT_STATUS[1];
         $order->save();
-
-
         // create chat
         $chat = Chat::firstOrCreate([
             'order_id' => $order->id,
             'user_id' => $order->user_id,
             'provider_id' => $order->provider_id,
-
         ], [
             'order_id' => $order->id,
             'user_id' => $order->user_id,
             'provider_id' => $order->provider_id,
             'type' => 'from_user'
         ]);
-
         // create messages if not exists
         if (!$chat->messages()->exists()) {
             // 1- order description
@@ -118,10 +112,7 @@ class DreamServiceOrderController extends Controller
                 'message' => $order->description,
                 'voice' => $order->voice,
             ]);
-
         }
-
-
         return callback_data(success(), 'order_paid_successfully');
     }
 
