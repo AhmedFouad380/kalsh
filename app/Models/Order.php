@@ -60,6 +60,10 @@ class Order extends Model
     {
         return $this->belongsTo(ReadyService::class, 'ready_service_id');
     }
+    public function carService()
+    {
+        return $this->belongsTo(CarService::class, 'car_service_id');
+    }
 
     public function status()
     {

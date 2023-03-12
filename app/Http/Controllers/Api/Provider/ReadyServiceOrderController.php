@@ -29,43 +29,43 @@ class ReadyServiceOrderController extends Controller
 {
     // home page for provider app
     public function pendingOrders()
-    {
-        //should get orders by service_id and ready_service_id
-        $provider = Auth::guard('provider')->user();
-        $service_ids = ProviderService::where('provider_id',$provider->id)->pluck('service_id')->toArray();
-        $ready_service_ids = ProviderReadyService::where('provider_id',$provider->id)->pluck('ready_service_id')->toArray();
+        {
+            //should get orders by service_id and ready_service_id
+            $provider = Auth::guard('provider')->user();
+            $service_ids = ProviderService::where('provider_id',$provider->id)->pluck('service_id')->toArray();
+            $ready_service_ids = ProviderReadyService::where('provider_id',$provider->id)->pluck('ready_service_id')->toArray();
 
-        // get orders
-        $orders = Order::where(function ($query) use($provider){
-            $query->where(function ($query2){ // get pending order
-                $query2->whereNull('provider_id')
-                    ->where('status_id', Status::PENDING_STATUS);
-            })
-                ->orWhere(function ($query3) use($provider){ // get accepted orders for auth provider
-                    $query3->where('provider_id',$provider->id)
-                        ->whereIn('status_id', [Status::PENDING_STATUS,Status::ACCEPTED_STATUS])
-                    ;
-                });
-        })
-            ->whereIn('service_id', $service_ids)
-            ->where(function ($query) use($ready_service_ids){
-                $query->whereHas('readyService',function ($query2) use($ready_service_ids){
-                    $query2->whereIn('ready_service_id', $ready_service_ids);
+            // get orders
+            $orders = Order::where(function ($query) use($provider){
+                $query->where(function ($query2){ // get pending order
+                    $query2->whereNull('provider_id')
+                        ->where('status_id', Status::PENDING_STATUS);
                 })
-                    ->orWhereDoesntHave('readyService');
+                    ->orWhere(function ($query3) use($provider){ // get accepted orders for auth provider
+                        $query3->where('provider_id',$provider->id)
+                            ->whereIn('status_id', [Status::PENDING_STATUS,Status::ACCEPTED_STATUS])
+                        ;
+                    });
             })
-            ->whereHas('notifications',function ($query) use($provider){
-                $query->where('type',Notification::NEW_ORDER_TYPE)
-                    ->where('notifiable_type',Provider::class)
-                    ->where('notifiable_id',$provider->id);
-            })
-            ->WhereDoesntHave('rejectedOrder')  //for remove orders that provider reject it
-            ->orderBy('id', 'desc')
-            ->get();
+                ->whereIn('service_id', $service_ids)
+                ->where(function ($query) use($ready_service_ids){
+                    $query->whereHas('readyService',function ($query2) use($ready_service_ids){
+                        $query2->whereIn('ready_service_id', $ready_service_ids);
+                    })
+                        ->orWhereDoesntHave('readyService');
+                })
+                ->whereHas('notifications',function ($query) use($provider){
+                    $query->where('type',Notification::NEW_ORDER_TYPE)
+                        ->where('notifiable_type',Provider::class)
+                        ->where('notifiable_id',$provider->id);
+                })
+                ->WhereDoesntHave('rejectedOrder')  //for remove orders that provider reject it
+                ->orderBy('id', 'desc')
+                ->get();
 
-        $data = OrderResource::collection($orders);
-        return callback_data(success(), 'pending_orders', $data);
-    }
+            $data = OrderResource::collection($orders);
+            return callback_data(success(), 'pending_orders', $data);
+        }
 
     public function sendOffer(Request $request)
     {
