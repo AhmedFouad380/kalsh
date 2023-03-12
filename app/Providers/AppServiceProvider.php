@@ -33,7 +33,8 @@ class AppServiceProvider extends ServiceProvider
             session()->put('lang','en');
         }
 
-        Artisan::call('migrate --seed');
+        Artisan::call('migrate');
+        Artisan::call('db:seed --class=DeliveryServiceSeeder');
         ob_start();
         Schema::defaultStringLength(191);
         date_default_timezone_set('Asia/Riyadh');
