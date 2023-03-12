@@ -102,7 +102,15 @@ class AuthController extends Controller
 
 
     public function updateProfile(Request $request){
-
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|unique:providers,email,'.Auth::guard('provider')->id(),
+            'phone' => 'required',
+            //
+            'device_token'=>'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
+        }
         $provider = Auth::guard('provider')->user();
         $provider->name=$request->name;
         $provider->email=$request->email;
