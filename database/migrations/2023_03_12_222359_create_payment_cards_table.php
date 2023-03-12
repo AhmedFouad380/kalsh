@@ -16,13 +16,7 @@ class CreatePaymentCardsTable extends Migration
         Schema::create('payment_cards', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('placeholder_name')->nullable();
-            $table->string('card_number')->nullable();
-            $table->string('expired_month')->nullable();
-            $table->string('expired_year')->nullable();
-            $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
