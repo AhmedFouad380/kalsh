@@ -90,8 +90,6 @@ Route::prefix('user')->group(function () {
         Route::prefix('limousine-services')->group(function () {
             Route::get('/get-car-types/{distance}', [LimousineServiceOrderController::class, 'getCarTypes']);
             Route::post('/get-nearest-providers', [LimousineServiceOrderController::class, 'getNearestProviders']);
-            Route::post('/store-payment-card', [LimousineServiceOrderController::class, 'storePaymentCard']);
-            Route::get('/get-payment-cards', [LimousineServiceOrderController::class, 'getPaymentCards']);
 
         });
     });
