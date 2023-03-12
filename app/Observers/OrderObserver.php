@@ -14,28 +14,29 @@ use Illuminate\Support\Facades\DB;
 class OrderObserver
 {
     use ResearchProvidersTrait;
+
     /**
      * Handle the Order "created" event.
      *
-     * @param  \App\Models\Order  $order
+     * @param \App\Models\Order $order
      * @return void
      */
     public function created(Order $order)
     {
-        if ($order->service_id == 4){ // ready service
+        if ($order->service_id == 4) { // ready service
             //send to nearest providers
             $this->readyServiceProviders($order);
         }
-        if ($order->service_id == 5){ // dreams interpretation
+        if ($order->service_id == 5) { // dreams interpretation
             //send to chosen provider
             $this->dreamServiceProvider($order);
         }
-        if ($order->service_id == 3){ // car service
+        if ($order->service_id == 3) { // car service
             //send to chosen provider
             $this->CarServiceProviders($order);
         }
 
-        if ($order->service_id == 2){ // car service
+        if ($order->service_id == 2) { // car service
             //send to chosen provider
             $this->LimousineServiceProviders($order);
         }
@@ -44,7 +45,7 @@ class OrderObserver
     /**
      * Handle the Order "updated" event.
      *
-     * @param  \App\Models\Order  $order
+     * @param \App\Models\Order $order
      * @return void
      */
     public function updated(Order $order)
@@ -55,7 +56,7 @@ class OrderObserver
     /**
      * Handle the Order "deleted" event.
      *
-     * @param  \App\Models\Order  $order
+     * @param \App\Models\Order $order
      * @return void
      */
     public function deleted(Order $order)
@@ -66,7 +67,7 @@ class OrderObserver
     /**
      * Handle the Order "restored" event.
      *
-     * @param  \App\Models\Order  $order
+     * @param \App\Models\Order $order
      * @return void
      */
     public function restored(Order $order)
@@ -77,7 +78,7 @@ class OrderObserver
     /**
      * Handle the Order "force deleted" event.
      *
-     * @param  \App\Models\Order  $order
+     * @param \App\Models\Order $order
      * @return void
      */
     public function forceDeleted(Order $order)

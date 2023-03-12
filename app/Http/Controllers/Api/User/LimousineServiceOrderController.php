@@ -12,6 +12,7 @@ use App\Models\CarTypePrice;
 use App\Models\Order;
 use App\Models\PaymentCard;
 use App\Models\Status;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -67,7 +68,7 @@ class LimousineServiceOrderController extends Controller
             'placeholder_name' => 'required',
             'card_number' => 'required|unique:payment_cards',
             'expired_month' => 'required|digits:2|date_format:m',
-            'expired_year' => 'required|digits:2|date_format:y|gte:' . date('y'),
+            'expired_year' => 'required|digits:2|date_format:y|gte:'.date('y'),
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
@@ -85,7 +86,7 @@ class LimousineServiceOrderController extends Controller
     public function getPaymentCards()
     {
         $cards = PaymentCard::where('user_id', Auth::guard('user')->id())->active()->get();
-        return callback_data(success(), 'payment_cards', PaymentCardResource::collection($cards));
+        return callback_data(success(), 'payment_cards',PaymentCardResource::collection($cards));
     }
 
 
@@ -110,7 +111,7 @@ class LimousineServiceOrderController extends Controller
 
 
         Order::create([
-            'user_id' => Auth::guard('user')->id(),
+            'user_id' => $user->id,
             'type' => 'limousine',
             'service_id' => 2,
             'car_type_id' => $request->car_type_id,
