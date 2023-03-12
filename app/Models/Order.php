@@ -62,7 +62,10 @@ class Order extends Model
     }
     public function carService()
     {
-        return $this->belongsTo(CarService::class, 'car_service_id');
+        return $this->belongsTo(CarService::class, 'car_service_id')->withDefault([
+            'ar_title'=>'',
+            'en_title'=>'',
+        ]);
     }
 
     public function status()
