@@ -33,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
             session()->put('lang','en');
         }
 
-        Artisan::call('db:wipe');
         Artisan::call('migrate --seed');
         ob_start();
         Schema::defaultStringLength(191);
