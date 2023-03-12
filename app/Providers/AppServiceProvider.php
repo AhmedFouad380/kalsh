@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Order;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
             session()->put('lang','en');
         }
 
+        Artisan::call('migrate');
         ob_start();
         Schema::defaultStringLength(191);
         date_default_timezone_set('Asia/Riyadh');
