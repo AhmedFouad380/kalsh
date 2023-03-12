@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Api\User;
 use App\Helpers\ResearchProvidersTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CarTypeResource;
-use App\Http\Resources\PaymentCardResource;
 use App\Http\Resources\ProviderResource;
 use App\Models\CarType;
 use App\Models\CarTypePrice;
-use App\Models\PaymentCard;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -59,34 +56,5 @@ class LimousineServiceOrderController extends Controller
         $providers = $this->nearestProviders($request->lat, $request->lng, nearest_radius(), null, "limousine");
         return callback_data(success(), 'nearest_providers', ProviderResource::collection($providers));
     }
-
-    public function storePaymentCard(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'placeholder_name' => 'required',
-            'card_number' => 'required|unique:payment_cards',
-            'expired_month' => 'required|digits:2|date_format:m',
-            'expired_year' => 'required|digits:2|date_format:y|gte:'.date('y'),
-        ]);
-        if (!is_array($validator) && $validator->fails()) {
-            return callback_data(error(), $validator->errors()->first());
-        }
-        PaymentCard::create([
-            'user_id' => Auth::guard('user')->id(),
-            'placeholder_name' => $request->placeholder_name,
-            'card_number' => $request->card_number,
-            'expired_month' => $request->expired_month,
-            'expired_year' => $request->expired_year,
-        ]);
-        return callback_data(success(), 'save_success');
-    }
-
-    public function getPaymentCards()
-    {
-        $cards = PaymentCard::where('user_id', Auth::guard('user')->id())->active()->get();
-        return callback_data(success(), 'payment_cards',PaymentCardResource::collection($cards));
-    }
-
-
 
 }
