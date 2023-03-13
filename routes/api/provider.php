@@ -83,7 +83,7 @@ Route::prefix('provider')->group(function () {
 
 
         Route::get('/notifications', [NotificationController::class, 'index']);
-        Route::get('/order-details', [DeliveryServiceController::class, 'orderDetails']);
+        Route::post('/order-details', [DeliveryServiceController::class, 'orderDetails']);
 
     });
 
