@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Provider\ReadyServiceOrderController;
 use App\Http\Controllers\Api\Provider\AuthController;
 use App\Http\Controllers\Api\Provider\HomeController;
 use App\Http\Controllers\Api\Provider\ChatController;
+use App\Http\Controllers\Api\Provider\CarServiceController;
 use App\Http\Controllers\Api\Provider\DeliveryServiceController;
 use \App\Http\Controllers\Api\PageController;
 
@@ -65,6 +66,12 @@ Route::prefix('provider')->group(function () {
                 Route::get('/accept', [DreamServiceOrderController::class, 'acceptOrder']);
                 Route::get('/complete', [DreamServiceOrderController::class, 'completeOrder']);
             });
+        });
+        Route::prefix('car_service')->group(function () {
+                Route::post('/acceptOrder', [CarServiceController::class, 'acceptOrder']);
+                Route::post('/StartOrder', [CarServiceController::class, 'StartOrder']);
+                Route::post('/rejectOrder', [CarServiceController::class, 'rejectOrder']);
+                Route::post('/completeOrder', [CarServiceController::class, 'completeOrder']);
         });
         Route::prefix('delivery-service')->group(function () {
             Route::post('/accept-order', [DeliveryServiceController::class, 'acceptOrder']);
