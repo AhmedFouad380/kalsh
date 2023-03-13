@@ -16,7 +16,7 @@ class CitiesResource extends JsonResource
     {
         return [
             'id' => (int) $this->id,
-            'name' => (int) $this->name,
+            'name' => (int)  $this->name,
         ];
     }
 }
