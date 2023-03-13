@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Auth;
+
 class DeliveryServiceController extends Controller
 {
     public function acceptOrder(Request $request)
@@ -248,7 +248,7 @@ class DeliveryServiceController extends Controller
     public function orderDetails(Request $request){
         $data = $request->all();
         $validator = Validator::make($data, [
-            'order_id' => 'required|exists:orders,id,provider_id,' . Auth::guard('provider_id')->id(),
+            'order_id' => 'required|exists:orders,id,provider_id,' . Auth::guard('provider')->id(),
         ]);
         if (!is_array($validator) && $validator->fails()) {
             return callback_data(error(), $validator->errors()->first());
