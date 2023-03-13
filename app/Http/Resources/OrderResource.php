@@ -47,6 +47,7 @@ class OrderResource extends JsonResource
             'payment_type' => (string) $this->payment_type,
             'payment_status' => (string) $this->payment_status,
             'user_rated' => $this->user_rated,
+            'who_pay' => (string)$this->who_pay,
             'provider_rated' => $this->provider_rated,
             'offer_sent' => $offer ? true : false,
             'offer_description' => $offer ? $offer->description : "",

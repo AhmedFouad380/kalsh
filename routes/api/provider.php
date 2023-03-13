@@ -74,6 +74,8 @@ Route::prefix('provider')->group(function () {
                 Route::post('/completeOrder', [CarServiceController::class, 'completeOrder']);
         });
         Route::prefix('delivery-service')->group(function () {
+            Route::get('/details', [DeliveryServiceController::class, 'details']);
+
             Route::post('/accept-order', [DeliveryServiceController::class, 'acceptOrder']);
             Route::post('/reject-order', [DeliveryServiceController::class, 'rejectOrder']);
             Route::post('/complete-order', [DeliveryServiceController::class, 'completeOrder']);

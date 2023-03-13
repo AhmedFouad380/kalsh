@@ -245,4 +245,18 @@ class DeliveryServiceController extends Controller
         return callback_data(success(), 'order_completed_successfully');
     }
 
+    public function orderDetails(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'order_id' => 'required|exists:orders,id,provider_id,' . Auth::guard('provider_id')->id(),
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        $orders = OrderResource::make(Order::find($request->order_id))
+        ;
+        return callback_data(success(),'my_orders',$orders);
+
+    }
+
 }
