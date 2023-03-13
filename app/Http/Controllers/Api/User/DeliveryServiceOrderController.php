@@ -99,14 +99,14 @@ class DeliveryServiceOrderController extends Controller
 
 
         }elseif($service->type == 'package'){
-          $distance =  distance($request->from_lat,$request->from_lng,$request->to_lat,$request->to_lng);
-          if($distance > $service->min_distance){
+            $distance =  distance($request->from_lat,$request->from_lng,$request->to_lat,$request->to_lng);
+            if($distance > $service->min_distance){
                 $overdistance = $distance - $service->min_distance;
                 $overCost = $service->kilo_cost * round($overdistance,2);
                 $price = $service->min_cost + $overCost;
-          }else{
-              $price=$service->min_cost;
-          }
+            }else{
+                $price=$service->min_cost;
+            }
             $type = 'package_delivery';
             Order::create([
                 'user_id' => Auth::guard('user')->id(),
@@ -128,6 +128,57 @@ class DeliveryServiceOrderController extends Controller
 
         return callback_data(success(), 'delivery_order_created_successfully');
     }
+    public function checkCost(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'delivery_service_id' => 'required|exists:delivery_services,id',
+            'from_lat' => 'required_if:delivery_service_id,2',
+            'from_lng' => 'required_if:delivery_service_id,2',
+            'from_address' => 'required_if:delivery_service_id,2',
+            'to_lat' => 'required',
+            'to_lng' => 'required',
+            'to_address' => 'required',
+
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        $service = DeliveryService::find($request->delivery_service_id);
+
+
+        if($service->type == 'delivery'){
+            $type = 'delivery';
+            $user = Auth::guard('user')->user();
+            if (empty($user->lat) || empty($user->lng)) {
+                return callback_data(not_accepted(), 'set_location_first');
+            }
+            $distance =  distance($user->lat,$user->lng,$request->to_lat,$request->to_lng);
+            if($distance > $service->min_distance){
+                $overdistance = $distance - $service->min_distance;
+                $overCost = $service->kilo_cost * round($overdistance,2);
+                $price = $service->min_cost + $overCost;
+            }else{
+                $price=$service->min_cost;
+            }
+
+
+
+        }elseif($service->type == 'package'){
+            $distance =  distance($request->from_lat,$request->from_lng,$request->to_lat,$request->to_lng);
+            if($distance > $service->min_distance){
+                $overdistance = $distance - $service->min_distance;
+                $overCost = $service->kilo_cost * round($overdistance,2);
+                $price = $service->min_cost + $overCost;
+            }else{
+                $price=$service->min_cost;
+            }
+            $type = 'package_delivery';
+
+        }
+        $array = array('price'=>$price);
+        return callback_data(success(), 'success',$array);
+    }
+
 
     public function acceptOffer(Request $request)
     {
@@ -277,31 +328,31 @@ class DeliveryServiceOrderController extends Controller
         $order->save();
 
 
-        // create chat
-        $chat = Chat::firstOrCreate([
-            'order_id' => $order->id,
-            'user_id' => $order->user_id,
-            'provider_id' => $order->provider_id,
-
-        ], [
-            'order_id' => $order->id,
-            'user_id' => $order->user_id,
-            'provider_id' => $order->provider_id,
-            'type' => 'from_user'
-        ]);
+//        // create chat
+//        $chat = Chat::firstOrCreate([
+//            'order_id' => $order->id,
+//            'user_id' => $order->user_id,
+//            'provider_id' => $order->provider_id,
+//
+//        ], [
+//            'order_id' => $order->id,
+//            'user_id' => $order->user_id,
+//            'provider_id' => $order->provider_id,
+//            'type' => 'from_user'
+//        ]);
 
         // create messages if not exists
-        if (!$chat->messages()->exists()) {
-            // 1- order description
-            Message::create([
-                'chat_id' => $chat->id,
-                'sender_type' => User::class,
-                'sender_id' => $order->user_id,
-                'message' => $order->description,
-                'voice' => $order->voice,
-            ]);
-
-        }
+//        if (!$chat->messages()->exists()) {
+//            // 1- order description
+//            Message::create([
+//                'chat_id' => $chat->id,
+//                'sender_type' => User::class,
+//                'sender_id' => $order->user_id,
+//                'message' => $order->description,
+//                'voice' => $order->voice,
+//            ]);
+//
+//        }
 
         return callback_data(success(), 'order_paid_successfully');
     }
@@ -359,5 +410,7 @@ class DeliveryServiceOrderController extends Controller
         return callback_data(success(), 'save_success');
 
     }
+
+
 
 }

@@ -74,6 +74,8 @@ Route::prefix('user')->group(function () {
         // delivery services
         Route::prefix('delivery-services')->group(function () {
             Route::post('/create-order', [DeliveryServiceOrderController::class, 'createOrder']);
+            Route::post('/check-cost', [DeliveryServiceOrderController::class, 'checkCost']);
+            Route::get('/pay-order', [DeliveryServiceOrderController::class, 'payOrder']);
             Route::post('/who-pay', [DeliveryServiceOrderController::class, 'whoPay']);
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
