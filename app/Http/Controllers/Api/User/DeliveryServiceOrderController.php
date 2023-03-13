@@ -175,7 +175,7 @@ class DeliveryServiceOrderController extends Controller
             $type = 'package_delivery';
 
         }
-        $array = array('price'=>$price);
+        $array = array('price'=>(int) round($price));
         return callback_data(success(), 'success',$array);
     }
 
