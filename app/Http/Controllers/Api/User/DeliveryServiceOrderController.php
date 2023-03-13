@@ -80,7 +80,7 @@ class DeliveryServiceOrderController extends Controller
             }else{
                 $price=$service->min_cost;
             }
-            Order::create([
+            $data=  Order::create([
                 'user_id' => Auth::guard('user')->id(),
                 'type' => $type,
                 'service_id' => 1,  // dream service
@@ -108,7 +108,7 @@ class DeliveryServiceOrderController extends Controller
                 $price=$service->min_cost;
             }
             $type = 'package_delivery';
-            Order::create([
+          $data =  Order::create([
                 'user_id' => Auth::guard('user')->id(),
                 'type' => $type,
                 'service_id' => 1,  // delivery service
@@ -126,7 +126,7 @@ class DeliveryServiceOrderController extends Controller
             ]);
         }
 
-        return callback_data(success(), 'delivery_order_created_successfully');
+        return callback_data(success(), 'delivery_order_created_successfully',OrderResource::make($data));
     }
     public function checkCost(Request $request)
     {

@@ -56,7 +56,7 @@ class CarSerivceController extends Controller
         }
 
 
-        Order::create([
+       Order::create([
             'user_id' => Auth::guard('user')->id(),
             'type' => 'cars',
             'service_id' => Service::where('id',3)->value('id'),
