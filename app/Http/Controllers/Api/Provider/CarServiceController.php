@@ -77,7 +77,8 @@ class CarServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
-                $query->where('status_id', Status::ACCEPTED_STATUS)->where('provider_id',Auth::guard('provider')->id());
+                $query->where('status_id', Status::ACCEPTED_STATUS)
+                    ->where('provider_id',Auth::guard('provider')->id());
             })]
         ]);
         if (!is_array($validator) && $validator->fails()) {
