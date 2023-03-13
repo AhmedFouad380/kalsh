@@ -29,11 +29,7 @@ class CarServiceController extends Controller
 
         $provider = Auth::guard('provider')->user();
         $order = Order::findOrFail($request->order_id);
-        // get accepted offer
 
-        if (!$order) {
-            return callback_data(error(), 'offer_not_found');
-        }
         /// Service Cost
         $CarService= CarService::findOrFail($order->car_service_id);
         $distanceFirstWay  = distance($order->from_lat,$order->from_lng,$order->to_lat,$order->to_lng);
@@ -90,17 +86,8 @@ class CarServiceController extends Controller
 
         $provider = Auth::guard('provider')->user();
         $order = Order::findOrFail($request->order_id);
-        // get accepted offer
-        $offer = Offer::where('order_id', $order->id)
-            ->where('provider_id', $provider->id)
-            ->where('status_id', Status::START_STATUS)
-            ->first();
 
-        if (!$offer) {
-            return callback_data(error(), 'offer_not_found');
-        }
-
-        // accept offer
+        // start order
         $order->status_id = Status::START_STATUS;
         $order->provider_id = $provider->id;
         $order->save();
