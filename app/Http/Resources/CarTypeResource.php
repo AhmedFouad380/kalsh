@@ -15,11 +15,11 @@ class CarTypeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'image' => $this->image,
-            'start_price' => $this->start_price,
-            'total' => $this->total,
+            'id' => (int) $this->id,
+            'name' => (string) $this->name,
+            'image' => (string) $this->image,
+            'start_price' => (double) $this->start_price,
+            'total' => (double) $this->total,
         ];
     }
 }
