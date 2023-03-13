@@ -78,6 +78,7 @@ Route::prefix('user')->group(function () {
         });
         Route::get('/notifications', [NotificationController::class, 'index']);
         Route::post('/order/rate', [ReadyServiceOrderController::class, 'rateProvider']);
+        Route::post('/order-details', [ReadyServiceOrderController::class, 'orderDetails']);
         Route::prefix('car-services')->group(function () {
             Route::post('/create-order', [CarSerivceController::class, 'createOrder']);
             Route::get('/order', [CarSerivceController::class, 'order']);

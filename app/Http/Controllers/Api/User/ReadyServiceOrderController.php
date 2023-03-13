@@ -229,6 +229,18 @@ class ReadyServiceOrderController extends Controller
     }
 
 
+    public function orderDetails(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'order_id' => 'required|exists:orders,id,user_id,' . Auth::guard('user')->id(),
+        ]);
+        if (!is_array($validator) && $validator->fails()) {
+            return callback_data(error(), $validator->errors()->first());
+        }
+        $orders = OrderResource::make(Order::find($request->order_id))
+        ;
+        return callback_data(success(),'my_orders',$orders);
 
+    }
 
 }
