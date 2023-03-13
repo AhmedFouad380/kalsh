@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Provider\DreamServiceOrderController;
+use App\Http\Controllers\Api\Provider\LimousineServiceOrderController;
 use App\Http\Controllers\Api\Provider\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -60,6 +61,17 @@ Route::prefix('provider')->group(function () {
                 Route::get('/reject-unknown', [DreamServiceOrderController::class, 'rejectOrder']);
                 Route::get('/accept', [DreamServiceOrderController::class, 'acceptOrder']);
                 Route::get('/complete', [DreamServiceOrderController::class, 'completeOrder']);
+            });
+        });
+
+        Route::prefix('limousine-services')->group(function () {
+            Route::prefix('orders')->group(function () {
+                Route::get('/accept', [LimousineServiceOrderController::class, 'acceptOrder']);
+                Route::get('/reject', [LimousineServiceOrderController::class, 'rejectOrder']);
+                Route::get('/start', [LimousineServiceOrderController::class, 'startOrder']);
+                Route::get('/arrived', [LimousineServiceOrderController::class, 'arrivedOrder']);
+                Route::get('/complete', [LimousineServiceOrderController::class, 'completeOrder']);
+
             });
         });
 

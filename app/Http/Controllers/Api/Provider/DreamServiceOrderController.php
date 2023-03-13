@@ -34,9 +34,7 @@ class DreamServiceOrderController extends Controller
             return callback_data(error(), $validator->errors()->first());
         }
         $order = Order::findOrFail($request->order_id);
-        if (!$order) {
-            return callback_data(error(), 'order_not_found');
-        }
+
         // accept offer
         $order->status_id = Status::ACCEPTED_STATUS;
         $order->save();

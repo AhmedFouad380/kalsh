@@ -22,25 +22,28 @@ class AuthController extends Controller
     public function checkPhone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone'=>'required|regex:/(966)[0-9]{8}/',
-        ],[
+            'phone' => 'required|regex:/(966)[0-9]{8}/',
+        ], [
             "phone.required" => 'phone_required',
         ]);
         if (!is_array($validator) && $validator->fails()) {
-            return callback_data(error(),$validator->errors()->first());
+            return callback_data(error(), $validator->errors()->first());
         }
 
         $otp = otp_code();
+        if (!Str::startsWith($request->phone, '+')) {
+            $request->phone = '+' . $request->phone;
+        }
         // check if phone is ksa
         $isKsaPhone = Str::startsWith($request->phone, '+966');
-            Provider::updateOrCreate(['phone' => $request->phone],['phone' => $request->phone, 'otp' => $otp,'password'=>'123456']);
-            // $this->sms();
+        Provider::updateOrCreate(['phone' => $request->phone], ['phone' => $request->phone, 'otp' => $otp, 'password' => '123456']);
+        // $this->sms();
 
         $curl = curl_init();
 
-        $message=  'Your Otp Code is : '.$otp.' ( Klsh App )';
+        $message = 'Your Otp Code is : ' . $otp . ' ( Klsh App )';
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://REST.GATEWAY.SA/api/SendSMS?api_id=API61856605654&api_password=RiuFeVWosu&sms_type=P&encoding=T&sender_id=SAU61870926055&phonenumber='.$request->phone.'&textmessage='.$message.'',
+            CURLOPT_URL => 'http://REST.GATEWAY.SA/api/SendSMS?api_id=API61856605654&api_password=RiuFeVWosu&sms_type=P&encoding=T&sender_id=SAU61870926055&phonenumber=' . $request->phone . '&textmessage=' . $message . '',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -52,10 +55,9 @@ class AuthController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
-        return callback_data(code_sent(),'otp_sent',$otp);
+        return callback_data(code_sent(), 'otp_sent', $otp);
 
     }
-
 
 
     public function phoneLogin(Request $request)
@@ -64,50 +66,52 @@ class AuthController extends Controller
             'otp' => 'required',
             'phone' => 'required',
             //
-            'device_token'=>'required'
+            'device_token' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json(['status' => validation(), 'msg' => $validator->messages()->first(), 'data' => (object)[]], validation());
         }
 
 
-        $user =  Provider::where('otp',$request->otp)->where('phone',$request->phone)->first();
+        $user = Provider::where('otp', $request->otp)->where('phone', $request->phone)->first();
         $jwt_token = null;
         if (!isset($user)) {
-            return callback_data(success(),'invalid_otp');
+            return callback_data(success(), 'invalid_otp');
 
-        } elseif($user->status  == 'inactive'){
-            return callback_data(not_accepted(),'inactive_user');
+        } elseif ($user->status == 'inactive') {
+            return callback_data(not_accepted(), 'inactive_user');
 
-        }elseif (!$jwt_token = Auth('provider')->attempt(['phone' => $request->phone,'password' => '123456','otp'=>$request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
-            return callback_data(success(),'invalid_otp');
+        } elseif (!$jwt_token = Auth('provider')->attempt(['phone' => $request->phone, 'password' => '123456', 'otp' => $request->otp], ['exp' => \Carbon\Carbon::now()->addDays(7)->timestamp])) {
+            return callback_data(success(), 'invalid_otp');
 
         } else {
             $provider = Auth::guard('provider')->user();
             $provider->device_token = $request->device_token;
-            $provider->email_verified_at=\Carbon\Carbon::now();
-            $provider->otp=null;
+            $provider->email_verified_at = \Carbon\Carbon::now();
+            $provider->otp = null;
             $provider->save();
-            return callback_data(success(),'login_success', ProviderResource::make($provider)->token($jwt_token));
+            return callback_data(success(), 'login_success', ProviderResource::make($provider)->token($jwt_token));
 
         }
 
 
     }
+
     public function profile()
     {
         $provider = Auth::guard('provider')->user();
-        return callback_data(success(),'success_response', ProviderResource::make($provider));
+        return callback_data(success(), 'success_response', ProviderResource::make($provider));
     }
 
 
-    public function updateProfile(Request $request){
+    public function updateProfile(Request $request)
+    {
         $provider = Auth::guard('provider')->user();
-        $provider->name=$request->name;
-        $provider->email=$request->email;
+        $provider->name = $request->name;
+        $provider->email = $request->email;
         $provider->save();
 
-        return callback_data(success(),'save_success');
+        return callback_data(success(), 'save_success');
 
     }
 

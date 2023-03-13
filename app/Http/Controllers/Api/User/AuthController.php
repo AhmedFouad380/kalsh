@@ -28,6 +28,9 @@ class AuthController extends Controller
         }
 
         $otp = otp_code();
+        if (!Str::startsWith($request->phone, '+')) {
+            $request->phone = '+' . $request->phone;
+        }
         // check if phone is ksa
         $isKsaPhone = Str::startsWith($request->phone, '+966');
         if ($isKsaPhone){

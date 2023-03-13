@@ -45,6 +45,9 @@ class StatusesTableSeeder extends Seeder
             [
                 'name' => 'start',
             ],
+            [
+                'name' => 'arrived',
+            ],
         ];
 
         foreach ($data as $get) {

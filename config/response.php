@@ -159,6 +159,11 @@ return
                 'ar' => 'تم إنشاء الطلب بنجاح وفي انتظار عروض مقدمي الخدمات',
                 'en' => 'Your order created successfully and waiting for providers offers',
             ],
+        'order_created_successfully' =>
+            [
+                'ar' => 'تم إنشاء الطلب بنجاح وجاري البحث عن مقدمي الخدمة',
+                'en' => 'Your order created successfully and Searching for providers',
+            ],
         'my_orders' =>
             [
                 'ar' => 'طلباتي',
@@ -287,6 +292,21 @@ return
             [
                 'ar' => 'جاري البحث  ',
                 'en' => 'Searching ',
+            ],
+        'order_rejected_before' =>
+            [
+                'ar' => 'تم رفض الطلب مسبقآ  ',
+                'en' => 'sorry ,order rejected before ',
+            ],
+        'order_started_successfully' =>
+            [
+                'ar' => 'تم بدأ الطلب بنجاح  ',
+                'en' => 'Order Started Successfully ',
+            ],
+        'order_arrived_successfully' =>
+            [
+                'ar' => 'تم وصول سيارة الطلب بنجاح  ',
+                'en' => 'order arrived successfully ',
             ],
 
 

@@ -13,21 +13,21 @@ class OfferObserver
     /**
      * Handle the Offer "created" event.
      *
-     * @param  \App\Models\Offer  $offer
+     * @param \App\Models\Offer $offer
      * @return void
      */
     public function created(Offer $offer)
     {
-        if ($offer->status_id == Status::PENDING_STATUS){
+        if ($offer->status_id == Status::PENDING_STATUS) {
             $order = $offer->order;
-            $user = User::where('id',$order->user_id)->first();
+            $user = User::where('id', $order->user_id)->first();
 
             $title_ar = 'عرض جديد';
             $title_en = 'New Offer';
-            $msg_ar = 'قام '.$offer->provider->name.' بتقديم عرض جديد علي طلبك.';
-            $msg_en = $offer->provider->name.' Send you a new offer for your order.';
+            $msg_ar = 'قام ' . $offer->provider->name . ' بتقديم عرض جديد علي طلبك.';
+            $msg_en = $offer->provider->name . ' Send you a new offer for your order.';
 
-            sendToUser([$user->device_token],${'title_'.$user->lang},${'msg_'.$user->lang},Notification::NEW_OFFER_TYPE,$order->id,$order->type);
+            sendToUser([$user->device_token], ${'title_' . $user->lang}, ${'msg_' . $user->lang}, Notification::NEW_OFFER_TYPE, $order->id, $order->type);
 
             Notification::create([
                 'type' => Notification::NEW_OFFER_TYPE,
@@ -41,12 +41,13 @@ class OfferObserver
                 'description_en' => $msg_en,
             ]);
         }
+
     }
 
     /**
      * Handle the Offer "updated" event.
      *
-     * @param  \App\Models\Offer  $offer
+     * @param \App\Models\Offer $offer
      * @return void
      */
     public function updated(Offer $offer)
@@ -57,7 +58,7 @@ class OfferObserver
     /**
      * Handle the Offer "deleted" event.
      *
-     * @param  \App\Models\Offer  $offer
+     * @param \App\Models\Offer $offer
      * @return void
      */
     public function deleted(Offer $offer)
@@ -68,7 +69,7 @@ class OfferObserver
     /**
      * Handle the Offer "restored" event.
      *
-     * @param  \App\Models\Offer  $offer
+     * @param \App\Models\Offer $offer
      * @return void
      */
     public function restored(Offer $offer)
@@ -79,7 +80,7 @@ class OfferObserver
     /**
      * Handle the Offer "force deleted" event.
      *
-     * @param  \App\Models\Offer  $offer
+     * @param \App\Models\Offer $offer
      * @return void
      */
     public function forceDeleted(Offer $offer)

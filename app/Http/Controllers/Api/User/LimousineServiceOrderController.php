@@ -96,7 +96,7 @@ class LimousineServiceOrderController extends Controller
 
     public function createOrder(Request $request)
     {
-//        |mimes:application/octet-stream,audio/mpeg,mpga,mp3,wav
+
         $validator = Validator::make($request->all(), [
             'car_type_id' => 'required|exists:car_types,id',
             'from_lat' => 'required',
@@ -132,7 +132,7 @@ class LimousineServiceOrderController extends Controller
             'price' => $price,
         ]);
 
-        return callback_data(success(), 'ready_order_created_successfully');
+        return callback_data(success(), 'order_created_successfully');
     }
 
     public function resendOrder($order_id)
