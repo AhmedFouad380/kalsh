@@ -32,7 +32,7 @@ class OrderResource extends JsonResource
             'provider_image' => (string) @optional($this->provider)->image,
             'service_id' => (int) $this->service_id,
             'ready_service_id' => (int) $this->ready_service_id,
-            'car_service_name' => (string) $this->carService->title,
+            'car_service_name' => (string) $this->carService->name,
             'status_id' => (int) $this->status_id,
             'radius' => (string) $this->radius,
             'description' => (string) $this->description,
