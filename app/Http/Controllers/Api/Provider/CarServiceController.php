@@ -30,12 +30,8 @@ class CarServiceController extends Controller
         $provider = Auth::guard('provider')->user();
         $order = Order::findOrFail($request->order_id);
         // get accepted offer
-        $offer = Offer::where('order_id', $order->id)
-            ->where('provider_id', $provider->id)
-            ->where('status_id', Status::ACCEPTED_STATUS)
-            ->first();
 
-        if (!$offer) {
+        if (!$order) {
             return callback_data(error(), 'offer_not_found');
         }
         /// Service Cost
