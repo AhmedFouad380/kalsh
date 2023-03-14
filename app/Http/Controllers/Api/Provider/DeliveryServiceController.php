@@ -23,7 +23,7 @@ class DeliveryServiceController extends Controller
     public function acceptOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => ['required', Rule::exists('orders', 'id')->whereIn('type', ['delivery', 'package'])->where(function ($query) {
+            'order_id' => ['required', Rule::exists('orders', 'id')->whereIn('type', ['delivery', 'package_delivery'])->where(function ($query) {
                 $query->where('status_id', Status::PENDING_STATUS);
             })]
         ]);
