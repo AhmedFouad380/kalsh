@@ -89,7 +89,7 @@ class DeliveryServiceOrderController extends Controller
                 'range_provider_to_shop' => $service->range_provider_to_shop,
                 'from_lat' => $user->lat,
                 'from_lng' => $user->lng,
-                'from_address' => $user->from_address,
+                'from_address' => $request->from_address,
                 'to_lat' => $request->to_lat,
                 'to_lng' => $request->to_lng,
                 'to_address' => $request->to_address,
