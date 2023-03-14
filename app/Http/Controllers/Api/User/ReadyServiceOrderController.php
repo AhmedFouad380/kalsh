@@ -224,7 +224,7 @@ class ReadyServiceOrderController extends Controller
     public function orders()
     {
         $orders = OrderResource::collection(Order::where('user_id',Auth::guard('user')->id())
-            ->orderBy('id','desccheck-cost')->get());
+            ->orderBy('id','desc')->get());
         return callback_data(success(),'my_orders',$orders);
     }
 

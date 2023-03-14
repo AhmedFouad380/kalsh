@@ -136,7 +136,7 @@ class CarServiceController extends Controller
         Offer::create([
             'order_id' => $request->order_id,
             'provider_id' => Auth::guard('provider')->id(),
-            'status_id' => Status::REJECTED_BY_PROVIDER_STATUS,
+            'status_id' => Status::CANCELED_BY_PROVIDER_STATUS,
         ])->refresh();
         return callback_data(success(), 'order_rejected_successfully');
     }
