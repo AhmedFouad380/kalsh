@@ -31,21 +31,21 @@ class CarServiceController extends Controller
         $order = Order::findOrFail($request->order_id);
 
         /// Service Cost
-        $CarService= CarService::findOrFail($order->car_service_id);
-        $distanceFirstWay  = distance($order->from_lat,$order->from_lng,$order->to_lat,$order->to_lng);
+        $CarService = CarService::findOrFail($order->car_service_id);
+        $distanceFirstWay = distance($order->from_lat, $order->from_lng, $order->to_lat, $order->to_lng);
         $distanceSecondWay = 0;
-        if($CarService->id == 3){
-            $distanceSecondWay  = distance($provider->lat,$provider->lng,$order->from_lat,$order->from_lng);
+        if ($CarService->id == 3) {
+            $distanceSecondWay = distance($provider->lat, $provider->lng, $order->from_lat, $order->from_lng);
         }
 
-        $totalDistance= $distanceFirstWay+$distanceSecondWay;
-        $totalPrice =  $CarService->cost + ($totalDistance * $CarService->distance_cost);
+        $totalDistance = $distanceFirstWay + $distanceSecondWay;
+        $totalPrice = $CarService->cost + ($totalDistance * $CarService->distance_cost);
 
         // accept offer
         $order->status_id = Status::ACCEPTED_STATUS;
         $order->provider_id = $provider->id;
-        $order->provider_lat=$provider->lat;
-        $order->provider_lng=$provider->lng;
+        $order->provider_lat = $provider->lat;
+        $order->provider_lng = $provider->lng;
         $order->price = round($totalPrice);
         $order->save();
 
@@ -78,7 +78,7 @@ class CarServiceController extends Controller
         $validator = Validator::make($request->all(), [
             'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
                 $query->where('status_id', Status::ACCEPTED_STATUS)
-                    ->where('provider_id',Auth::guard('provider')->id());
+                    ->where('provider_id', Auth::guard('provider')->id());
             })]
         ]);
         if (!is_array($validator) && $validator->fails()) {
@@ -115,6 +115,7 @@ class CarServiceController extends Controller
 
         return callback_data(success(), 'order_accepted_successfully');
     }
+
     public function rejectOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -145,7 +146,7 @@ class CarServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'order_id' => ['required', Rule::exists('orders', 'id')->where(function ($query) {
-                $query->where('status_id', Status::ACCEPTED_STATUS)
+                $query->whereIn('status_id', [Status::START_STATUS, Status::ACCEPTED_STATUS])
                     ->where('provider_id', Auth::guard('provider')
                         ->id());
             })]
