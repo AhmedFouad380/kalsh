@@ -119,6 +119,7 @@ class DeliveryServiceOrderController extends Controller
                 'range_provider_to_shop' => $service->range_provider_to_shop,
                 'from_lat' => $request->from_lat,
                 'from_lng' => $request->from_lng,
+                 'from_address' => $request->from_address,
                 'to_lat' => $request->to_lat,
                 'to_lng' => $request->to_lng,
                 'to_address' => $request->to_address,
